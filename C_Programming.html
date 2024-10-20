@@ -5,43 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C-Programming</title>
     <style>
-        /* Include your existing CSS here */
-        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        
-        body {
+          }
+      
+          body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f5f5f7;
             color: #333;
             height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-        
-        /* Header Styles */
-        header {
+          }
+      
+          header {
             background-color: #fff;
-            padding: 1rem 2rem;
+            padding: 1rem 0;
             display: flex;
             justify-content: center;
             border-bottom: 1px solid #d1d1d6;
             position: sticky;
             top: 0;
             z-index: 1000;
-        }
-        
-        .header-container {
+          }
+      
+          .header-container {
             display: flex;
             align-items: center;
             gap: 15px;
-            position: relative;
-        }
-        
-        .subject-button, .logout-button {
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+          }
+      
+          .subject-button, .logout-button {
             background: #f0f0f5;
             color: #333;
             border: none;
@@ -51,54 +50,28 @@
             border-radius: 8px;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .subject-button:hover, .logout-button:hover {
+            min-width: 100px;
+            text-align: center;
+          }
+      
+          .subject-button:hover, .logout-button:hover {
             background-color: #e2e2e8;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-        }
-        
-        .logout-button {
+          }
+      
+          .logout-button {
             color: #ff3b30;
-        }
-        
-        /* Dropdown Menu Styles */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 60px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            min-width: 200px;
-            padding: 10px 0;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .dropdown-menu a {
-            color: #333;
-            padding: 10px 20px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s ease;
-            font-size: 0.95rem;
-        }
-        
-        .dropdown-menu a:hover {
-            background-color: #f0f0f5;
-        }
-        
-        /* Main Content Styles */
-        .main-content {
+          }
+      
+          .main-content {
             display: flex;
-            flex: 1;
             padding: 20px;
-            position: relative;
-        }
-        
-        /* Vertical Navbar Styles */
-        .vertical-navbar {
+            flex-direction: column;
+            overflow-y: auto;
+            flex: 1; /* Ensure it takes the remaining space */
+          }
+      
+          .vertical-navbar {
             display: flex;
             flex-direction: column;
             width: 200px;
@@ -107,13 +80,13 @@
             padding: 20px 0;
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
             position: fixed;
-            top: 70px; /* Height of the header */
+            top: 70px;
             bottom: 0;
             left: 0;
             z-index: 999;
-        }
-        
-        .nav-button {
+          }
+      
+          .nav-button {
             background: none;
             border: none;
             padding: 15px 20px;
@@ -123,200 +96,136 @@
             font-size: 1rem;
             transition: background-color 0.3s ease;
             color: #333;
-        }
-        
-        .nav-button:hover {
+          }
+      
+          .nav-button:hover {
             background-color: #f0f0f5;
-        }
-        
-        /* Content Area Styles */
-        .content-area {
+          }
+      
+          .content-area {
             flex: 1;
             margin-left: 200px;
             padding: 20px;
             transition: margin-left 0.3s ease;
-        }
-        
-        /* Faculty Section Styles */
-        .faculty-section {
+          }
+      
+          .faculty-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-        
-        .faculty-photo {
+          }
+      
+          .faculty-photo {
             width: 200px;
             height: 200px;
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 20px;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .faculty-details {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+          }
+      
+          .faculty-details {
             width: 100%;
             display: flex;
             justify-content: space-between;
-        }
-        
-        .faculty-details .name {
+            align-items: center;
+          }
+      
+          .faculty-details .name {
             font-size: 1.5rem;
             font-weight: bold;
-        }
-        
-        .faculty-details .contact {
+            flex: 1;
+            text-align: left;
+          }
+      
+          .faculty-details .contact {
             text-align: right;
-        }
-        
-        .contact p {
+            flex: 0;
+          }
+      
+          .contact p {
             margin: 5px 0;
-        }
-        
-        /* Resources Section Styles */
-        .resources-section {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .resources-section h2 {
-            margin-bottom: 15px;
-        }
-        
-        .resources-list {
-            list-style-type: none;
-        }
-        
-        .resources-list li {
-            margin-bottom: 10px;
-        }
-        
-        .resources-list a {
-            color: #007aff;
-            text-decoration: none;
-        }
-        
-        .resources-list a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Engagements Section Styles */
-        .engagements-section {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .engagements-section h2 {
-            margin-bottom: 15px;
-        }
-        
-        .engagements-images {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .engagements-images img {
-            width: 300px;  /* Increased width */
-            height: 225px; /* Increased height */
-            object-fit: fill;
-            border-radius: 8px;
-            box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        /* Announcements Section Styles */
-        .announcements-section {
-            color: #ff3b30; /* Changed color for professionalism */
-            font-size: 1.2rem;
-            text-align: center;
-            margin-top: 50px;
-        }
-        
-        /* Footer Styles */
-        footer {
+          }
+      
+          footer {
             background-color: #f5f5f7;
             color: #666;
             text-align: center;
             padding: 1rem 0;
             font-size: 0.9rem;
             border-top: 1px solid #d1d1d6;
-            position: relative;
-            width: 100%;
-        }
-        
-        footer a {
+          }
+      
+          footer a {
             color: #007aff;
             text-decoration: none;
-        }
-        
-        footer a:hover {
+          }
+      
+          footer a:hover {
             text-decoration: underline;
-        }
-        
-        /* Mobile-Friendly Adjustments */
-        @media (max-width: 768px) {
-            .vertical-navbar {
-                width: 150px;
-            }
-        
-            .content-area {
-                margin-left: 150px;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            header {
-                padding: 1rem;
-            }
-        
-            .header-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        
+          }
+      
+          @media (max-width: 1000px) {
             .subject-button, .logout-button {
-                width: 100%;
-                text-align: left;
+              flex: 1;
+              min-width: 0;
+              margin: 5px;
             }
-        
-            .dropdown-menu {
-                position: static;
-                width: 100%;
-                margin-top: 5px;
-                box-shadow: none;
-                border: none;
-                border-radius: 0;
+      
+            header {
+              flex-direction: column;
+              align-items: center;
+              padding: 1rem;
             }
-        
-            .vertical-navbar {
-                position: absolute;
-                top: 60px;
-                left: 0;
-                height: calc(100% - 60px);
-                width: 100%;
-                flex-direction: row;
-                overflow-x: auto;
-                box-shadow: none;
-                border-right: none;
-                border-top: 1px solid #d1d1d6;
-            }
-        
-            .nav-button {
-                padding: 10px 15px;
-                text-align: center;
-                flex: 1;
-            }
-        
+          }
+      
+          @media (max-width: 600px) {
             .content-area {
-                margin-left: 0;
+              margin-left: 0;
+              padding: 10px;
             }
-        }
+      
+            .faculty-photo {
+              width: 150px;
+              height: 150px;
+            }
+      
+            .faculty-details {
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+            }
+      
+            .faculty-details .name {
+              font-size: 1.2rem;
+              margin-bottom: 10px;
+            }
+          }
+      
+            /* Footer Styles */
+            footer {
+              background-color: #f5f5f7;
+              color: #666;
+              text-align: center;
+              padding: 1rem 0;
+              font-size: 0.9rem;
+              border-top: 1px solid #d1d1d6;
+              position: relative;
+              width: 100%;
+          }
+          
+          footer a {
+              color: #007aff;
+              text-decoration: none;
+          }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header>
         <div class="header-container">
-              <button class="subject-button" onclick="window.location.href='https://mgmfyit.vercel.app/';">Home</button
+              <button class="subject-button" onclick="window.location.href='https://mgmfyit.vercel.app/';">Home</button>
+              <button class="subject-button" onclick="toggleNavbar()">Menu</button>
            
             <button class="logout-button" onclick="window.location.href='https://t-service-india.vercel.app/login.html';">Logout</button>
         </div>
@@ -429,6 +338,11 @@
                 default:
                     contentArea.innerHTML = `<h2>Section Not Found</h2>`;
             }
+        }
+
+        function toggleNavbar() {
+            const navbar = document.getElementById("verticalNavbar");
+            navbar.style.display = (navbar.style.display === "none" || navbar.style.display === "") ? "flex" : "none";
         }
     </script>
 </body>
