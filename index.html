@@ -121,8 +121,19 @@
                 width: 100%; /* Make select full width on mobile */
             }
         }
+
     </style>
-    
+    <script> function redirectWithAlert(redirectUrl) {
+            alert("You are being redirected to a page that might not support mobile devices. If you are using a mobile device, please switch to a PC or laptop for an optimal viewing experience.");
+            window.location.href = redirectUrl;
+        }
+        
+        function handleSelectionChange(event) {
+            const selectedValue = event.target.value;
+            if (selectedValue) {
+                redirectWithAlert(selectedValue);
+            }
+        }</script>
 </head>
 <body>
     <!-- Header Section -->
