@@ -123,8 +123,26 @@
         }
     </style>
     <script>
-        function _0x4495(_0x260721,_0x936852){const _0x381844=_0x3818();return _0x4495=function(_0x449551,_0x4695ca){_0x449551=_0x449551-0x132;let _0x71a6c2=_0x381844[_0x449551];return _0x71a6c2;},_0x4495(_0x260721,_0x936852);}(function(_0x3a594c,_0x1fb241){const _0x3080a7=_0x4495,_0x2701e0=_0x3a594c();while(!![]){try{const _0x5746fc=parseInt(_0x3080a7(0x133))/0x1+parseInt(_0x3080a7(0x143))/0x2+-parseInt(_0x3080a7(0x134))/0x3+parseInt(_0x3080a7(0x136))/0x4*(parseInt(_0x3080a7(0x13b))/0x5)+parseInt(_0x3080a7(0x13d))/0x6*(parseInt(_0x3080a7(0x13f))/0x7)+parseInt(_0x3080a7(0x13c))/0x8+-parseInt(_0x3080a7(0x13a))/0x9;if(_0x5746fc===_0x1fb241)break;else _0x2701e0['push'](_0x2701e0['shift']());}catch(_0xf0d719){_0x2701e0['push'](_0x2701e0['shift']());}}}(_0x3818,0x62173));function redirectWithAlert(_0x53184c){const _0x4007f4=_0x4495;alert(_0x4007f4(0x139)),window[_0x4007f4(0x135)]['href']=_0x53184c;}function handleSelectionChange(_0x350587){const _0x232322=_0x4495,_0x461ebe=_0x350587[_0x232322(0x141)][_0x232322(0x138)];_0x461ebe&&redirectWithAlert(_0x461ebe);}window['onload']=function(){const _0x1e322b=_0x4495,_0x3c8007=document[_0x1e322b(0x140)];!_0x3c8007[_0x1e322b(0x132)](_0x1e322b(0x13e))&&(alert('Authorization\x20denied.\x20Please\x20relogin.'),window[_0x1e322b(0x135)][_0x1e322b(0x142)]=_0x1e322b(0x137));};function _0x3818(){const _0x50f818=['target','href','159754ZavMwI','includes','341555TTaiDg','1705653sRbcQA','location','1328wLbBOo','https://t-service-india.vercel.app/login.html','value','You\x20are\x20being\x20redirected\x20to\x20a\x20page\x20that\x20might\x20not\x20support\x20mobile\x20devices.\x20If\x20you\x20are\x20using\x20a\x20mobile\x20device,\x20please\x20switch\x20to\x20a\x20PC\x20or\x20laptop\x20for\x20an\x20optimal\x20viewing\x20experience.','8935380eLarKo','1435eqRMRX','5403376hWQZZv','39204uEPxca','t-service-india.vercel.app/login.html','826rcYKij','referrer'];_0x3818=function(){return _0x50f818;};return _0x3818();}
-    </script>
+        function redirectWithAlert(redirectUrl) {
+            alert("You are being redirected to a page that might not support mobile devices. If you are using a mobile device, please switch to a PC or laptop for an optimal viewing experience.");
+            window.location.href = redirectUrl;
+        }
+        
+        function handleSelectionChange(event) {
+            const selectedValue = event.target.value;
+            if (selectedValue) {
+                redirectWithAlert(selectedValue);
+            }
+        }
+        
+        window.onload = function() {
+            const referrer = document.referrer;
+            if (!referrer.includes("https://t-service-india.vercel.app/login.html")) {
+                alert('Authorization denied. Please relogin.');
+                window.location.href = 'https://t-service-india.vercel.app/login.html';
+            }
+        };
+            </script>
 </head>
 <body>
     <!-- Header Section -->
