@@ -122,21 +122,7 @@
             }
         }
     </style>
-    <script>
-   window.onload = function() {
-    // Check if the user is authenticated and came from the login page
-    const referrer = document.referrer;
-    const isAuthenticated = sessionStorage.getItem('authenticated');
-
-    // Ensure the referrer is the login page and user is authenticated
-    if (referrer !== 'https://t-service-india.vercel.app/login.html' || !isAuthenticated) {
-        alert('Authorization denied. Please relogin.');
-        sessionStorage.removeItem('authenticated'); // Clear session to log out
-        window.location.href = 'https://t-service-india.vercel.app/login.html'; // Redirect to login
-    }
-};
-
-            </script>
+    
 </head>
 <body>
     <!-- Header Section -->
