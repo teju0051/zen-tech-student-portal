@@ -68,7 +68,7 @@
       padding: 20px;
       flex-direction: column;
       overflow-y: auto;
-      flex: 1; /* Ensure it takes the remaining space */
+      flex: 1;
     }
 
     .vertical-navbar {
@@ -201,23 +201,6 @@
         margin-bottom: 10px;
       }
     }
-
-      /* Footer Styles */
-      footer {
-        background-color: #f5f5f7;
-        color: #666;
-        text-align: center;
-        padding: 1rem 0;
-        font-size: 0.9rem;
-        border-top: 1px solid #d1d1d6;
-        position: relative;
-        width: 100%;
-    }
-    
-    footer a {
-        color: #007aff;
-        text-decoration: none;
-    }
   </style>
 </head>
 <body>
@@ -253,116 +236,117 @@
         </div>
       </div>
     </div>
- <!-- Footer Section -->
- <footer>
-  <p>&copy; 2024 || Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
-</footer>
-<script>
-  function logout() {
-      window.location.href = "https://t-service-india.vercel.app/login.html";
-  }
+    
+    <!-- Footer Section -->
+    <footer>
+      <p>&copy; 2024 || Designed and Developed by <a href="#">Zentech</a></p>
+    </footer>
 
-  function navigateTo(section) {
-      const contentArea = document.getElementById("contentArea");
-      switch(section) {
-          case 'faculty':
-              contentArea.innerHTML = `
-                  <div class="faculty-section">
-                      <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
-                      <div class="faculty-details">
-                          <div class="name">FACULTY_NAME</div>
-                          <div class="contact">
-                              <p>Phone: N/A</p>
-                              <p>Email: N/A</p>
+   
+
+    <script>
+      function navigateTo(section) {
+          const contentArea = document.getElementById('contentArea');
+          switch(section) {
+              case 'faculty':
+                  contentArea.innerHTML = `
+                      <div class="faculty-section">
+                          <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
+                          <div class="faculty-details">
+                              <div class="name">Faculty_name</div>
+                              <div class="contact">
+                                  <p>Phone: N/A</p>
+                                  <p>Email: N/A</p>
+                              </div>
                           </div>
                       </div>
-                  </div>
-              `;
-              break;
-          case 'resources':
-              contentArea.innerHTML = `
-                  <div class="resources-section">
+                  `;
+                  break;
+              case 'resources':
+                  contentArea.innerHTML = `
                       <h2>Study Resources</h2>
-                      <ul class="resources-list">
-                         <p>No notes uploaded</p>
-                      </ul>
-                  </div>
-              `;
-              break;
-          case 'engagements':
-              contentArea.innerHTML = `
-                  <div class="engagements-section">
+                      <p>List of study resources will go here.</p>
+                  `;
+                  break;
+              case 'engagements':
+                  contentArea.innerHTML = `
                       <h2>Student Engagements</h2>
-                      <div class="engagements-images">
-                         <p>Presentations are not conducted yet</p>
-                      </div>
-                  </div>
-              `;
-              break;
-          case 'announcements':
-              contentArea.innerHTML = `
-              <h1 style="text-align:center;">FY_IT_Cultural_Activity_UT-4</h1>
-              <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-family: Arial, sans-serif; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                <thead>
-                    <tr style="background-color: #f2f2f2;">
-                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left; font-weight: bold; color: #333;">Group Number</th>
-                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left; font-weight: bold; color: #333;">Members Name</th>
-                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left; font-weight: bold; color: #333;">Topic Selected</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#f9f9f9'" onmouseout="this.style.backgroundColor='white'">
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">1</td>
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">Shivangi Soni, Sapna Shah, Aarti Mishra, Shravni Khavale</td>
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">TBA</td>
-                    </tr>
-                    <tr style="transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#f9f9f9'" onmouseout="this.style.backgroundColor='white'">
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">2</td>
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">Sonu Yadav, Sujal Sandipog, Adarsh Mishra, Vishal Sable, Anuj Nichit</td>
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">Classical Dance</td>
-                    </tr>
-                    <tr style="transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#f9f9f9'" onmouseout="this.style.backgroundColor='white'">
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">3</td>
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">Abhishek Yadav, Tushar Yadav, Satyam Yadav, Shivam Yadav</td>
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">History of Indian Music</td>
-                    </tr>
-                    <tr style="transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#f9f9f9'" onmouseout="this.style.backgroundColor='white'">
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">4</td>
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">Raj Mhatre, Prem Patil, Kaustubh Bhagat, Vinay Singh, Vivek Patil</td>
-                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">Significance of Theatre</td>
-                    </tr>
-                    <tr style="transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#f9f9f9'" onmouseout="this.style.backgroundColor='white'">
-                      <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">5</td>
-                      <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">Janvi, Kaveri T, Deepali, Gauri, Bhagyashri</td>
-                      <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">History of indian theatre, types and their uniqueness</td>
-                  </tr>
-                </tbody>
-            </table>
-            
-            
-              `;
-              break;
-          default:
-              contentArea.innerHTML = `
-                  <div class="faculty-section">
-                      <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
-                      <div class="faculty-details">
-                          <div class="name">FACULTY_NAME</div>
-                          <div class="contact">
-                              <p>Phone: N/A</p>
-                              <p>Email: N/A</p>
-                          </div>
-                      </div>
-                  </div>
-              `;
-              break;
-      }
-  }
+                      <div class="uploaded-images-container"></div>
+                      <input type="file" id="photoInput" accept="image/*" style="display:none;">
+    <div class="uploaded-images-container"></div>
+    <button id="addPhotoBtn">Add Photo</button>
+                  `;
+                  const addPhotoBtn = document.getElementById('addPhotoBtn');
+                  const photoInput = document.getElementById('photoInput');
+                  const imageContainer = document.querySelector('.uploaded-images-container');
 
-  function toggleNavbar() {
-      const navbar = document.getElementById("verticalNavbar");
-      navbar.style.display = (navbar.style.display === "none" || navbar.style.display === "") ? "flex" : "none";
-  }
-</script>
+                  // Function to display images from localStorage
+                  function displayImages() {
+                      const images = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+                      images.forEach(image => {
+                          const imgElement = document.createElement('img');
+                          imgElement.src = image;
+                          imgElement.style.width = '100px'; // Adjust as needed
+                          imgElement.style.height = '100px'; // Adjust as needed
+                          imgElement.style.margin = '5px';
+                          imageContainer.appendChild(imgElement);
+                      });
+                  }
+
+                  // Load images from localStorage on page load
+                  displayImages();
+
+                  addPhotoBtn.addEventListener('click', () => {
+                      photoInput.click();
+                  });
+
+                  photoInput.addEventListener('change', (e) => {
+                      const files = Array.from(e.target.files);
+                      const images = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+
+                      files.forEach(file => {
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                              const imgElement = document.createElement('img');
+                              imgElement.src = event.target.result;
+                              imgElement.style.width = '100px'; // Adjust as needed
+                              imgElement.style.height = '100px'; // Adjust as needed
+                              imgElement.style.margin = '5px';
+                              imageContainer.appendChild(imgElement);
+                              
+                              // Save the image data in localStorage
+                              images.push(event.target.result);
+                              localStorage.setItem('uploadedImages', JSON.stringify(images));
+                          };
+                          reader.readAsDataURL(file);
+                      });
+                  });
+
+                  break;
+              case 'announcements':
+                  contentArea.innerHTML = `
+                      <div class="announcements-section">
+                          <h2>Announcements</h2>
+                         No accouncement yet
+                      </div>
+                  `;
+                  break;
+              default:
+                  contentArea.innerHTML = `<h2>Welcome to the Cultural Activity Portal</h2>`;
+          }
+      }
+
+      function toggleNavbar() {
+          const navbar = document.getElementById("verticalNavbar");
+          if (navbar.style.display === "none" || navbar.style.display === "") {
+              navbar.style.display = "flex";
+          } else {
+              navbar.style.display = "none";
+          }
+      }
+
+      // Initial load
+      navigateTo('faculty');
+    </script>
 </body>
 </html>
