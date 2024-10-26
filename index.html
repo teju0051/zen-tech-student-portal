@@ -14,116 +14,136 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background-color: #f5f5f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f5f7;
             color: #333;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            line-height: 1.6;
         }
 
         /* Header Styles */
         header {
-            background-color: #fff;
-            padding: 1rem;
+            background: linear-gradient(135deg, #5a5a85, #3a3a5a);
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #d1d1d6;
+            border-bottom: 2px solid #676793;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .header-buttons {
             display: flex;
-            gap: 1rem; /* Space between buttons */
+            gap: 1.2rem;
         }
 
-        .button, .dropdown {
-            background: #f0f0f5;
-            color: #333;
+        .button, select {
+            background: #6b6b95;
+            color: #ffffff;
             border: none;
-            padding: 0.6rem 1.2rem;
-            cursor: pointer;
+            padding: 0.6rem 1.3rem;
             font-size: 1rem;
-            border-radius: 8px;
-            transition: background-color 0.3s, box-shadow 0.3s;
-            position: relative; /* Added for dropdown positioning */
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .button:hover, .dropdown:hover {
-            background-color: #e2e2e8;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+        .button:hover, select:hover {
+            background-color: #4c4c72;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .logout-button {
-            color: #ff3b30;
+            color: #ff6666;
+            background: #6b6b95;
         }
 
         /* Dropdown Styles */
         select {
-            border: none;
-            border-radius: 8px;
-            padding: 0.6rem 1.2rem;
-            background: #f0f0f5;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        select:hover {
-            background-color: #e2e2e8;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+            outline: none;
+            appearance: none;
+            background: #6b6b95;
         }
 
         /* Main Content */
         .main-content {
             flex: 1;
-            padding: 2rem;
+            padding: 3rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #f9f9fc;
         }
 
-        .main-content h2 {
-            color: #666;
+        .main-content .welcome-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
             text-align: center;
+            color: #333;
+        }
+
+        .welcome-card h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #4a4a75;
+            margin-bottom: 1.2rem;
+        }
+
+        .welcome-card p {
+            font-size: 1rem;
+            color: #666;
         }
 
         /* Footer */
         footer {
-            background-color: #f5f5f7;
-            color: #666;
+            background: linear-gradient(135deg, #5a5a85, #3a3a5a);
+            color: #c0c0d1;
             text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            border-top: 1px solid #d1d1d6;
+            padding: 1.2rem;
+            font-size: 0.85rem;
+            border-top: 2px solid #676793;
         }
 
         footer a {
-            color: #007aff;
+            color: #a0e6ff;
             text-decoration: none;
+            transition: color 0.3s;
         }
 
         footer a:hover {
+            color: #00c0ff;
             text-decoration: underline;
         }
 
         /* Mobile Styles */
         @media (max-width: 768px) {
             header {
-                padding: 1rem;
                 flex-direction: column;
+                gap: 0.8rem;
+                padding: 1.2rem;
             }
 
             select {
-                width: 100%; /* Make select full width on mobile */
+                width: 100%;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
             }
         }
-
     </style>
-    <script> function redirectWithAlert(redirectUrl) {
+    <script> 
+        function redirectWithAlert(redirectUrl) {
             alert("You are being redirected to a page that might not support mobile devices. If you are using a mobile device, please switch to a PC or laptop for an optimal viewing experience.");
             window.location.href = redirectUrl;
         }
@@ -133,7 +153,8 @@
             if (selectedValue) {
                 redirectWithAlert(selectedValue);
             }
-        }</script>
+        }
+    </script>
 </head>
 <body>
     <!-- Header Section -->
@@ -145,8 +166,6 @@
                 <option value="Communication-Skill.html">Communication Skill</option>
                 <option value="Cultural-Activity.html">Cultural Activity</option>
                 <option value="Entrepreneurship-Management.html">Entrepreneurship Management</option>
-               
-               
             </select>
   
             <button class="button logout-button" onclick="window.location.href='https://t-service-india.vercel.app/login.html';">Logout</button>
@@ -155,14 +174,15 @@
 
     <!-- Main Content Section -->
     <div class="main-content">
-        <h2>Welcome! Please select a subject to continue.</h2>
+        <div class="welcome-card">
+            <h2>Welcome!</h2>
+            <p>Please select a subject to continue.</p>
+        </div>
     </div>
 
     <!-- Footer Section -->
     <footer>
         <p>&copy; 2024 | Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
     </footer>
-
-    
 </body>
 </html>
