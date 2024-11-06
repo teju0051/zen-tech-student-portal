@@ -1,309 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing | ZenTech</title>
-  <meta name="description" content="Affordable, high-quality web and app development tailored for small and medium businesses.">
-  
-  <!-- Open Graph for Social Sharing -->
-  <meta property="og:title" content="ZenTech - Affordable Development Solutions">
-  <meta property="og:description" content="Web and app solutions for small businesses.">
-  <meta property="og:image" content="https://i.ibb.co/Kb6z2t5/favicon-48x48.png">
-  <meta property="og:url" content="https://zen-tech.vercel.app/">
-  
-  <!-- Twitter Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://teju0051.github.io/Zen-Tech/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://teju0051.github.io/Zen-Tech/favicon.ico">
+    <title>Dashboard</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Favicon -->
-  <link rel="icon" href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e8eaf6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x:hidden;
+          
+            line-height: 1.6;
+        }
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        .wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="styles.css">
-<style>
-  /* General Reset */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  body {
-    background-color: #f8fafc;
-    color: #2c3e50;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-  
-  :root {
-    --primary-color: #1d4e89;
-    --secondary-color: #2a9d8f;
-    --accent-color: #e9c46a;
-    --dark-accent: #264653;
-    --background-color: #ffffff;
-    --text-color: #2c3e50;
-    --shadow-color: rgba(0, 0, 0, 0.08);
-  }
+        header {
+            background: #e8eaf6;
+            padding: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #673ab7;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-  /* Container */
-  .container {
-    width: 90%;
+        .header-buttons {
+            display: flex;
+            gap: 1.2rem;
+        }
 
+        .button, select {
+            background: #673ab7;
+            color: #ffffff;
+            border: none;
+            padding: 0.6rem 1.3rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+        }
 
+        .button:hover, select:hover {
+            background-color: #4527a0;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
 
+        .logout-button {
+            color: #ff6666;
+            background: #673ab7;
+        }
 
+        /* Dropdown Styles */
+        select {
+            outline: none;
+            appearance: none;
+            background: #673ab7;
+        }
 
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 10rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9fc;
+        }
 
-  header {
-    background-color:white;
-  
-    padding: 5px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Keep space between logo and contact info */
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0px 2px 6px var(--shadow-color);
-}
+        .main-content .welcome-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+            color: #333;
+        }
 
-.container {
-    display: flex; /* Use flex for layout */
-    justify-content: space-between; /* Space between logo and contact info */
-    align-items: center; /* Align items vertically */
-    width: 100%;
-}
+        .welcome-card h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #4a4a75;
+            margin-bottom: 1.2rem;
+        }
 
-.logo {
-    flex: 1; /* Allow logo to take space */
-    
-}
-.logo-img{
-    max-width: 200px;  /* Set your desired max width */
-    max-height: 60px;  /* Set your desired max height */
-    width: auto;       /* Maintain aspect ratio */
-    height: auto;   
-}
+        .welcome-card p {
+            font-size: 1rem;
+            color: #666;
+        }
 
-nav {
-    flex: 2; /* Allow navigation to take more space and center it */
-    display: flex;
-    justify-content: center; /* Center navigation items */
-}
+        /* Footer */
+        footer {
+            background: #e8eaf6;
+            color: #333;
+            text-align: center;
+            padding: 0.9rem;
+            font-size: 0.85rem;
+            border-top: 2px solid #673ab7;
+        }
 
-.contact-info {
-    flex: 1; /* Allow contact info to take space */
-    text-align: right; /* Align text to the right */
-}
+        footer a {
+            color: #673ab7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
 
-.contact-info a {
-    color: var(--secondary-color);
-    text-decoration: none;
-}
+        footer a:hover {
+            color: #4527a0;
+            text-decoration: underline;
+        }
 
-.contact-info a:hover {
-    color: var(--secondary-color);
-}
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 0.8rem;
+                padding: 1.2rem;
+            }
 
-  nav {
-    display: inline-block; /* Ensure nav is inline */
-    
-  }
-  
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    margin: 0; /* Remove default margin for ul */
-  }
-  
-  nav ul li {
-    display: inline-block; /* Ensure list items are inline */
-    
-  }
-  
-  nav ul li a {
-    color: var(--text-color); /* Use the text color variable for better contrast */
-    text-decoration: none;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    background-color: transparent; /* Default background is transparent */
-}
+            select {
+                width: 100%;
+            }
 
-nav ul li a:hover {
-    background-color: var(--secondary-color); /* Change background color on hover */
-    color: white; /* Change text color on hover for better visibility */
-}
+            .header-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
 
-  .hamburger {
-    display: none;
-    cursor: pointer;
-  }
-  
-  .hamburger div {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    margin: 5px 0;
-    transition: 0.4s;
-  }
- /* Responsive Navigation */
-@media (max-width: 768px) {
-    .hamburger {
-      display: block;
-      position: absolute;
-      top: 10px; /* Adjust vertical position */
-      right: 20px; /* Align to the right */
-      z-index: 1001; /* Ensure it is above other elements */
-      cursor: pointer; /* Change cursor to pointer on hover */
-      padding: 10px; /* Add padding around the hamburger */
-      transition: background-color 0.3s ease; /* Smooth background transition */
-      border-radius: 5px; /* Rounded corners */
-      background-color: var(--secondary-color); /* Add a hover effect */
-    }
-  
-    .hamburger:hover {
-      background-color: var(--secondary-color); /* Add a hover effect */
-    }
-  
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      margin: 5px 0;
-      transition: all 0.4s ease; /* Smooth transition for animations */
-    }
-  
-    /* Apply colors to hamburger lines */
-    .hamburger div:nth-child(1) {
-      background-color: var(--accent-color); /* First line uses secondary color */
-    }
-  
-    .hamburger div:nth-child(2) {
-      background-color:  var(--accent-color); /* Second line uses accent color */
-    }
-  
-    .hamburger div:nth-child(3) {
-      background-color:  var(--accent-color); /* Third line uses secondary color */
-    }
-  
-    nav ul {
-      display: none; /* Hide navigation links by default */
-      flex-direction: column; /* Stack links vertically */
-      background-color: var(--primary-color); /* Background color */
-      position: absolute;
-      top: 100%; /* Align below the header */
-      right: 0; /* Align to the right */
-      width: auto; /* Auto width to fit content */
-      min-width: 200px; /* Set a minimum width for dropdown */
-      padding: 10px 0;
-      z-index: 1000; /* Ensure it appears above other content */
-    }
-  
-    .nav-links.active {
-      display: flex; /* Show links when active */
-    }
-  
-    .nav-links li a {
-      color: white; /* Set text color to white */
-      padding: 12px 20px; /* Add some padding for clickable area */
-      text-decoration: none; /* Remove underline */
-      display: block; /* Make the entire area clickable */
-      transition: background-color 0.3s ease; /* Smooth background transition */
-    }
-  
-    .nav-links li a:hover {
-      background-color: var(--secondary-color); /* Change background color on hover */
-    }
-  
-    .contact-info {
-      display: none; /* Hide contact info on mobile */
-    }
-  }
-
-  /* Footer */
-  footer {
-    background-color: var(--accent-color);
-    color: var(--secondary-color);
-    text-align: center;
-    font-weight: bolder;
-    padding: 20px 0;
-    font-size: 0.9em;
-  }
-
-  /* Animations */
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-</style>
+        .logo {
+            width: 150px; /* Adjust size as needed */
+            margin-bottom: 20px; /* Space between logo and heading */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <script>
+        function handleSelectionChange(event) {
+            const selectedValue = event.target.value;
+            if (selectedValue) {
+                alert("For optimal viewing, we recommend using a PC or laptop. Some mobile devices may not offer the best experience.");
+                window.location.href = selectedValue;
+            }
+        }
+    </script>
 </head>
 <body>
 
-    <header>
-        <div class="container">
-          <div class="logo">
-            <img src="https://i.ibb.co/qJ8KHDf/zentehc-remove-bg.png" alt="ZenTech Logo"  class="logo-img"/>
-          </div>
-          <nav>
-            <ul class="nav-links" id="nav-links">
-              <li><a href="https://zen-tech.vercel.app/">Home</a></li>
-              <li><a href="pricing.html">Pricing</a></li>
-              <li><a href="#about">About Us</a></li>
-              <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <button class="hamburger" id="hamburger">
-              <div></div>
-              <div></div>
-              <div></div>
-            </button>
-          </nav>
-          <div class="contact-info">
-            <a href="mailto:zentechindiaofficial@proton.me">
-              <i class="fas fa-envelope"></i> zentechindiaofficial@proton.me
-            </a>
-          </div>
+    <!-- Wrapper to ensure footer is at the bottom -->
+    <div class="wrapper">
+        <!-- Header Section -->
+        <header>
+            <div class="header-buttons">
+                <select onchange="handleSelectionChange(event)">
+                    <option value="">Select a Subject</option>
+                    <option value="C_Programming.html">C Programming</option>
+                    <option value="Communication-Skill.html">Communication Skill</option>
+                    <option value="Cultural-Activity.html">Cultural Activity</option>
+                    <option value="Entrepreneurship-Management.html">Entrepreneurship Management</option>
+                </select>
+                <button class="button logout-button" onclick="window.location.href='https://mgmfyit.vercel.app/login.html';">Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="welcome-card">
+                <h2>Welcome!</h2>
+                <p>Please select a subject to continue.</p>
+            </div>
         </div>
-      </header>
+    </div>
 
-    
-      
-  <footer>
-    &copy; 2024 ZenTech - All rights reserved
-  </footer>
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 | Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
+    </footer>
 
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-
-    function toggleNav() {
-        const navLinks = document.querySelector('.nav-links');
-        navLinks.classList.toggle('active');
-      }
-      
-  </script>
 </body>
 </html>
