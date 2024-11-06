@@ -6,151 +6,153 @@
     <link rel="icon" type="image/x-icon" href="https://teju0051.github.io/Zen-Tech/favicon.ico">
     <title>Dashboard</title>
     <style>
-   /* Reset and Base Styles */
-   * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #e8eaf6;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    line-height: 1.6;
-    overflow-x:hidden;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e8eaf6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
 
+        .wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-header {
-    background: #e8eaf6;
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #673ab7;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
+        header {
+            background: #e8eaf6;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #673ab7;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-.header-buttons {
-    display: flex;
-    gap: 1.2rem;
-}
+        .header-buttons {
+            display: flex;
+            gap: 1.2rem;
+        }
 
-.button, select {
-    background: #673ab7;
-    color: #ffffff;
-    border: none;
-    padding: 0.6rem 1.3rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
-}
+        .button, select {
+            background: #673ab7;
+            color: #ffffff;
+            border: none;
+            padding: 0.6rem 1.3rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+        }
 
-.button:hover, select:hover {
-    background-color: #4527a0;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-}
+        .button:hover, select:hover {
+            background-color: #4527a0;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
 
-.logout-button {
-    color: #ff6666;
-    background: #673ab7;
-}
+        .logout-button {
+            color: #ff6666;
+            background: #673ab7;
+        }
 
-/* Dropdown Styles */
-select {
-    outline: none;
-    appearance: none;
-    background: #673ab7;
-}
+        /* Dropdown Styles */
+        select {
+            outline: none;
+            appearance: none;
+            background: #673ab7;
+        }
 
-/* Main Content */
-.main-content {
-    flex: 1;
-    padding: 10rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f9f9fc;
-}
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 10rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9fc;
+        }
 
-.main-content .welcome-card {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    text-align: center;
-    color: #333;
-}
+        .main-content .welcome-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+            color: #333;
+        }
 
-.welcome-card h2 {
-    font-size: 2rem;
-    font-weight: 500;
-    color: #4a4a75;
-    margin-bottom: 1.2rem;
-}
+        .welcome-card h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #4a4a75;
+            margin-bottom: 1.2rem;
+        }
 
-.welcome-card p {
-    font-size: 1rem;
-    color: #666;
-}
+        .welcome-card p {
+            font-size: 1rem;
+            color: #666;
+        }
 
-/* Footer */
-footer {
-  background: #e8eaf6;
-  color: #333;
-  text-align: center;
-  padding: 1.2rem;
-  font-size: 0.85rem;
-  border-top: 2px solid #673ab7;
-  margin-top: auto; /* Push footer to the bottom */
-}
+        /* Footer */
+        footer {
+            background: #e8eaf6;
+            color: #333;
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.85rem;
+            border-top: 2px solid #673ab7;
+        }
 
-footer a {
-  color: #673ab7;
-  text-decoration: none;
-  transition: color 0.3s;
-}
+        footer a {
+            color: #673ab7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
 
-footer a:hover {
-  color: #4527a0;
-  text-decoration: underline;
-}
+        footer a:hover {
+            color: #4527a0;
+            text-decoration: underline;
+        }
 
-/* Mobile Styles */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        gap: 0.8rem;
-        padding: 1.2rem;
-    }
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 0.8rem;
+                padding: 1.2rem;
+            }
 
-    select {
-        width: 100%;
-    }
+            select {
+                width: 100%;
+            }
 
-    .header-buttons {
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-}
-.logo {
-  width: 150px; /* Adjust size as needed */
-  margin-bottom: 20px; /* Space between logo and heading */
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  
-}
+            .header-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+
+        .logo {
+            width: 150px; /* Adjust size as needed */
+            margin-bottom: 20px; /* Space between logo and heading */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
     <script>
-     
         function handleSelectionChange(event) {
             const selectedValue = event.target.value;
             if (selectedValue) {
@@ -161,10 +163,9 @@ footer a:hover {
     </script>
 </head>
 <body>
-  
 
-    <!-- Main Content Section (Hidden by Default) -->
-    <div class="content">
+    <!-- Wrapper to ensure footer is at the bottom -->
+    <div class="wrapper">
         <!-- Header Section -->
         <header>
             <div class="header-buttons">
@@ -186,11 +187,12 @@ footer a:hover {
                 <p>Please select a subject to continue.</p>
             </div>
         </div>
-
-        <!-- Footer Section -->
-        <footer>
-            <p>&copy; 2024 | Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
-        </footer>
     </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 | Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
+    </footer>
+
 </body>
 </html>
