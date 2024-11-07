@@ -129,19 +129,24 @@
         }
     </style>
     <script>
-        function login() {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+      function generateToken(username) {
+          return `${username}-${Date.now()}`; // Simple token with username and timestamp
+      }
 
-            // Check if username and password are '1'
-            if (username === "1" && password === "1") {
-                // Redirect the user to a new page after successful login
-                window.location.href = "https://mgmfyit.vercel.app/"; 
-            } else {
-                alert("Invalid username or password. Please try again.");
-            }
-        }
-    </script>
+      function login() {
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+
+          // Check if username and password are correct
+          if (username === "1" && password === "1") {
+              const token = generateToken(username); // Generate token
+              localStorage.setItem("authToken", token); // Store token in localStorage
+              window.location.href = "https://mgmfyit.vercel.app/"; // Redirect to main page
+          } else {
+              alert("Invalid username or password. Please try again.");
+          }
+      }
+  </script>
 </head>
 <body>
     <!-- Login Section -->
@@ -154,5 +159,6 @@
             <button class="login-btn" onclick="login()">Login</button>
         </div>
     </div>
+
 </body>
 </html>
