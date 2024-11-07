@@ -258,9 +258,7 @@
   <p>&copy; 2024 || Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
 </footer>
 <script>
-  function logout() {
-      window.location.href = "https://t-service-india.vercel.app/login.html";
-  }
+
 
   function navigateTo(section) {
       const contentArea = document.getElementById("contentArea");
@@ -328,6 +326,11 @@
       const navbar = document.getElementById("verticalNavbar");
       navbar.style.display = (navbar.style.display === "none" || navbar.style.display === "") ? "flex" : "none";
   }
+// Logout function to clear the token and redirect to login page
+      function logout() {
+          localStorage.removeItem("authToken"); // Clear the token
+          window.location.href = "/login.html"; // Redirect to login page
+      }
 </script>
 </body>
 </html>
