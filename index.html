@@ -178,7 +178,7 @@
                     <option value="Cultural-Activity.html">Cultural Activity</option>
                     <option value="Entrepreneurship-Management.html">Entrepreneurship Management</option>
                 </select>
-                <button class="button logout-button" onclick="window.location.href='https://mgmfyit.vercel.app/login.html';">Logout</button>
+                <button class="button logout-button"  onclick="logout()">Logout</button>
             </div>
         </header>
 
@@ -195,10 +195,28 @@
     <footer>
         <p>&copy; 2024 | Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
     </footer>
-<script>
+    <script>
+      function handleSelectionChange(event) {
+          const selectedValue = event.target.value;
+          if (selectedValue) {
+              alert("For optimal viewing, we recommend using a PC or laptop. Some mobile devices may not offer the best experience.");
+              window.location.href = selectedValue;
+          }
+      }
+
+            // Check if the user is logged in (token present in localStorage)
     if (!localStorage.getItem("authToken")) {
-        window.location.href = "/login.html";
-    }
-</script>
+      window.location.href = "/login.html"; // Redirect to login if no token
+  }
+
+
+      // Logout function to clear the token and redirect to login page
+      function logout() {
+          localStorage.removeItem("authToken"); // Clear the token
+          window.location.href = "/login.html"; // Redirect to login page
+      }
+
+ 
+  </script>
 </body>
 </html>
