@@ -195,6 +195,10 @@
     <footer>
         <p>&copy; 2024 | Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
     </footer>
-
+<script>
+    if (!localStorage.getItem("authToken")) {
+        window.location.href = "/login.html";
+    }
+</script>
 </body>
 </html>
