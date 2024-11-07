@@ -297,7 +297,9 @@
         <div class="header-container">
             <button class="subject-button" onclick="window.location.href='https://mgmfyit.vercel.app/';">Home</button>
             <button class="subject-button" onclick="toggleNavbar()">Menu</button>
-            <button class="logout-button" onclick="window.location.href='https://t-service-india.vercel.app/login.html';">Logout</button>
+            <button class="logout-button"  onclick="logout()">Logout</button>
+
+
         </div>
     </header>
 
@@ -456,6 +458,11 @@
             image.classList.toggle("enlarged");
         }
         
+// Logout function to clear the token and redirect to login page
+      function logout() {
+          localStorage.removeItem("authToken"); // Clear the token
+          window.location.href = "/login.html"; // Redirect to login page
+      }
     </script>
 
 </body>
