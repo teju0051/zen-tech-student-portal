@@ -128,6 +128,20 @@
             margin-right: auto;
         }
     </style>
+
+
+</head>
+<body>
+    <!-- Login Section -->
+    <div class="login-container">
+        <div class="login-box">
+            <img src="https://i.ibb.co/qJ8KHDf/zentehc-remove-bg.png" alt="Zentech Logo" class="logo">
+            <h1>Welcome Back</h1>
+            <input type="text" placeholder="Username" class="input-field" id="username">
+            <input type="password" placeholder="Password" class="input-field" id="password">
+            <button class="login-btn" onclick="login()">Login</button>
+        </div>
+    </div>
     <script>
       function generateToken(username) {
           return `${username}-${Date.now()}`; // Simple token with username and timestamp
@@ -147,20 +161,10 @@
           }
       }
 
-      import { inject } from "@vercel/analytics"
+     
   </script>
-</head>
-<body>
-    <!-- Login Section -->
-    <div class="login-container">
-        <div class="login-box">
-            <img src="https://i.ibb.co/qJ8KHDf/zentehc-remove-bg.png" alt="Zentech Logo" class="logo">
-            <h1>Welcome Back</h1>
-            <input type="text" placeholder="Username" class="input-field" id="username">
-            <input type="password" placeholder="Password" class="input-field" id="password">
-            <button class="login-btn" onclick="login()">Login</button>
-        </div>
-    </div>
-
+<script>
+import { inject } from "@vercel/analytics"
+</sscript>
 </body>
 </html>
