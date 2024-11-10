@@ -153,6 +153,48 @@
             margin-left: auto;
             margin-right: auto;
         }
+        .header-name {
+          font-size: 1rem;
+          font-weight: bold;
+      }
+      .info-icon {
+        margin-left: 8px;
+        cursor: pointer;
+        background-color: #ffffff;
+        color: #673ab7;
+        font-size: 0.8rem;
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-weight: bold;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        width: 300px;
+        background-color: #333;
+        color: #ffffff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 8px;
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .info-icon:hover + .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
     </style>
     <script>
         function handleSelectionChange(event) {
@@ -168,20 +210,27 @@
 
     <!-- Wrapper to ensure footer is at the bottom -->
     <div class="wrapper">
-        <!-- Header Section -->
-        <header>
-            <div class="header-buttons">
-                <select onchange="handleSelectionChange(event)">
-                    <option value="">Select a Subject</option>
-                    <option value="C_Programming.html">C Programming</option>
-                    <option value="Communication-Skill.html">Communication Skill</option>
-                    <option value="Cultural-Activity.html">Cultural Activity</option>
-                    <option value="Entrepreneurship-Management.html">Entrepreneurship Management</option>
-                </select>
-                <button class="button logout-button"  onclick="logout()">Logout</button>
-            </div>
-        </header>
+<!-- Header Section -->
+<header>
+  <div class="header-buttons">
+      <select onchange="handleSelectionChange(event)">
+          <option value="">Select a Subject</option>
+          <option value="C_Programming.html">C Programming</option>
+          <option value="Communication-Skill.html">Communication Skill</option>
+          <option value="Cultural-Activity.html">Cultural Activity</option>
+          <option value="Entrepreneurship-Management.html">Entrepreneurship Management</option>
+      </select>
+      <button class="button logout-button" onclick="logout()">Logout</button>
+  </div>
+  <div class="header-name">
+      <p>Manager: Prajakta Mane 
+          <span class="info-icon">?</span>
+          <span class="tooltip">They are staff of Zen-Tech. To contact the manager, mail to zentechindiaofficial@proton.me with secret code: #PM01IT, and our staff will notify your manager directly!</span>
+      </p>
+  </div>
+</header>
 
+<marquee>This is a testing enviroment hence the is the preview of the software if any changes you think should be made kindly contact your manager</marquee>
         <!-- Main Content -->
         <div class="main-content">
             <div class="welcome-card">
@@ -191,10 +240,15 @@
         </div>
     </div>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2024 | Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
-    </footer>
+
+   <!-- Footer Section -->
+<footer>
+  <p>&copy; 2024 | Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a>
+  </p>
+</footer>
+
+</div>
+
     <script>
       function handleSelectionChange(event) {
           const selectedValue = event.target.value;
@@ -223,5 +277,25 @@
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
       </script>
       <script defer src="/_vercel/insights/script.js"></script>
+      <script>
+        // Function to display the popup
+function showPopup() {
+  document.getElementById("termsPopup").style.display = "block";
+}
+
+// Function to close the popup
+function closePopup() {
+  document.getElementById("termsPopup").style.display = "none";
+}
+
+// Close the popup if the user clicks anywhere outside the modal
+window.onclick = function(event) {
+  var modal = document.getElementById("termsPopup");
+  if (event.target === modal) {
+      modal.style.display = "none";
+  }
+}
+
+      </script>
 </body>
 </html>
