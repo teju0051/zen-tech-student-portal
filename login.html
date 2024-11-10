@@ -142,32 +142,43 @@
             <button class="login-btn" onclick="login()">Login</button>
         </div>
     </div>
+
     <script>
-      function generateToken(username) {
-          return `${username}-${Date.now()}`; // Simple token with username and timestamp
-      }
-
-      function login() {
-          const username = document.getElementById("username").value;
-          const password = document.getElementById("password").value;
-
-          // Check if username and password are correct
-          if (username === "1" && password === "1") {
-              const token = generateToken(username); // Generate token
-              localStorage.setItem("authToken", token); // Store token in localStorage
-              window.location.href = "https://mgmfyit.vercel.app/"; // Redirect to main page
-          } else {
-              alert("Invalid username or password. Please try again.");
-          }
-      }
-
+        function generateToken(username) {
+            return `${username}-${Date.now()}`; // Simple token with username and timestamp
+        }
+    
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;  // Corrected this line
+      
+            // Check if the current date is before December 1, 2024, or before 7 AM on December 1, 2024
+            const currentDate = new Date();
+            const releaseDate = new Date('2024-12-01T07:00:00'); // December 1, 2024 at 7:00 AM
+    
+            if (currentDate < releaseDate) {
+                alert("The student portal software will be available from 1st December 2024. Please try again later.");
+                return;
+            }
+    
+            // Check if username and password are correct
+            if (username === "1" && password === "1") {
+                const token = generateToken(username); // Generate token
+                localStorage.setItem("authToken", token); // Store token in localStorage
+                window.location.href = "https://mgmfyit.vercel.app/"; // Redirect to main page
+            } else {
+                alert("Invalid username or password. Please try again.");
+            }
+        }
+    </script>
+    
      
-  </script>
+
 <script>
 
 import { inject } from "@vercel/analytics";
 inject();
 
-</sscript>
+</script>
 </body>
 </html>
