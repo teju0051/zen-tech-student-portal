@@ -240,6 +240,7 @@
             <button class="nav-button" onclick="navigateTo('resources')">Study Resources</button>
             <button class="nav-button" onclick="navigateTo('engagements')">Student Engagements</button>
             <button class="nav-button" onclick="navigateTo('announcements')">Announcements</button>
+            <button class="nav-button" onclick="navigateTo('codeEditor')">Code Editor</button>
         </nav>
 
         <!-- Content Area -->
@@ -285,57 +286,70 @@
         });
 
      
-        // Updated navigation function to handle new section names
-        function navigateTo(section) {
-            const contentArea = document.getElementById("contentArea");
-            switch(section) {
-                case 'faculty':
-                    contentArea.innerHTML = `
-                        <div class="faculty-section">
-                            <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
-                            <div class="faculty-details">
-                                <div class="name">FACULTY_NAME</div>
-                                <div class="contact">
-                                    <p>Phone: N/A</p>
-                                    <p>Email: N/A</p>
-                                </div>
-                            </div>
+   function navigateTo(section) {
+    const contentArea = document.getElementById("contentArea");
+    switch (section) {
+        case 'faculty':
+            contentArea.innerHTML = `
+                <div class="faculty-section">
+                    <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
+                    <div class="faculty-details">
+                        <div class="name">FACULTY_NAME</div>
+                        <div class="contact">
+                            <p>Phone: N/A</p>
+                            <p>Email: N/A</p>
                         </div>
-                    `;
-                    break;
-                case 'resources':
-                    contentArea.innerHTML = `
-                        <div class="resources-section">
-                            <h2>Study Resources</h2>
-                            <ul class="resources-list">
-                                <li><a href="https://zen-tech.vercel.app/testing.html" target="_blank">10 Practicals codes and output (Only C program included not flowchart and alogrithm)</a></li>
-                               
-                                <!-- Add more resources here -->
-                            </ul>
-                        </div>
-                    `;
-                    break;
-                case 'engagements':
-                    contentArea.innerHTML = `
-                        <div class="engagements-section">
-                            <h2>Student Engagements</h2>
-                            <div class="engagements-images">
-                               <p>There are no presentation conducted for this Subject.
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'announcements':
-                    contentArea.innerHTML = `
-                        <div class="announcements-section">
-                            <p>No announcements at the moment. Please check back later!</p>
-                        </div>
-                    `;
-                    break;
-                default:
-                    contentArea.innerHTML = `<h2>Section Not Found</h2>`;
-            }
-        }
+                    </div>
+                </div>
+            `;
+            break;
+        case 'resources':
+            contentArea.innerHTML = `
+                <div class="resources-section">
+                    <h2>Study Resources</h2>
+                    <ul class="resources-list">
+                        <li><a href="https://zen-tech.vercel.app/testing.html" target="_blank">10 Practicals codes and output (Only C program included not flowchart and algorithm)</a></li>
+                    </ul>
+                </div>
+            `;
+            break;
+        case 'engagements':
+            contentArea.innerHTML = `
+                <div class="engagements-section">
+                    <h2>Student Engagements</h2>
+                    <div class="engagements-images">
+                       <p>There are no presentations conducted for this Subject.</p>
+                    </div>
+                </div>
+            `;
+            break;
+        case 'announcements':
+            contentArea.innerHTML = `
+                <div class="announcements-section">
+                    <p>No announcements at the moment. Please check back later!</p>
+                </div>
+            `;
+            break;
+            case 'codeEditor':
+            contentArea.innerHTML = `
+                <div style="text-align: center; padding: 20px; font-family: Arial, sans-serif; color: #333;">
+                 
+                    <div style="margin-top: 30px; padding: 20px; background-color: #f8d7da; border: 2px solid rgba(0, 0, 0, 0.15); border-radius: 10px; color: #721c24; font-size: 16px;">
+                      
+                        <p>We are unable to connect to the C compiler. Reason: The compiler is under development.</p>
+                    </div>
+                </div>
+            `;
+            break;
+        
+        
+        
+        default:
+            contentArea.innerHTML = `<h2>Section Not Found</h2>`;
+    }
+}
+
+      
 
         function toggleNavbar() {
             const navbar = document.getElementById("verticalNavbar");
