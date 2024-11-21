@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fancybox CSS -->
+<link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4/dist/fancybox.css" rel="stylesheet">
+
+<!-- Fancybox JS -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4/dist/fancybox.umd.js"></script>
+
     <title>Communication Skill</title>
     <style>
         * {
@@ -287,7 +293,26 @@
                 border-radius: 6px;
             }
         }
-        
+        .engagements-images {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 10px;
+      }
+      
+      .engagements-images img {
+          width: 100%;
+          height: auto;
+          border: 2px solid #ddd;
+          border-radius: 8px;
+          transition: transform 0.3s, box-shadow 0.3s;
+          cursor: pointer;
+      }
+      
+      .engagements-images img:hover {
+          transform: scale(1.05);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+      
 
     </style>
 </head>
@@ -394,41 +419,41 @@
                         <div class="engagements-section">
                             <h2>Student Engagements</h2>
                             <div class="engagements-images">
-                                <img src="https://i.ibb.co/pz79XLW/48.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/gwQyfF9/44.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/WF8bhxL/45.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/5rJxpfm/46.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/HpNJ4Cp/43.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/vYm3KgH/42.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/F4MJXRY/41.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/f0Q13yd/40.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/c6j42bN/39.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/DDDFQd6/38.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/5LMNSxv/37.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/KK7DvFg/36.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/Vx3LPG7/35.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/28MR7cv/34.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/brDRGnJ/49.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/Gtp8yRm/31.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/8YznpBm/30.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/g60kywJ/26.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/M56d64M/25.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/7R3dhZ6/24.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/HKgPwJC/22.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/RSR2qx4/19.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/kmd9dFL/18.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/JnQv2hh/16.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/93bs4qK/14.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/PY9QhFZ/13.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/K09B10y/12.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/QkRWCC7/10.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/K7x092L/9.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/2YNbgzh/7.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/LNDV80h/5.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/phBKrsN/4.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/wQsPHWT/3.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/LYFv0mH/2.jpg" alt="Engagement 1">
-                                <img src="https://i.ibb.co/KzPPdLC/1.jpg" alt="Engagement 1">
+                                <img src="https://i.ibb.co/pz79XLW/48.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/gwQyfF9/44.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/WF8bhxL/45.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/5rJxpfm/46.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/HpNJ4Cp/43.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/vYm3KgH/42.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/F4MJXRY/41.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/f0Q13yd/40.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/c6j42bN/39.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/DDDFQd6/38.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/5LMNSxv/37.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/KK7DvFg/36.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/Vx3LPG7/35.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/28MR7cv/34.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/brDRGnJ/49.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/Gtp8yRm/31.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/8YznpBm/30.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/g60kywJ/26.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/M56d64M/25.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/7R3dhZ6/24.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/HKgPwJC/22.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/RSR2qx4/19.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/kmd9dFL/18.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/JnQv2hh/16.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/93bs4qK/14.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/PY9QhFZ/13.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/K09B10y/12.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/QkRWCC7/10.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/K7x092L/9.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/2YNbgzh/7.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/LNDV80h/5.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/phBKrsN/4.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/wQsPHWT/3.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/LYFv0mH/2.jpg" data-fancybox="gallery">
+                                <img src="https://i.ibb.co/KzPPdLC/1.jpg" data-fancybox="gallery">
                                
                                 
                             </div>
