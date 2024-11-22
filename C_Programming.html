@@ -332,12 +332,15 @@
             break;
             case 'codeEditor':
             contentArea.innerHTML = `
+            <div style="margin-top: 30px; padding: 20px; background-color: #f8d7da; border: 2px solid rgba(0, 0, 0, 0.15); border-radius: 10px; color: #721c24; font-size: 16px; text-align:center;">
+                      
+              <p>Important Notice: This compiler is unable to process code that requires user input during execution. Please ensure that your code does not include any prompts for user input, as it cannot be handled in this environment.</p>
+          </div> <br><br>
+
+            <iframe src="https://paiza.io/projects/e/3lkDBNeQ0wSY2jNThMoRkQ?theme=twilight" width="100%" height="1000" scrolling="no" seamless="seamless"></iframe>
                 <div style="text-align: center; padding: 20px; font-family: Arial, sans-serif; color: #333;">
                  
-                    <div style="margin-top: 30px; padding: 20px; background-color: #f8d7da; border: 2px solid rgba(0, 0, 0, 0.15); border-radius: 10px; color: #721c24; font-size: 16px;">
-                      
-                        <p>We are unable to connect to the C compiler. Reason: The compiler is under development.</p>
-                    </div>
+                    
                 </div>
             `;
             break;
