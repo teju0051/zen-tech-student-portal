@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C-Programming</title>
+    <title>C++ Programming</title>
     <style>
         * {
             margin: 0;
@@ -218,6 +218,37 @@
               color: #007aff;
               text-decoration: none;
           }
+
+          /* Spinner and overlay styles */
+/* Spinner and overlay styles */
+#spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Slightly black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    visibility: hidden; /* Initially hidden */
+}
+
+.spinner {
+    border: 4px solid rgba(103, 90, 183, 0.3); /* Light version of the theme color */
+    border-top: 4px solid #675ab7; /* The main color for the spinner */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
     </style>
 </head>
 <body>
@@ -236,7 +267,7 @@
     <div class="main-content">
         <!-- Vertical Navbar -->
         <nav class="vertical-navbar" id="verticalNavbar">
-            <button class="nav-button" onclick="navigateTo('faculty')">Faculty</button>
+          
             <button class="nav-button" onclick="navigateTo('resources')">Study Resources</button>
             <button class="nav-button" onclick="navigateTo('engagements')">Student Engagements</button>
             <button class="nav-button" onclick="navigateTo('announcements')">Announcements</button>
@@ -247,17 +278,19 @@
         <div class="content-area" id="contentArea">
             <!-- Default Content (Faculty Section) -->
             <div class="faculty-section">
-                <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
+              
                 <div class="faculty-details">
-                    <div class="name">Faculty_name</div>
-                    <div class="contact">
-                        <p>Phone: N/A</p>
-                        <p>Email: N/A</p>
-                    </div>
+                    <div class="name">Hi There! Please Select any options on left side to continue.</div>
+                   
                 </div>
             </div>
         </div>
     </div>
+    <!-- Spinner Overlay -->
+<div id="spinner-overlay">
+    <div class="spinner"></div>
+</div>
+
 
     <!-- Footer Section -->
     <footer>
@@ -289,26 +322,13 @@
    function navigateTo(section) {
     const contentArea = document.getElementById("contentArea");
     switch (section) {
-        case 'faculty':
-            contentArea.innerHTML = `
-                <div class="faculty-section">
-                    <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
-                    <div class="faculty-details">
-                        <div class="name">FACULTY_NAME</div>
-                        <div class="contact">
-                            <p>Phone: N/A</p>
-                            <p>Email: N/A</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            break;
+      
         case 'resources':
             contentArea.innerHTML = `
                 <div class="resources-section">
                     <h2>Study Resources</h2>
                     <ul class="resources-list">
-                        <li><a href="https://zen-tech.vercel.app/testing.html" target="_blank">10 Practicals codes and output (Only C program included not flowchart and algorithm)</a></li>
+                        <li>Not Added</li>
                     </ul>
                 </div>
             `;
@@ -334,14 +354,10 @@
             contentArea.innerHTML = `
             <div style="margin-top: 30px; padding: 20px; background-color: #f8d7da; border: 2px solid rgba(0, 0, 0, 0.15); border-radius: 10px; color: #721c24; font-size: 16px; text-align:center;">
                       
-              <p>Important Notice: This compiler is unable to process code that requires user input during execution. Please ensure that your code does not include any prompts for user input, as it cannot be handled in this environment.</p>
+              <p>Only Available for Premuim Users.</p>
           </div> <br><br>
 
-            <iframe src="https://paiza.io/projects/e/3lkDBNeQ0wSY2jNThMoRkQ?theme=twilight" width="100%" height="1000" scrolling="no" seamless="seamless"></iframe>
-                <div style="text-align: center; padding: 20px; font-family: Arial, sans-serif; color: #333;">
-                 
-                    
-                </div>
+          
             `;
             break;
         
@@ -363,6 +379,17 @@
           localStorage.removeItem("authToken"); // Clear the token
           window.location.href = "/login.html"; // Redirect to login page
       }
+
+      // Show the spinner for 3 seconds
+window.onload = function() {
+    const spinnerOverlay = document.getElementById('spinner-overlay');
+    spinnerOverlay.style.visibility = 'visible';
+
+    setTimeout(function() {
+        spinnerOverlay.style.visibility = 'hidden';
+    }, 3000); // 3 seconds delay
+};
+
     </script>
 </body>
 </html>
