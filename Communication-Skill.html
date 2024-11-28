@@ -312,7 +312,35 @@
           transform: scale(1.05);
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       }
-      
+       /* Spinner and overlay styles */
+/* Spinner and overlay styles */
+#spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Slightly black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    visibility: hidden; /* Initially hidden */
+}
+
+.spinner {
+    border: 4px solid rgba(103, 90, 183, 0.3); /* Light version of the theme color */
+    border-top: 4px solid #675ab7; /* The main color for the spinner */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
     </style>
 </head>
@@ -342,17 +370,31 @@
         <div class="content-area" id="contentArea">
             <!-- Default Content (Faculty Section) -->
             <div class="faculty-section">
-                <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
+             
                 <div class="faculty-details">
-                    <div class="name">Faculty_name</div>
-                    <div class="contact">
-                        <p>Phone: NA</p>
-                        <p>Email: NA</p>
-                    </div>
+                    <div class="name">Hi There! Please Select any options on left side to continue.</div>
+                   
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Spinner Overlay -->
+<div id="spinner-overlay">
+    <div class="spinner"></div>
+</div>
+<script>
+    // Show the spinner for 3 seconds
+window.onload = function() {
+    const spinnerOverlay = document.getElementById('spinner-overlay');
+    spinnerOverlay.style.visibility = 'visible';
+
+    setTimeout(function() {
+        spinnerOverlay.style.visibility = 'hidden';
+    }, 3000); // 3 seconds delay
+};
+
+</script>
 
     <!-- Footer Section -->
     <footer>
