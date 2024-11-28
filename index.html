@@ -189,6 +189,35 @@
                 gap: 1rem;
             }
         }
+        /* Spinner and overlay styles */
+#spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Slightly black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    visibility: hidden; /* Initially hidden */
+}
+
+.spinner {
+    border: 4px solid rgba(103, 90, 183, 0.3); /* Light version of the theme color */
+    border-top: 4px solid #675ab7; /* The main color for the spinner */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
     </style>
     <script>
         function handleSelectionChange(event) {
@@ -201,7 +230,22 @@
     </script>
 </head>
 <body>
+ <!-- Spinner Overlay -->
+ <div id="spinner-overlay">
+    <div class="spinner"></div>
+</div>
+<script>
+    // Show the spinner for 3 seconds
+window.onload = function() {
+    const spinnerOverlay = document.getElementById('spinner-overlay');
+    spinnerOverlay.style.visibility = 'visible';
 
+    setTimeout(function() {
+        spinnerOverlay.style.visibility = 'hidden';
+    }, 3000); // 3 seconds delay
+};
+
+</script>
     <div class="wrapper">
 
         <!-- Header Section -->
@@ -212,7 +256,7 @@
                     <option value="C_Programming.html">C Programming</option>
                     <option value="Communication-Skill.html">Communication Skill</option>
                     <option value="Cultural-Activity.html">Cultural Activity</option>
-                    <option value="Entrepreneurship-Management.html">Entrepreneurship Management</option>
+     
                 </select>
                 <button class="button logout-button" onclick="logout()">Logout</button>
             </div>
@@ -235,7 +279,7 @@
     </div>
 
     <footer>
-        <p>2024 &copy; MGM_FY-IT | Designed & Developed by <a href="https://zen-tech.vercel.app/"> Zen-Tech</a> | Version: 1.23.1</p>
+        <p>2024 &copy; MGM_FY-IT | Designed & Developed by <a href="https://zen-tech.vercel.app/"> Zen-Tech</a> | Version: 1.24.1</p>
     </footer>
 
     <script>
@@ -245,11 +289,11 @@
             window.location.href = "/login.html"; // Redirect to login page
         }
 
-                // Check if the user is logged in (token present in localStorage)
-    if (!localStorage.getItem("authToken")) {
-      window.location.href = "/login.html"; // Redirect to login if no token
-  }
-
+            // Check if the user is logged in (token present in localStorage)
+            if (!localStorage.getItem("authToken")) {
+                window.location.href = "/login.html"; // Redirect to login if no token
+            }
+          
 
     
     </script>
