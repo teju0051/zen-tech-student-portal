@@ -284,7 +284,93 @@
               text-decoration: none;
           }
 
-          /* Spinner and overlay styles */
+            .engagements-section {
+            display: flex;
+            flex-direction: column;
+            
+            min-height: 100vh;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+        }
+        
+        .engagements-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .engagements-images {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Space between images */
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1920px;
+        }
+        
+        .engagements-images img {
+            width: 100%;
+            max-width: 400px; /* Max width for desktop */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            object-fit: contain;
+            margin: 10px; /* Margin around each image */
+        }
+        
+        /* Mobile-Friendly Styles */
+        @media (max-width: 768px) {
+            .engagements-section {
+                padding: 10px;
+            }
+        
+            .engagements-section h2 {
+                font-size: 1.8em;
+                text-align: center;
+            }
+        
+            .engagements-images {
+                gap: 10px; /* Smaller gap for mobile */
+            }
+        
+            .engagements-images img {
+                max-width: 100%; /* Full width on mobile */
+                margin: 5px; /* Slightly reduced margin on mobile */
+            }
+        }
+        
+        /* Extra Small Screens */
+        @media (max-width: 480px) {
+            .engagements-section h2 {
+                font-size: 1.5em;
+            }
+        
+            .engagements-images img {
+                max-width: 100%;
+                border-radius: 6px;
+            }
+        }
+        .engagements-images {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 10px;
+      }
+      
+      .engagements-images img {
+          width: 100%;
+          height: auto;
+          border: 2px solid #ddd;
+          border-radius: 8px;
+          transition: transform 0.3s, box-shadow 0.3s;
+          cursor: pointer;
+      }
+      
+      .engagements-images img:hover {
+          transform: scale(1.05);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
 /* Spinner and overlay styles */
 #spinner-overlay {
     position: fixed;
