@@ -473,6 +473,11 @@ window.onload = function() {
         }
 
      
+            // Check if the user is logged in (token present in localStorage)
+            if (!localStorage.getItem("authToken")) {
+                window.location.href = "/login.html"; // Redirect to login if no token
+            }
+          
 
     
     </script>
