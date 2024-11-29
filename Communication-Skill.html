@@ -91,6 +91,35 @@
             left: 0;
             z-index: 999;
           }
+          /* Responsive Design for Mobile Screens */
+@media screen and (max-width: 768px) {
+    .vertical-navbar {
+        flex-direction: row; /* Align buttons horizontally */
+        width: 100%; /* Full width at the bottom */
+        height: auto;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        justify-content: space-between; /* Space buttons evenly */
+        padding: 5px 10px; /* Reduce padding for compact navbar */
+        border-right: none;
+        border-top: 1px solid #d1d1d6; /* Subtle border on top */
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for bottom navbar */
+        background-color: #f9f9f9;
+        box-sizing: border-box;
+    }
+
+    .nav-button {
+        margin: 0 2px; /* Reduce margins to make buttons fit */
+        padding: 5px 8px; /* Further reduce padding */
+        font-size: 10px; /* Decrease font size for better fit */
+        width: auto; /* Ensure buttons resize automatically */
+        text-align: center; /* Center-align text */
+    }
+}
+
       
           .nav-button {
             background: none;
@@ -360,10 +389,10 @@
     <div class="main-content">
         <!-- Vertical Navbar -->
         <nav class="vertical-navbar" id="verticalNavbar">
-            <button class="nav-button" onclick="navigateTo('faculty')">Faculty</button>
-            <button class="nav-button" onclick="navigateTo('resources')">Study Resources</button>
-            <button class="nav-button" onclick="navigateTo('engagements')">Student Engagements</button>
-            <button class="nav-button" onclick="navigateTo('announcements')">Announcements</button>
+      
+            <button class="nav-button" onclick="navigateTo('resources')">Notes</button>
+            <button class="nav-button" onclick="navigateTo('engagements')">Photos</button>
+            <button class="nav-button" onclick="navigateTo('announcements')">Notice</button>
         </nav>
 
         <!-- Content Area -->
@@ -372,7 +401,7 @@
             <div class="faculty-section">
              
                 <div class="faculty-details">
-                    <div class="name">Hi There! Please Select any options on left side to continue.</div>
+                    <div class="name">Hi There! Please Select any options at bottom to continue.</div>
                    
                 </div>
             </div>
@@ -535,12 +564,7 @@ window.onload = function() {
             window.location.href = "/login.html"; // Redirect to login page
         }
 
-            // Check if the user is logged in (token present in localStorage)
-            if (!localStorage.getItem("authToken")) {
-                window.location.href = "/login.html"; // Redirect to login if no token
-            }
-          
-
+       
     
     </script>
 
