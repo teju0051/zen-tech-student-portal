@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -142,3 +143,38 @@
             <button class="login-btn" onclick="login()">Login</button>
         </div>
     </div>
+
+    <script>
+      function generateToken(username) {
+          return `${username}-${Date.now()}`; // Simple token with username and timestamp
+      }
+  
+      function login() {
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value; // Corrected this line
+  
+          // Check if username and password are correct
+          if (username === "mgmfyit" && password === "Student") {
+              const token = generateToken(username); // Generate token
+              localStorage.setItem("authToken", token); // Store token in localStorage
+              window.location.href = "https://mgmfyit.vercel.app/"; // Redirect to main page
+          } else {
+              alert("Invalid username or password. Please try again.");
+          }
+      }
+  </script>
+  
+     
+
+<script>
+
+import { inject } from "@vercel/analytics";
+inject();
+
+</script>
+</body>
+</html>
+    
+     
+
+
