@@ -61,7 +61,8 @@
           }
       
           .subject-button:hover, .logout-button:hover {
-            background-color: #e2e2e8;
+            background-color: #675ab7;
+            color:white;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
           }
       
@@ -134,7 +135,8 @@
           }
       
           .nav-button:hover {
-            background-color: #f0f0f5;
+            background-color: #675ab7;
+            color:white;
           }
       
           .content-area {
@@ -401,7 +403,7 @@
             <div class="faculty-section">
              
                 <div class="faculty-details">
-                    <div class="name">Hi There! Please Select any options at bottom to continue.</div>
+                    <div class="name">Hi There! Please Select any options to continue.</div>
                    
                 </div>
             </div>
@@ -564,10 +566,12 @@ window.onload = function() {
             window.location.href = "/login.html"; // Redirect to login page
         }
 
-            // Check if the user is logged in (token present in localStorage)
-            if (!localStorage.getItem("authToken")) {
-                window.location.href = "/login.html"; // Redirect to login if no token
-            }
+        // Check if the user is logged in (token present in localStorage)
+        if (!localStorage.getItem("authToken")) {
+            window.location.href = "/login.html"; // Redirect to login if no token
+        }
+      
+   
           
        
     
