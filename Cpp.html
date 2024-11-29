@@ -85,7 +85,83 @@
             left: 0;
             z-index: 999;
           }
-      
+          .main-content {
+            display: flex;
+            padding: 20px;
+            flex-direction: column;
+            overflow-y: auto;
+            flex: 1; /* Ensure it takes the remaining space */
+        }
+        
+        .vertical-navbar {
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            background-color: #f9f9f9; /* Softer background for professional look */
+            border-right: 1px solid #d1d1d6;
+            padding: 20px 10px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 70px;
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+        }
+        
+        .nav-button {
+            background-color: #ffffff;
+            border: 2px solid #007bff; /* Professional blue border */
+            border-radius: 8px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for larger clickable area */
+            margin: 10px 0; /* Space between buttons */
+            font-size: 16px;
+            font-weight: 500;
+            color: #007bff; /* Match the border color */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smooth hover effect */
+            text-align: center;
+        }
+        
+        .nav-button:hover {
+            background-color: #007bff; /* Highlighted blue */
+            color: #ffffff; /* White text for contrast */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+        }
+        
+        .nav-button:active {
+            background-color: #0056b3; /* Darker blue on active */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow for pressed effect */
+        }
+        
+/* Responsive Design for Mobile Screens */
+@media screen and (max-width: 768px) {
+    .vertical-navbar {
+        flex-direction: row; /* Align buttons horizontally */
+        width: 100%; /* Full width at the bottom */
+        height: auto;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        justify-content: space-between; /* Space buttons evenly */
+        padding: 5px 10px; /* Reduce padding for compact navbar */
+        border-right: none;
+        border-top: 1px solid #d1d1d6; /* Subtle border on top */
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for bottom navbar */
+        background-color: #f9f9f9;
+        box-sizing: border-box;
+    }
+
+    .nav-button {
+        margin: 0 2px; /* Reduce margins to make buttons fit */
+        padding: 5px 8px; /* Further reduce padding */
+        font-size: 10px; /* Decrease font size for better fit */
+        width: auto; /* Ensure buttons resize automatically */
+        text-align: center; /* Center-align text */
+    }
+}
+
           .nav-button {
             background: none;
             border: none;
@@ -102,6 +178,8 @@
             background-color: #f0f0f5;
           }
       
+
+
           .content-area {
             flex: 1;
             margin-left: 200px;
@@ -268,9 +346,9 @@
         <!-- Vertical Navbar -->
         <nav class="vertical-navbar" id="verticalNavbar">
           
-            <button class="nav-button" onclick="navigateTo('resources')">Study Resources</button>
-            <button class="nav-button" onclick="navigateTo('engagements')">Student Engagements</button>
-            <button class="nav-button" onclick="navigateTo('announcements')">Announcements</button>
+            <button class="nav-button" onclick="navigateTo('resources')">Notes</button>
+            <button class="nav-button" onclick="navigateTo('engagements')">Photos</button>
+            <button class="nav-button" onclick="navigateTo('announcements')">Notice</button>
             <button class="nav-button" onclick="navigateTo('codeEditor')">Code Editor</button>
         </nav>
 
@@ -394,11 +472,7 @@ window.onload = function() {
             window.location.href = "/login.html"; // Redirect to login page
         }
 
-            // Check if the user is logged in (token present in localStorage)
-            if (!localStorage.getItem("authToken")) {
-                window.location.href = "/login.html"; // Redirect to login if no token
-            }
-          
+     
 
     
     </script>
