@@ -525,11 +525,23 @@ window.onload = function() {
             image.classList.toggle("enlarged");
         }
         
-// Logout function to clear the token and redirect to login page
-      function logout() {
-          localStorage.removeItem("authToken"); // Clear the token
-          window.location.href = "/login.html"; // Redirect to login page
-      }
+
+    </script>
+
+  <script>
+        // Logout function to clear the token and redirect to login page
+        function logout() {
+            localStorage.removeItem("authToken"); // Clear the token
+            window.location.href = "/login.html"; // Redirect to login page
+        }
+
+            // Check if the user is logged in (token present in localStorage)
+            if (!localStorage.getItem("authToken")) {
+                window.location.href = "/login.html"; // Redirect to login if no token
+            }
+          
+
+    
     </script>
 
 </body>
