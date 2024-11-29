@@ -374,11 +374,7 @@
             const navbar = document.getElementById("verticalNavbar");
             navbar.style.display = (navbar.style.display === "none" || navbar.style.display === "") ? "flex" : "none";
         }
-// Logout function to clear the token and redirect to login page
-      function logout() {
-          localStorage.removeItem("authToken"); // Clear the token
-          window.location.href = "/login.html"; // Redirect to login page
-      }
+
 
       // Show the spinner for 3 seconds
 window.onload = function() {
@@ -390,6 +386,21 @@ window.onload = function() {
     }, 3000); // 3 seconds delay
 };
 
+    </script>
+  <script>
+        // Logout function to clear the token and redirect to login page
+        function logout() {
+            localStorage.removeItem("authToken"); // Clear the token
+            window.location.href = "/login.html"; // Redirect to login page
+        }
+
+            // Check if the user is logged in (token present in localStorage)
+            if (!localStorage.getItem("authToken")) {
+                window.location.href = "/login.html"; // Redirect to login if no token
+            }
+          
+
+    
     </script>
 </body>
 </html>
