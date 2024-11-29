@@ -92,7 +92,35 @@
             left: 0;
             z-index: 999;
           }
-          /* Responsive Design for Mobile Screens */
+     
+   
+        
+        .nav-button {
+            background-color: #ffffff;
+            border: 2px solid #007bff; /* Professional blue border */
+            border-radius: 8px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for larger clickable area */
+            margin: 10px 0; /* Space between buttons */
+            font-size: 16px;
+            font-weight: 500;
+            color: #007bff; /* Match the border color */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smooth hover effect */
+            text-align: center;
+        }
+        
+        .nav-button:hover {
+            background-color: #007bff; /* Highlighted blue */
+            color: #ffffff; /* White text for contrast */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+        }
+        
+        .nav-button:active {
+            background-color: #0056b3; /* Darker blue on active */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow for pressed effect */
+        }
+        
+/* Responsive Design for Mobile Screens */
 @media screen and (max-width: 768px) {
     .vertical-navbar {
         flex-direction: row; /* Align buttons horizontally */
@@ -121,7 +149,6 @@
     }
 }
 
-      
           .nav-button {
             background: none;
             border: none;
@@ -136,9 +163,10 @@
       
           .nav-button:hover {
             background-color: #675ab7;
-            color:white;
           }
       
+
+
           .content-area {
             flex: 1;
             margin-left: 200px;
@@ -256,94 +284,7 @@
               text-decoration: none;
           }
 
-          .engagements-section {
-            display: flex;
-            flex-direction: column;
-            
-            min-height: 100vh;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #f5f5f5;
-        }
-        
-        .engagements-section h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        
-        .engagements-images {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px; /* Space between images */
-            flex-wrap: wrap;
-            width: 100%;
-            max-width: 1920px;
-        }
-        
-        .engagements-images img {
-            width: 100%;
-            max-width: 400px; /* Max width for desktop */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            object-fit: contain;
-            margin: 10px; /* Margin around each image */
-        }
-        
-        /* Mobile-Friendly Styles */
-        @media (max-width: 768px) {
-            .engagements-section {
-                padding: 10px;
-            }
-        
-            .engagements-section h2 {
-                font-size: 1.8em;
-                text-align: center;
-            }
-        
-            .engagements-images {
-                gap: 10px; /* Smaller gap for mobile */
-            }
-        
-            .engagements-images img {
-                max-width: 100%; /* Full width on mobile */
-                margin: 5px; /* Slightly reduced margin on mobile */
-            }
-        }
-        
-        /* Extra Small Screens */
-        @media (max-width: 480px) {
-            .engagements-section h2 {
-                font-size: 1.5em;
-            }
-        
-            .engagements-images img {
-                max-width: 100%;
-                border-radius: 6px;
-            }
-        }
-        .engagements-images {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-          gap: 10px;
-      }
-      
-      .engagements-images img {
-          width: 100%;
-          height: auto;
-          border: 2px solid #ddd;
-          border-radius: 8px;
-          transition: transform 0.3s, box-shadow 0.3s;
-          cursor: pointer;
-      }
-      
-      .engagements-images img:hover {
-          transform: scale(1.05);
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
-       /* Spinner and overlay styles */
+          /* Spinner and overlay styles */
 /* Spinner and overlay styles */
 #spinner-overlay {
     position: fixed;
