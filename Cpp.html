@@ -385,9 +385,12 @@
         case 'resources':
             contentArea.innerHTML = `
                 <div class="resources-section">
-                    <h2>Study Resources</h2>
-                    <ul class="resources-list">
-                        <li>Not Added</li>
+                    <h1>Study Resources</h1>
+          
+
+                    <ul class="resources-list"><br>
+                      <h3>------ Sem 2 ----</h3>
+                       <a href="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/c%2B%2B%20%5Binc%2C%20syllabus%2C%20chp%201%20chp2%20(intro)%5D.pdf?alt=media&token=3241bcd9-13f4-4ba7-b96f-064cf45e103b">C++ [Inc Syllabus + chp1 (full) + chp 2 (Intro)]</a>
                     </ul>
                 </div>
             `;
@@ -453,12 +456,12 @@ window.onload = function() {
             window.location.href = "/login.html"; // Redirect to login page
         }
 
-
             // Check if the user is logged in (token present in localStorage)
             if (!localStorage.getItem("authToken")) {
-                window.location.href = "/login.html"; // Redirect to login if no token
-            }
-          
+              window.location.href = "/login.html"; // Redirect to login if no token
+          }
+        
+
     
     </script>
 </body>
