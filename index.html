@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="https://teju0051.github.io/Zen-Tech/favicon.ico">
-    <title>Dashboard</title>
+ 
+     <!-- Favicon -->
+   <link rel="icon" href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png">
+    <title>Dashboard | Student Portal</title>
+
     <style>
         /* Reset and Base Styles */
         * {
@@ -40,45 +43,55 @@
             border-bottom: 2px solid #673ab7;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
         }
+.header-buttons {
+    display: flex;
+    gap: 1rem; /* Reduced gap between buttons */
+    justify-content: center; /* Center align buttons */
+}
 
-        .header-buttons {
-            display: flex;
-            gap: 1.5rem;
-        }
+.button, select {
+    background: #673ab7;
+    color: #ffffff;
+    border: none;
+    padding: 0.4rem 1rem; /* Reduced button size */
+    font-size: 0.9rem; /* Adjust font size */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+}
 
-        .button, select {
-            background: #673ab7;
-            color: #ffffff;
-            border: none;
-            padding: 0.6rem 1.3rem;
-            font-size: 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
-        }
+.button:hover, select:hover {
+    background-color: #4527a0;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
 
-        .button:hover, select:hover {
-            background-color: #4527a0;
-            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-        }
+.name-container {
+    text-align: center; /* Center align name below buttons */
+    margin-top: 0.5rem; /* Add some spacing */
+}
 
-        .logout-button {
-            color: #ff6666;
-            background: #673ab7;
-        }
+.header-name {
+    font-size: 1rem; /* Adjust font size */
+    font-weight: bold;
+    color: #4a4a75;
+}
 
-        select {
-            outline: none;
-            appearance: none;
-            background: #673ab7;
-        }
+/* Media Queries for Smaller Screens */
+@media (max-width: 768px) {
+  header {
+      padding: 1rem 0.5rem; /* Adjust padding for smaller devices */
+  }
 
-        .header-name {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #4a4a75;
-        }
+  .button {
+      font-size: 0.9rem; /* Adjust button text size */
+      padding: 0.5rem 1rem; /* Reduce button padding */
+  }
+
+  .header-name {
+      font-size: 0.9rem; /* Adjust name text size */
+  }
+}
 
         .info-icon {
             margin-left: 8px;
@@ -218,6 +231,68 @@
     100% { transform: rotate(360deg); }
 }
 
+.marquee-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 1px solid #ddd;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.marquee-label {
+  background: linear-gradient(45deg, #ff0000, #ff9900);
+  color: #fff;
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+ 
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  position: relative;
+}
+
+.marquee-label::after {
+  content: '⚡';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.marquee-content {
+  flex-grow: 1;
+  background-color: #6a1b9a;
+  color: #fff;
+  padding: 12px 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-text {
+  display: inline-block;
+  position: absolute;
+  animation: marqueeScroll 10s linear infinite;
+  will-change: transform;
+}
+
+/* Add animation for scrolling */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
+
     </style>
     <script>
         function handleSelectionChange(event) {
@@ -261,13 +336,18 @@ window.onload = function() {
                 <button class="button logout-button" onclick="logout()">Logout</button>
             </div>
             <div class="header-name">
-                <p>Manager: Prajakta Mane 
+                <p>Manager: Abdullah Khan
                     <span class="info-icon">?</span>
-                    <span class="tooltip">They are staff of Zen-Tech. To contact the manager, mail to zentechindiaofficial@proton.me with secret code: #PM01IT, and our staff will notify your manager directly!</span>
+                    <span class="tooltip">They are staff of Zen-Tech. To contact the manager, mail to zentechindiaofficial@proton.me with secret code: #AK23IT, and our staff will notify your manager directly!</span>
                 </p>
             </div>
         </header>
 
+
+        <div class="marquee-container">
+          <div class="marquee-label">Info:</div>
+         <marquee>We have added C++ Notes do check it out!</marquee>
+        </div>
         <!-- Main Content -->
         <div class="main-content">
             <div class="welcome-card">
@@ -279,7 +359,7 @@ window.onload = function() {
     </div>
 
     <footer>
-        <p>2024 &copy; MGM_FY-IT | Designed & Developed by <a href="https://zen-tech.vercel.app/"> Zen-Tech</a> | Version: 1.25.1</p>
+        <p>2024 &copy; MGM_FY-IT | Designed & Developed by <a href="https://zen-tech.vercel.app/"> Zen-Tech</a> | Version: 2.25.1</p>
     </footer>
 
     <script>
@@ -289,11 +369,11 @@ window.onload = function() {
             window.location.href = "/login.html"; // Redirect to login page
         }
 
-            // Check if the user is logged in (token present in localStorage)
-            if (!localStorage.getItem("authToken")) {
-                window.location.href = "/login.html"; // Redirect to login if no token
-            }
-          
+  // Check if the user is logged in (token present in localStorage)
+  if (!localStorage.getItem("authToken")) {
+    window.location.href = "/login.html"; // Redirect to login if no token
+}
+
 
     
     </script>
