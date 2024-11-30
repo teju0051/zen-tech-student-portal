@@ -255,15 +255,7 @@
   position: relative;
 }
 
-.marquee-label::after {
-  content: '⚡';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  color: #fff;
-}
+
 
 .marquee-content {
   flex-grow: 1;
@@ -313,43 +305,6 @@
     font-size: 18px;
     margin-left: 5px;
 }
-
-/* Tooltip container style */
-.tooltip {
-    visibility: hidden;
-    width: 220px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%; /* Position the tooltip above the text */
-    left: 50%;
-    margin-left: -110px; /* Offset to center the tooltip */
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-/* Tooltip arrow */
-.tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-}
-
-/* Show the tooltip when hovering over the icon */
-.info-icon:hover + .tooltip {
-    visibility: visible;
-    opacity: 1;
-}
-
     </style>
     <script>
         function handleSelectionChange(event) {
@@ -408,7 +363,7 @@ window.onload = function() {
 
 
         <div class="marquee-container">
-          <div class="marquee-label">Info:</div>
+          <div class="marquee-label">Info</div>
          <marquee>We have added C++ Notes do check it out!</marquee>
         </div>
         <!-- Main Content -->
@@ -433,8 +388,8 @@ window.onload = function() {
         }
 
 
-  // Check if the user is logged in (token present in localStorage)
-  if (!localStorage.getItem("authToken")) {
+ // Check if the user is logged in (token present in localStorage)
+ if (!localStorage.getItem("authToken")) {
     window.location.href = "/login.html"; // Redirect to login if no token
 }
 
