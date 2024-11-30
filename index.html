@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
      <!-- Favicon -->
    <link rel="icon" href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png">
     <title>Dashboard | Student Portal</title>
@@ -292,6 +293,62 @@
 }
 
 
+/* Style the user manual link */
+.user-manual-link {
+    color: #007bff;
+    font-size: 16px;
+    text-decoration: none;
+    margin-right: 10px; /* Space between the manual link and manager info */
+}
+
+/* Change color on hover for user manual link */
+.user-manual-link:hover {
+    color: #0056b3;
+}
+
+/* Style the info icon */
+.info-icon {
+    color: #007bff;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+/* Tooltip container style */
+.tooltip {
+    visibility: hidden;
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the text */
+    left: 50%;
+    margin-left: -110px; /* Offset to center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Show the tooltip when hovering over the icon */
+.info-icon:hover + .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
 
     </style>
     <script>
@@ -335,12 +392,18 @@ window.onload = function() {
                 </select>
                 <button class="button logout-button" onclick="logout()">Logout</button>
             </div>
+        
             <div class="header-name">
-                <p>Manager: Abdullah Khan
-                    <span class="info-icon">?</span>
-                    <span class="tooltip">They are staff of Zen-Tech. To contact the manager, mail to zentechindiaofficial@proton.me with secret code: #AK23IT, and our staff will notify your manager directly!</span>
-                </p>
-            </div>
+              <p>
+                <a href="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/User-Manual%20for%20Student%20Portal.pdf?alt=media&token=8cb0ffb4-ea6e-4aca-afdd-6fe9d485bc46" class="user-manual-link">
+                  <i class="fas fa-book"></i> User Manual
+              </a>
+                  Manager: Abdullah Khan
+                  <span class="info-icon">?</span>
+                  <span class="tooltip">They are staff of Zen-Tech. To contact the manager, mail to zentechindiaofficial@proton.me with secret code: #AK23IT, and our staff will notify your manager directly!</span>
+              </p>
+          </div>
+          
         </header>
 
 
@@ -359,7 +422,7 @@ window.onload = function() {
     </div>
 
     <footer>
-        <p>2024 &copy; MGM_FY-IT | Designed & Developed by <a href="https://zen-tech.vercel.app/"> Zen-Tech</a> | Version: 2.25.1</p>
+        <p>2024 &copy; MGM_FY-IT | Designed & Developed by <a href="https://zen-tech.vercel.app/"> Zen-Tech</a> | Version: 2.27.1</p>
     </footer>
 
     <script>
@@ -368,6 +431,7 @@ window.onload = function() {
             localStorage.removeItem("authToken"); // Clear the token
             window.location.href = "/login.html"; // Redirect to login page
         }
+
 
   // Check if the user is logged in (token present in localStorage)
   if (!localStorage.getItem("authToken")) {
