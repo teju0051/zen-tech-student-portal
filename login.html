@@ -150,40 +150,22 @@
 
     <script>
       function generateToken(username) {
-        const expiryTime = Date.now() + 24 * 60 * 60 * 1000; // Token expiry set to 24 hours
-        const tokenData = { username, expiry: expiryTime };
-        return btoa(JSON.stringify(tokenData)); // Encode the token securely
-    }
-    
-    function validateToken(token) {
-        try {
-            const decoded = JSON.parse(atob(token)); // Decode the token
-            if (decoded.expiry > Date.now()) {
-                return true; // Token is valid
-            } else {
-                alert("Session expired. Please log in again.");
-                return false;
-            }
-        } catch (error) {
-            console.error("Invalid token format:", error);
-            return false;
-        }
-    }
-    
-    function login() {
-        const username = document.getElementById("username").value.trim();
-        const password = document.getElementById("password").value.trim();
-    
-        // Check if username and password are correct
-        if (username === "mgmfyit" && password === "Student") {
-            const token = generateToken(username); // Generate a token with expiry
-            localStorage.setItem("authToken", token); // Store token in localStorage
-            window.location.href = "https://mgmfyit.vercel.app/"; // Redirect to main page
-        } else {
-            alert("Invalid username or password. Please try again.");
-        }
-    }
-    
+          return `${username}-${Date.now()}`; // Simple token with username and timestamp
+      }
+  
+      function login() {
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value; // Corrected this line
+  
+          // Check if username and password are correct
+          if (username === "mgmfyit" && password === "Student") {
+              const token = generateToken(username); // Generate token
+              localStorage.setItem("authToken", token); // Store token in localStorage
+              window.location.href = "https://mgmfyit.vercel.app/"; // Redirect to main page
+          } else {
+              alert("Invalid username or password. Please try again.");
+          }
+      }
   </script>
   
      
