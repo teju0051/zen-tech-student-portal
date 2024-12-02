@@ -203,7 +203,13 @@
         }
     });
 
-    // Detect developer tools and block access
+  // Function to detect if the user is on a mobile device
+function isMobile() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+// Detect developer tools and block access
+if (!isMobile()) {
     const devtoolsDetector = setInterval(() => {
         const widthThreshold = window.outerWidth - window.innerWidth > 200;
         const heightThreshold = window.outerHeight - window.innerHeight > 200;
@@ -213,6 +219,7 @@
             clearInterval(devtoolsDetector);
         }
     }, 1000);
+}
   </script>
   
      
