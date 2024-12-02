@@ -387,12 +387,34 @@ window.onload = function() {
             window.location.href = "/login.html"; // Redirect to login page
         }
 
+// Check if the user is logged in (token and timestamp present in localStorage)
+const authToken = localStorage.getItem("authToken");
+const tokenTimestamp = localStorage.getItem("tokenTimestamp");
+const tokenExpiryDuration = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
- // Check if the user is logged in (token present in localStorage)
- if (!localStorage.getItem("authToken")) {
-    window.location.href = "/login.html"; // Redirect to login if no token
+if (!authToken || !tokenTimestamp) {
+    // If token or timestamp is missing, redirect to login
+    alert("Authorization denied. Please log in.");
+    window.location.href = "/login.html";
+} else {
+    const currentTime = new Date().getTime();
+    const timeElapsed = currentTime - parseInt(tokenTimestamp, 10);
+
+    if (timeElapsed > tokenExpiryDuration) {
+        // If token is expired, clear it and redirect to login
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("tokenTimestamp");
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login.html";
+    }
 }
 
+// Logout function to clear the token and redirect to login page
+function logout() {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("tokenTimestamp");
+    window.location.href = "/login.html";
+}
 
     
     </script>
