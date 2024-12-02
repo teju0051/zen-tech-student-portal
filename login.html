@@ -215,7 +215,7 @@ if (!isMobile()) {
         const heightThreshold = window.outerHeight - window.innerHeight > 200;
 
         if (widthThreshold || heightThreshold) {
-            document.body.innerHTML = "Developer tools detected. Access denied!";
+            document.body.innerHTML = "Abnormal activity detected on your device. Please log in using a different browser. If the issue persists across multiple browsers, kindly contact your manager for assistance.";
             clearInterval(devtoolsDetector);
         }
     }, 1000);
