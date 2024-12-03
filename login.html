@@ -152,25 +152,118 @@
             transform: rotate(-45deg);
             user-select: none; /* Prevent text selection */
         }
+
+           /* Full-Screen Video Styles */
+           #video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Login Page Styles */
+        .hidden {
+            display: none;
+        }
+        #play-video-btn {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          padding: 15px 30px;
+          font-size: 1.2em;
+          color: #fff;
+          background-color: #673ab7;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: bold;
+          transition: background-color 0.3s;
+          z-index: 10000; /* Ensure it appears above other elements */
+      }
+      
+      #play-video-btn:hover {
+          background-color: #4527a0;
+      }
     </style>
 
 
 </head>
 <body>
-    <!-- Login Section -->
-    <div class="login-container">
-        <div class="login-box">
-            <img src="https://teju0051.github.io/Assets/Student_Portal.png" alt="Zentech Logo" class="logo">
-            <h1>Welcome Students!</h1>
-            <input type="text" placeholder="Username" class="input-field" id="username">
-            <input type="password" placeholder="Password" class="input-field" id="password">
-            <button class="login-btn" onclick="login()">Login</button>
-           
-        </div>
-       
+     <!-- Video Overlay -->
+     <div id="video-overlay">
+      <video id="intro-video" autoplay playsinline>
+          <source src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/intro-login.mp4?alt=media&token=6b24a2ac-3f15-41d7-952b-aa84587e138d" type="video/mp4">
+          Your browser does not support the video tag.
+        
+      </video>
+      <button id="play-video-btn">Launch Student Portal</button>
+  </div>
+  <!-- Login Section -->
+  <div class="login-container hidden" id="content">
+    <div class="login-box">
+        <img src="https://teju0051.github.io/Assets/Student_Portal.png" alt="Zentech Logo" class="logo">
+        <h1>Welcome Students!</h1>
+        <input type="text" placeholder="Username" class="input-field" id="username">
+        <input type="password" placeholder="Password" class="input-field" id="password">
+        <button class="login-btn" onclick="login()">Login</button>
     </div>
+</div>
 
     <script>
+     
+
+      
+      document.getElementById('play-video-btn').addEventListener('click', () => {
+        const video = document.getElementById('intro-video');
+        
+        // Play the video
+        video.play().then(() => {
+            console.log('Video started with sound.');
+        }).catch((error) => {
+            console.error('Error playing video:', error);
+        });
+    
+       
+        // Hide the button after entering fullscreen
+        document.getElementById('play-video-btn').style.display = 'none';
+    });
+
+      document.getElementById('play-video-btn').addEventListener('click', () => {
+        const video = document.getElementById('intro-video');
+        video.play().then(() => {
+            // Video is playing
+            console.log('Video started with sound.');
+        }).catch((error) => {
+            console.error('Error playing video with sound:', error);
+        });
+    
+   
+       
+    });
+
+      const video = document.getElementById("intro-video");
+      const overlay = document.getElementById("video-overlay");
+      const content = document.getElementById("content");
+
+      video.addEventListener("ended", () => {
+          overlay.style.display = "none"; // Hide video overlay
+          content.classList.remove("hidden"); // Show main content
+      });
+
+
       function generateToken(username) {
           return `${username}-${Date.now()}`; // Simple token with username and timestamp
       }
