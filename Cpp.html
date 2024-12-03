@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C++ </title>
+    <title>UI </title>
     <style>
         * {
             margin: 0;
@@ -308,9 +308,96 @@
     100% { transform: rotate(360deg); }
 }
 
+/* Password Overlay Styles */
+#password-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px); /* Adds the blur effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: white;
+    visibility: visible; /* Visible on load */
+}
+
+/* Password Box */
+#password-box {
+    background-color: #1c1c1c; /* Slightly lighter background for the box */
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    width: 350px; /* Define a proper width */
+}
+
+#password-box h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #fff;
+}
+
+#password-box p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* Input Field */
+#password-input {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    width: 90%;
+    margin-bottom: 15px;
+    background-color: #2e2e2e;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Submit Button */
+#submit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+#submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Error Message */
+#error-message {
+    color: #ff3b30;
+    font-size: 12px;
+    margin-top: 10px;
+    display: none;
+}
+
+
     </style>
 </head>
 <body>
+
+    <div id="password-overlay">
+        <div id="password-box">
+            <h2>Restricted Access</h2>
+            <p>This subject is only for selected students. Please enter the password provided by your CR. If forgotten, contact your manager or admin.</p>
+            <input type="password" id="password-input" placeholder="Enter password" />
+            <br />
+            <button id="submit-button">Submit</button>
+            <p id="error-message">Incorrect password. Please try again.</p>
+        </div>
+    </div>
     <!-- Header Section -->
     <header>
         <div class="header-container">
@@ -329,8 +416,7 @@
           
             <button class="nav-button" onclick="navigateTo('resources')">Notes</button>
             <button class="nav-button" onclick="navigateTo('engagements')">Photos</button>
-            <button class="nav-button" onclick="navigateTo('announcements')">Notice</button>
-            <button class="nav-button" onclick="navigateTo('codeEditor')">Code Editor</button>
+         
         </nav>
 
         <!-- Content Area -->
@@ -389,8 +475,8 @@
           
 
                     <ul class="resources-list"><br>
-                      <h3>------ Sem 2 ----</h3>
-                       <a href="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/c%2B%2B%20%5Binc%2C%20syllabus%2C%20chp%201%20chp2%20(intro)%5D.pdf?alt=media&token=3241bcd9-13f4-4ba7-b96f-064cf45e103b">C++ [Inc Syllabus + chp1 (full) + chp 2 (Intro)]</a>
+                    
+                       <a href="">Full UI Notes</a>
                     </ul>
                 </div>
             `;
@@ -405,23 +491,7 @@
                 </div>
             `;
             break;
-        case 'announcements':
-            contentArea.innerHTML = `
-                <div class="announcements-section">
-                    <p>No announcements at the moment. Please check back later!</p>
-                </div>
-            `;
-            break;
-            case 'codeEditor':
-            contentArea.innerHTML = `
-            <div style="margin-top: 30px; padding: 20px; background-color: #f8d7da; border: 2px solid rgba(0, 0, 0, 0.15); border-radius: 10px; color: #721c24; font-size: 16px; text-align:center;">
-                      
-              <p>Only Available for Premuim Users.</p>
-          </div> <br><br>
-
-          
-            `;
-            break;
+     
         
         
         
@@ -456,13 +526,35 @@ window.onload = function() {
             window.location.href = "/login.html"; // Redirect to login page
         }
 
-            // Check if the user is logged in (token present in localStorage)
-            if (!localStorage.getItem("authToken")) {
-              window.location.href = "/login.html"; // Redirect to login if no token
-          }
-        
-
+       
+     // Check if the user is logged in (token present in localStorage)
+     if (!localStorage.getItem("authToken")) {
+        window.location.href = "/login.html"; // Redirect to login if no token
+    }
+  
     
+    </script>
+
+    <script>
+        document.getElementById("submit-button").addEventListener("click", () => {
+            const passwordInput = document.getElementById("password-input").value;
+            const correctPassword = "UI-TUE-24";
+            const errorMessage = document.getElementById("error-message");
+            const overlay = document.getElementById("password-overlay");
+
+            if (passwordInput === correctPassword) {
+                overlay.style.visibility = "hidden"; // Hide the overlay
+            } else {
+                errorMessage.style.display = "block"; // Show error message
+            }
+        });
+
+        // Optionally, allow pressing "Enter" to submit
+        document.getElementById("password-input").addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                document.getElementById("submit-button").click();
+            }
+        });
     </script>
 </body>
 </html>
