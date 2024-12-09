@@ -40,10 +40,10 @@
       margin: 5px 0;
       resize: none;
       font-family: monospace;
-      font-size: 12px;
+      font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      padding: 5px;
+      padding: 10px;
       box-sizing: border-box;
     }
 
@@ -60,31 +60,48 @@
 
     h3 {
       margin: 5px 0;
-      font-size: 14px;
+      font-size: 16px;
       text-align: center;
     }
 
     footer {
-      background: #333;
+      background: #222;
       color: #fff;
       text-align: center;
-      padding: 10px;
-      font-size: 14px;
+      padding: 15px;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    footer a {
+      color: #ffeb3d;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
+    <!-- HTML Editor -->
     <div class="editor">
       <h3>HTML</h3>
-      <textarea id="html" placeholder="Enter HTML"><!-- Sample HTML -->
+      <textarea id="html" placeholder="Enter HTML">
+<!-- Sample HTML -->
 <p>Hello, World!</p>
-<div style="color: red; font-weight: bold;">Welcome to Zentech!</div>
+<div style="color: red; font-weight: bold;">Welcome to Zen-Tech!</div>
       </textarea>
 
       <h3>CSS</h3>
-      <textarea id="css" placeholder="Enter CSS">/* Sample CSS */
+      <textarea id="css" placeholder="Enter CSS">
+/* Sample CSS */
 body {
   font-family: Arial, sans-serif;
   background-color: #e7f3fe;
@@ -103,22 +120,26 @@ div {
       </textarea>
 
       <h3>JavaScript</h3>
-      <textarea id="js" placeholder="Locked" disabled>
-Locked
+      <textarea id="js" placeholder="Enter JavaScript">
+console.log('JavaScript Enabled');
       </textarea>
 
     </div>
 
+    <!-- Output Area -->
     <div class="output">
       <h3>Output</h3>
       <iframe id="output"></iframe>
     </div>
   </div>
 
+  <!-- Footer -->
   <footer>
-    || Designed & Developed by <a href="zen-tech.vercel.app">Zen-Tech</a>
+    <span>© 2024 A Compiler of Zen-Tech | </span>
+    <a href="https://zen-tech.vercel.app" target="_blank"> | Visit Our Website</a>
   </footer>
 
+  <!-- JavaScript to Compile Code -->
   <script>
     const htmlEditor = document.getElementById("html");
     const cssEditor = document.getElementById("css");
@@ -141,7 +162,7 @@ Locked
       editor.addEventListener("input", compileCode);
     });
 
-    // Compile initially with sample content
+    // Compile initially
     compileCode();
   </script>
 
