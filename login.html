@@ -324,8 +324,7 @@
         if (username === "mgmfyit" && password === "Student") {
             const token = generateToken(username); // Generate token
             localStorage.setItem("authToken", token); // Store token in localStorage
-            // Show account suspended modal
-            showSuspendedModal();
+           window.location.href="https://mgmfyit.vercel.app/";
         } else {
            alert("Incorrect Username Or Password");
         }
