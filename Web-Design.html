@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5  </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+      
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+          }
+      
+          header {
+            background-color: #fff;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #d1d1d6;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+          }
+      
+          .header-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+          }
+      
+          .subject-button, .logout-button {
+            background: #f0f0f5;
+            color: #333;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            min-width: 100px;
+            text-align: center;
+          }
+      
+          .subject-button:hover, .logout-button:hover {
+            background-color: #675ab7;
+            color:white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+          }
+      
+          .logout-button {
+            color: #ff3b30;
+          }
+      
+          .main-content {
+            display: flex;
+            padding: 20px;
+            flex-direction: column;
+            overflow-y: auto;
+            flex: 1; /* Ensure it takes the remaining space */
+          }
+      
+          .vertical-navbar {
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            background-color: #fff;
+            border-right: 1px solid #d1d1d6;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 70px;
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+          }
+     
+   
+        
+        .nav-button {
+            background-color: #ffffff;
+            border: 2px solid #007bff; /* Professional blue border */
+            border-radius: 8px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for larger clickable area */
+            margin: 10px 0; /* Space between buttons */
+            font-size: 16px;
+            font-weight: 500;
+            color: #007bff; /* Match the border color */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smooth hover effect */
+            text-align: center;
+        }
+        
+        .nav-button:hover {
+            background-color: #007bff; /* Highlighted blue */
+            color: #ffffff; /* White text for contrast */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+        }
+        
+        .nav-button:active {
+            background-color: #0056b3; /* Darker blue on active */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow for pressed effect */
+        }
+        
+/* Responsive Design for Mobile Screens */
+@media screen and (max-width: 768px) {
+    .vertical-navbar {
+        flex-direction: row; /* Align buttons horizontally */
+        width: 100%; /* Full width at the bottom */
+        height: auto;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        justify-content: space-between; /* Space buttons evenly */
+        padding: 5px 10px; /* Reduce padding for compact navbar */
+        border-right: none;
+        border-top: 1px solid #d1d1d6; /* Subtle border on top */
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for bottom navbar */
+        background-color: #f9f9f9;
+        box-sizing: border-box;
+    }
+
+    .nav-button {
+        margin: 0 2px; /* Reduce margins to make buttons fit */
+        padding: 5px 8px; /* Further reduce padding */
+        font-size: 10px; /* Decrease font size for better fit */
+        width: auto; /* Ensure buttons resize automatically */
+        text-align: center; /* Center-align text */
+    }
+}
+
+          .nav-button {
+            background: none;
+            border: none;
+            padding: 15px 20px;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            color: #333;
+          }
+      
+          .nav-button:hover {
+            background-color: #675ab7;
+          }
+      
+
+
+          .content-area {
+            flex: 1;
+            margin-left: 200px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+          }
+      
+          .faculty-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+      
+          .faculty-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+          }
+      
+          .faculty-details {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+      
+          .faculty-details .name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex: 1;
+            text-align: left;
+          }
+      
+          .faculty-details .contact {
+            text-align: right;
+            flex: 0;
+          }
+      
+          .contact p {
+            margin: 5px 0;
+          }
+      
+          footer {
+            background-color: #f5f5f7;
+            color: #666;
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            border-top: 1px solid #d1d1d6;
+          }
+      
+          footer a {
+            color: #007aff;
+            text-decoration: none;
+          }
+      
+          footer a:hover {
+            text-decoration: underline;
+          }
+      
+          @media (max-width: 1000px) {
+            .subject-button, .logout-button {
+              flex: 1;
+              min-width: 0;
+              margin: 5px;
+            }
+      
+            header {
+              flex-direction: column;
+              align-items: center;
+              padding: 1rem;
+            }
+          }
+      
+          @media (max-width: 600px) {
+            .content-area {
+              margin-left: 0;
+              padding: 10px;
+            }
+      
+            .faculty-photo {
+              width: 150px;
+              height: 150px;
+            }
+      
+            .faculty-details {
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+            }
+      
+            .faculty-details .name {
+              font-size: 1.2rem;
+              margin-bottom: 10px;
+            }
+          }
+      
+            /* Footer Styles */
+            footer {
+              background-color: #f5f5f7;
+              color: #666;
+              text-align: center;
+              padding: 1rem 0;
+              font-size: 0.9rem;
+              border-top: 1px solid #d1d1d6;
+              position: relative;
+              width: 100%;
+          }
+          
+          footer a {
+              color: #007aff;
+              text-decoration: none;
+          }
+
+          /* Spinner and overlay styles */
+/* Spinner and overlay styles */
+#spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Slightly black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    visibility: hidden; /* Initially hidden */
+}
+
+.spinner {
+    border: 4px solid rgba(103, 90, 183, 0.3); /* Light version of the theme color */
+    border-top: 4px solid #675ab7; /* The main color for the spinner */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.warning-container { background-color: #fff; border: 2px solid #dc3545; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); padding: 25px; max-width: 550px; text-align: center; position: relative; } .warning-header { color: #dc3545; font-size: 24px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; } .warning-header::before { content: '\26A0'; /* Unicode for warning triangle */ color: #dc3545; font-size: 32px; margin-right: 10px; } .warning-text { font-size: 16px; color: #333; line-height: 1.8; margin-bottom: 20px; } .recommendation { font-size: 15px; color: #555; margin-top: 15px; font-style: italic; } .confirm-button { display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 12px 25px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease; } .confirm-button:hover { background-color: #0056b3; } .footer { margin-top: 20px; font-size: 14px; color: #666; font-style: italic; } 
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+              <button class="subject-button" onclick="window.location.href='https://mgmfyit.vercel.app/';">Home</button>
+              <button class="subject-button" onclick="toggleNavbar()">Menu</button>
+           
+             <button class="logout-button"  onclick="logout()">Logout</button>
+
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <div class="main-content">
+        <!-- Vertical Navbar -->
+        <nav class="vertical-navbar" id="verticalNavbar">
+          
+            <button class="nav-button" onclick="navigateTo('resources')">Notes</button>
+     
+            <button class="nav-button" onclick="navigateTo('announcements')">Notice</button>
+            <button class="nav-button" onclick="navigateTo('codeEditor')">Code Editor</button>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="content-area" id="contentArea">
+            <!-- Default Content (Faculty Section) -->
+            <div class="faculty-section">
+              
+                <div class="faculty-details">
+                    <div class="name">Hi There! Please Select any options to continue.</div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Spinner Overlay -->
+<div id="spinner-overlay">
+    <div class="spinner"></div>
+</div>
+
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 || Designed and Developed by <a href="https://zen-tech.vercel.app/" target="_blank">Zen-Tech</a></p>
+    </footer>
+
+    <script>
+        // Simple dropdown toggle for subjects
+        document.addEventListener("DOMContentLoaded", () => {
+            const subjectButton = document.querySelector(".subject-button");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+
+            subjectButton.addEventListener("click", (event) => {
+                event.stopPropagation();
+                if (dropdownMenu) { // Ensure dropdownMenu exists
+                    dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", (event) => {
+                if (dropdownMenu && !subjectButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = "none";
+                }
+            });
+        });
+
+     
+   function navigateTo(section) {
+    const contentArea = document.getElementById("contentArea");
+    switch (section) {
+      
+        case 'resources':
+            contentArea.innerHTML = `
+                <div class="resources-section">
+                    <h1>Study Resources</h1>
+          
+
+                    <ul class="resources-list">
+                   Last Updated: 14/12/2024 IST 8:32:10 AM<br><br>
+                      <a href="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/HTML%5B1%5D.pdf?alt=media&token=cd75429a-65fb-4e31-99d3-33585c33ccd8">Introduction to Html5</a>
+                     
+  </ul>
+                </div>
+            `;
+            break;
+       
+        case 'announcements':
+            contentArea.innerHTML = `
+                    <p>No Updates untill now.</p>
+            `;
+            break;
+            case 'codeEditor':
+            contentArea.innerHTML = `
+       <iframe
+ frameBorder="0"
+ height="450px"  
+ src="https://onecompiler.com/embed/html" 
+ width="100%"
+ ></iframe>   `;
+            break;
+        
+        
+        
+        default:
+            contentArea.innerHTML = `<h2>Section Not Found</h2>`;
+    }
+}
+
+      
+
+        function toggleNavbar() {
+            const navbar = document.getElementById("verticalNavbar");
+            navbar.style.display = (navbar.style.display === "none" || navbar.style.display === "") ? "flex" : "none";
+        }
+
+
+      // Show the spinner for 3 seconds
+window.onload = function() {
+    const spinnerOverlay = document.getElementById('spinner-overlay');
+    spinnerOverlay.style.visibility = 'visible';
+
+    setTimeout(function() {
+        spinnerOverlay.style.visibility = 'hidden';
+    }, 3000); // 3 seconds delay
+};
+
+    </script>
+  <script>
+        // Logout function to clear the token and redirect to login page
+        function logout() {
+            localStorage.removeItem("authToken"); // Clear the token
+            window.location.href = "/login.html"; // Redirect to login page
+        }
+
+            // Check if the user is logged in (token present in localStorage)
+            if (!localStorage.getItem("authToken")) {
+              window.location.href = "/login.html"; // Redirect to login if no token
+          }
+        
+
+    
+    </script>
+</body>
+</html>
