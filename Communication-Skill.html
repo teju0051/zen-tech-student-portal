@@ -3,413 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Fancybox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+     <!-- Fancybox CSS -->
 <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4/dist/fancybox.css" rel="stylesheet">
 
 <!-- Fancybox JS -->
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4/dist/fancybox.umd.js"></script>
 
-    <title>Communication Skill</title>
+    <title>Communication Skill| Student Portal</title>
     <style>
-      * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-          }
-      
-          body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f5f5f7;
-            color: #333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(120deg, #1e1e2e, #2d2d44);
+            color: #eaeaff;
             height: 100vh;
             display: flex;
             flex-direction: column;
-          }
-      
-          header {
-            background-color: #fff;
+        }
+        
+        header {
+            background: rgba(34, 34, 51, 0.8);
+            backdrop-filter: blur(10px);
             padding: 1rem 0;
             display: flex;
             justify-content: center;
-            border-bottom: 1px solid #d1d1d6;
+            border-bottom: 1px solid #3e3e5a;
             position: sticky;
             top: 0;
             z-index: 1000;
-          }
-      
-          .header-container {
+        }
+        
+        .header-container {
             display: flex;
             align-items: center;
             gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
             width: 100%;
-          }
-      
-          .subject-button, .logout-button {
-            background: #f0f0f5;
-            color: #333;
+        }
+        
+        .subject-button, .logout-button {
+            background: #2d2d44;
+            color: #eaeaff;
             border: none;
             padding: 0.6rem 1.2rem;
             cursor: pointer;
             font-size: 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
             min-width: 100px;
             text-align: center;
-          }
-      
-          .subject-button:hover, .logout-button:hover {
-            background-color: #675ab7;
-            color:white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-          }
-      
-          .logout-button {
-            color: #ff3b30;
-          }
-      
-          .main-content {
+            text-transform: uppercase;
+        }
+        
+        .subject-button:hover, .logout-button:hover {
+            background: linear-gradient(120deg, #675ab7, #9f75e4);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.6);
+        }
+        
+        .logout-button {
+            color: #ff6767;
+        }
+        
+        .main-content {
             display: flex;
             padding: 20px;
             flex-direction: column;
             overflow-y: auto;
-            flex: 1; /* Ensure it takes the remaining space */
-          }
-      
-          .vertical-navbar {
+            flex: 1;
+        }
+        
+        .vertical-navbar {
             display: flex;
             flex-direction: column;
-            width: 200px;
-            background-color: #fff;
-            border-right: 1px solid #d1d1d6;
+            width: 220px;
+            background: #2d2d44;
+            border-right: 1px solid #3e3e5a;
             padding: 20px 0;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            box-shadow: 4px 0 8px rgba(0, 0, 0, 0.4);
             position: fixed;
             top: 70px;
             bottom: 0;
             left: 0;
             z-index: 999;
-          }
-     
-   
+        }
         
         .nav-button {
-            background-color: #ffffff;
-            border: 2px solid #007bff; /* Professional blue border */
-            border-radius: 8px; /* Rounded corners */
-            padding: 10px 20px; /* Padding for larger clickable area */
-            margin: 10px 0; /* Space between buttons */
-            font-size: 16px;
-            font-weight: 500;
-            color: #007bff; /* Match the border color */
+            background-color: #3e3e5a;
+            border: 2px solid #675ab7;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 10px 15px;
+            font-size: 14px;
+            color: #eaeaff;
             cursor: pointer;
-            transition: all 0.3s ease; /* Smooth hover effect */
             text-align: center;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .nav-button:hover {
-            background-color: #007bff; /* Highlighted blue */
-            color: #ffffff; /* White text for contrast */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+            background: linear-gradient(120deg, #9f75e4, #675ab7);
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
         
         .nav-button:active {
-            background-color: #0056b3; /* Darker blue on active */
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow for pressed effect */
+            background: #675ab7;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
         }
         
-/* Responsive Design for Mobile Screens */
-@media screen and (max-width: 768px) {
-    .vertical-navbar {
-        flex-direction: row; /* Align buttons horizontally */
-        width: 100%; /* Full width at the bottom */
-        height: auto;
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        justify-content: space-between; /* Space buttons evenly */
-        padding: 5px 10px; /* Reduce padding for compact navbar */
-        border-right: none;
-        border-top: 1px solid #d1d1d6; /* Subtle border on top */
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for bottom navbar */
-        background-color: #f9f9f9;
-        box-sizing: border-box;
-    }
-
-    .nav-button {
-        margin: 0 2px; /* Reduce margins to make buttons fit */
-        padding: 5px 8px; /* Further reduce padding */
-        font-size: 10px; /* Decrease font size for better fit */
-        width: auto; /* Ensure buttons resize automatically */
-        text-align: center; /* Center-align text */
-    }
-}
-
-          .nav-button {
-            background: none;
-            border: none;
-            padding: 15px 20px;
-            text-align: left;
-            width: 100%;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-            color: #333;
-          }
-      
-          .nav-button:hover {
-            background-color: #675ab7;
-          }
-      
-
-
-          .content-area {
+        .content-area {
             flex: 1;
-            margin-left: 200px;
+            margin-left: 220px;
             padding: 20px;
             transition: margin-left 0.3s ease;
-          }
-      
-          .faculty-section {
+        }
+        
+        .faculty-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-          }
-      
-          .faculty-photo {
+        }
+        
+        .faculty-photo {
             width: 200px;
             height: 200px;
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-          }
-      
-          .faculty-details {
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+        }
+        
+        .faculty-details {
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-          }
-      
-          .faculty-details .name {
+        }
+        
+        .faculty-details .name {
             font-size: 1.5rem;
             font-weight: bold;
             flex: 1;
+            color: #9f75e4;
             text-align: left;
-          }
-      
-          .faculty-details .contact {
+        }
+        
+        .faculty-details .contact {
             text-align: right;
             flex: 0;
-          }
-      
-          .contact p {
-            margin: 5px 0;
-          }
-      
-          footer {
-            background-color: #f5f5f7;
-            color: #666;
+            color: #eaeaff;
+        }
+        
+        footer {
+            background: rgba(34, 34, 51, 0.8);
+            color: #9f9fc7;
             text-align: center;
             padding: 1rem 0;
             font-size: 0.9rem;
-            border-top: 1px solid #d1d1d6;
-          }
-      
-          footer a {
-            color: #007aff;
+            border-top: 1px solid #3e3e5a;
+            width: 100%;
+        }
+        
+        footer a {
+            color: #9383ff;
             text-decoration: none;
-          }
-      
-          footer a:hover {
+        }
+        
+        footer a:hover {
             text-decoration: underline;
-          }
-      
-          @media (max-width: 1000px) {
-            .subject-button, .logout-button {
-              flex: 1;
-              min-width: 0;
-              margin: 5px;
+        }
+        
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .vertical-navbar {
+                flex-direction: row;
+                width: 100%;
+                height: auto;
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                justify-content: space-between;
+                border-top: 1px solid #3e3e5a;
+                padding: 10px;
+                background: #2d2d44;
             }
-      
-            header {
-              flex-direction: column;
-              align-items: center;
-              padding: 1rem;
+        
+            .nav-button {
+                margin: 5px;
+                padding: 10px 15px;
+                font-size: 12px;
+                flex: 1;
             }
-          }
-      
-          @media (max-width: 600px) {
+        
             .content-area {
-              margin-left: 0;
-              padding: 10px;
-            }
-      
-            .faculty-photo {
-              width: 150px;
-              height: 150px;
-            }
-      
-            .faculty-details {
-              flex-direction: column;
-              align-items: center;
-              text-align: center;
-            }
-      
-            .faculty-details .name {
-              font-size: 1.2rem;
-              margin-bottom: 10px;
-            }
-          }
-      
-            /* Footer Styles */
-            footer {
-              background-color: #f5f5f7;
-              color: #666;
-              text-align: center;
-              padding: 1rem 0;
-              font-size: 0.9rem;
-              border-top: 1px solid #d1d1d6;
-              position: relative;
-              width: 100%;
-          }
-          
-          footer a {
-              color: #007aff;
-              text-decoration: none;
-          }
-
-            .engagements-section {
-            display: flex;
-            flex-direction: column;
-            
-            min-height: 100vh;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #f5f5f5;
-        }
-        
-        .engagements-section h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        
-        .engagements-images {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px; /* Space between images */
-            flex-wrap: wrap;
-            width: 100%;
-            max-width: 1920px;
-        }
-        
-        .engagements-images img {
-            width: 100%;
-            max-width: 400px; /* Max width for desktop */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            object-fit: contain;
-            margin: 10px; /* Margin around each image */
-        }
-        
-        /* Mobile-Friendly Styles */
-        @media (max-width: 768px) {
-            .engagements-section {
+                margin-left: 0;
                 padding: 10px;
             }
-        
-            .engagements-section h2 {
-                font-size: 1.8em;
-                text-align: center;
-            }
-        
-            .engagements-images {
-                gap: 10px; /* Smaller gap for mobile */
-            }
-        
-            .engagements-images img {
-                max-width: 100%; /* Full width on mobile */
-                margin: 5px; /* Slightly reduced margin on mobile */
-            }
         }
-        
-        /* Extra Small Screens */
-        @media (max-width: 480px) {
-            .engagements-section h2 {
-                font-size: 1.5em;
-            }
-        
-            .engagements-images img {
-                max-width: 100%;
-                border-radius: 6px;
-            }
-        }
-        .engagements-images {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-          gap: 10px;
-      }
-      
-      .engagements-images img {
-          width: 100%;
-          height: auto;
-          border: 2px solid #ddd;
-          border-radius: 8px;
-          transition: transform 0.3s, box-shadow 0.3s;
-          cursor: pointer;
-      }
-      
-      .engagements-images img:hover {
-          transform: scale(1.05);
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
-/* Spinner and overlay styles */
-#spinner-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
+    /* White theme styles */
+body.white-theme {
+    background-color: #ffffff; /* Full white background */
+    color: #000000; /* Black text */
+}
+
+.white-theme h1, 
+.white-theme h2, 
+.white-theme h3, 
+.white-theme h4, 
+.white-theme h5, 
+.white-theme h6 {
+    color: #000000; /* Black headings */
+}
+
+.white-theme a {
+    color: #000000; /* Blue links */
+    text-decoration: none; /* Optional styling for links */
+}
+
+.white-theme button {
+    background-color: #f1f1f1; /* Light gray buttons */
+    color: #000000; /* Black text for buttons */
+    border: 1px solid #dcdcdc; /* Subtle border */
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.white-theme button:hover {
+    background-color: #eaeaea; /* Darker gray on hover */
+}
+
+.white-theme header, 
+.white-theme footer, 
+.white-theme nav
+ {
+    background-color: #ffffff; /* White header, footer, and navbar */
+    color: #000000; /* Black text */
+    border-bottom: 1px solid #dcdcdc; /* Optional border for sections */
+}
+
+.white-theme input, 
+.white-theme textarea {
+    background-color: #ffffff; /* White input fields */
+    color: #000000; /* Black text */
+    border: 1px solid #dcdcdc; /* Subtle border */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.engagements-section {
+    display: flex;
+    flex-direction: column;
+    
+    min-height: 100vh;
     width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.5); /* Slightly black background */
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+}
+
+.engagements-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.engagements-images {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
-    visibility: hidden; /* Initially hidden */
+    gap: 20px; /* Space between images */
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1920px;
 }
 
-.spinner {
-    border: 4px solid rgba(103, 90, 183, 0.3); /* Light version of the theme color */
-    border-top: 4px solid #675ab7; /* The main color for the spinner */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
+.engagements-images img {
+    width: 100%;
+    max-width: 400px; /* Max width for desktop */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
+    margin: 10px; /* Margin around each image */
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* Mobile-Friendly Styles */
+@media (max-width: 768px) {
+    .engagements-section {
+        padding: 10px;
+    }
+
+    .engagements-section h2 {
+        font-size: 1.8em;
+        text-align: center;
+    }
+
+    .engagements-images {
+        gap: 10px; /* Smaller gap for mobile */
+    }
+
+    .engagements-images img {
+        max-width: 100%; /* Full width on mobile */
+        margin: 5px; /* Slightly reduced margin on mobile */
+    }
 }
 
+/* Extra Small Screens */
+@media (max-width: 480px) {
+    .engagements-section h2 {
+        font-size: 1.5em;
+    }
+
+    .engagements-images img {
+        max-width: 100%;
+        border-radius: 6px;
+    }
+}
+.engagements-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.engagements-images img {
+  width: 100%;
+  height: auto;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.engagements-images img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
     </style>
 </head>
 <body>
+
     <!-- Header Section -->
     <header>
         <div class="header-container">
-            <button class="subject-button" onclick="window.location.href='https://mgmfyit.vercel.app/';">Home</button>
-            <button class="subject-button" onclick="toggleNavbar()">Menu</button>
-            <button class="logout-button"  onclick="logout()">Logout</button>
-
+              <button class="subject-button" onclick="window.location.href='https://mgmfyit.vercel.app/';">Home</button>
+              <button class="subject-button" onclick="toggleNavbar()">Menu</button>
+              <button class="subject-button" onclick="toggleTheme()">
+                <i class="fas fa-sun"></i> / <i class="fas fa-moon"></i>
+            </button>
+             <button class="logout-button"  onclick="logout()">Logout</button>
 
         </div>
     </header>
@@ -418,17 +369,19 @@
     <div class="main-content">
         <!-- Vertical Navbar -->
         <nav class="vertical-navbar" id="verticalNavbar">
-      
-            <button class="nav-button" onclick="navigateTo('resources')">Notes</button>
+          
+         
             <button class="nav-button" onclick="navigateTo('engagements')">Photos</button>
-            <button class="nav-button" onclick="navigateTo('announcements')">Notice</button>
+           
+  
+    
         </nav>
 
         <!-- Content Area -->
         <div class="content-area" id="contentArea">
             <!-- Default Content (Faculty Section) -->
             <div class="faculty-section">
-             
+              
                 <div class="faculty-details">
                     <div class="name">Hi There! Please Select any options to continue.</div>
                    
@@ -436,23 +389,11 @@
             </div>
         </div>
     </div>
-
     <!-- Spinner Overlay -->
 <div id="spinner-overlay">
     <div class="spinner"></div>
 </div>
-<script>
-    // Show the spinner for 3 seconds
-window.onload = function() {
-    const spinnerOverlay = document.getElementById('spinner-overlay');
-    spinnerOverlay.style.visibility = 'visible';
 
-    setTimeout(function() {
-        spinnerOverlay.style.visibility = 'hidden';
-    }, 3000); // 3 seconds delay
-};
-
-</script>
 
     <!-- Footer Section -->
     <footer>
@@ -480,84 +421,51 @@ window.onload = function() {
             });
         });
 
-        // Placeholder logout function
-        function logout() {
-            window.location.href = "https://zen-tech.vercel.app/";
+     
+    // Updated navigation function to handle new section names
+    function navigateTo(section) {
+        const contentArea = document.getElementById("contentArea");
+        switch(section) {
+          
+            case 'engagements':
+                contentArea.innerHTML = `
+                    <div class="engagements-section">
+                        <h2>Student Engagements</h2>
+                        <div class="engagements-images">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-1.jpg?alt=media&token=816cbf53-793b-4f15-afb5-55270579b464" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-2.jpg?alt=media&token=8047fa8f-7ef3-4747-8c21-cd2d994e6a6e" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-3.jpg?alt=media&token=fc0a39a7-59b5-4ad2-828c-d44916d72d5d" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-4.jpg?alt=media&token=e5490a28-557e-4aa4-b23a-130a06447c29" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-5.jpg?alt=media&token=734dba21-edd6-40f5-b4fd-619091d149cb" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-6.jpg?alt=media&token=3b6bcc4f-0e0c-4d0f-bd97-ad125a4d683e" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-7.jpg?alt=media&token=5128f811-6c72-47db-bb8e-e31be2fd0cb1" data-fancybox="gallery"> 
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-8.jpg?alt=media&token=5e39e698-8804-4ca2-9ba8-ce13d5b58c73" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-9.jpg?alt=media&token=c69b81ed-8e2d-4b09-937e-ab599169dcb7" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-10.jpg?alt=media&token=f530b519-8941-416b-af90-f346fc83c1a6" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-11.jpg?alt=media&token=20ba486f-6850-4db6-a778-8eb0b0e8a7e1" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-12.jpg?alt=media&token=ee773b67-e1fe-4765-8c10-3d2f62c85137" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-13.jpg?alt=media&token=6699aa36-66f0-4325-9e7d-e175f5ddbf30" data-fancybox="gallery">                     
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-14.jpg?alt=media&token=b3f22121-d1e7-4c9f-acf2-17abbde83a9d" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-15.jpg?alt=media&token=6b82db8e-8a53-499f-8f0e-5c76d2cf78ac" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-16.jpg?alt=media&token=4ae97b95-6bda-4ab5-907e-592936ccd7d9" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-18.jpg?alt=media&token=461e0980-c553-4a18-bacb-6b9eb852cc6d" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-19.jpg?alt=media&token=3550161a-cc34-4ee7-a50f-4ea40dc5923b" data-fancybox="gallery">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-17.jpg?alt=media&token=69ff162d-33d3-4549-a5bf-c5a86e11efb2" data-fancybox="gallery">
+                           
+                          
+                           
+                            
+                        </div>
+                    </div>
+                `;
+                break;
+          
+            default:
+                contentArea.innerHTML = `<h2>Section Not Found</h2>`;
         }
+    }
 
-        // Updated navigation function to handle new section names
-        function navigateTo(section) {
-            const contentArea = document.getElementById("contentArea");
-            switch(section) {
-                case 'faculty':
-                    contentArea.innerHTML = `
-                        <div class="faculty-section">
-                            <img src="assets/teacher.jpg" alt="Faculty Photo" class="faculty-photo">
-                            <div class="faculty-details">
-                                <div class="name">Faculty_Name</div>
-                                <div class="contact">
-                                    <p>Phone: NA</p>
-                                    <p>Email: NA</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'resources':
-                    contentArea.innerHTML = `
-                        <div class="resources-section">
-                            <h2>Study Resources</h2>
-                            <ul class="resources-list">
-                                Notes not uploaded yet.
-                              
-                            </ul>
-                        </div>
-                    `;
-                    break;
-                case 'engagements':
-                    contentArea.innerHTML = `
-                        <div class="engagements-section">
-                            <h2>Student Engagements</h2>
-                            <div class="engagements-images">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-1.jpg?alt=media&token=816cbf53-793b-4f15-afb5-55270579b464" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-2.jpg?alt=media&token=8047fa8f-7ef3-4747-8c21-cd2d994e6a6e" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-3.jpg?alt=media&token=fc0a39a7-59b5-4ad2-828c-d44916d72d5d" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-4.jpg?alt=media&token=e5490a28-557e-4aa4-b23a-130a06447c29" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-5.jpg?alt=media&token=734dba21-edd6-40f5-b4fd-619091d149cb" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-6.jpg?alt=media&token=3b6bcc4f-0e0c-4d0f-bd97-ad125a4d683e" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-7.jpg?alt=media&token=5128f811-6c72-47db-bb8e-e31be2fd0cb1" data-fancybox="gallery"> 
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-8.jpg?alt=media&token=5e39e698-8804-4ca2-9ba8-ce13d5b58c73" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-9.jpg?alt=media&token=c69b81ed-8e2d-4b09-937e-ab599169dcb7" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-10.jpg?alt=media&token=f530b519-8941-416b-af90-f346fc83c1a6" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-11.jpg?alt=media&token=20ba486f-6850-4db6-a778-8eb0b0e8a7e1" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-12.jpg?alt=media&token=ee773b67-e1fe-4765-8c10-3d2f62c85137" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-13.jpg?alt=media&token=6699aa36-66f0-4325-9e7d-e175f5ddbf30" data-fancybox="gallery">                     
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-14.jpg?alt=media&token=b3f22121-d1e7-4c9f-acf2-17abbde83a9d" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-15.jpg?alt=media&token=6b82db8e-8a53-499f-8f0e-5c76d2cf78ac" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-16.jpg?alt=media&token=4ae97b95-6bda-4ab5-907e-592936ccd7d9" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-18.jpg?alt=media&token=461e0980-c553-4a18-bacb-6b9eb852cc6d" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-19.jpg?alt=media&token=3550161a-cc34-4ee7-a50f-4ea40dc5923b" data-fancybox="gallery">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/fyit-photos%2Fcs-17.jpg?alt=media&token=69ff162d-33d3-4549-a5bf-c5a86e11efb2" data-fancybox="gallery">
-                               
-                              
-                               
-                                
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'announcements':
-                    contentArea.innerHTML = `
-                        <div class="announcements-section">
-                            <h2>Announcements</h2>
-                            <p>No announcements at the moment. Please check back later!</p>
-                        </div>
-                    `;
-                    break;
-                default:
-                    contentArea.innerHTML = `<h2>Section Not Found</h2>`;
-            }
-        }
+      
 
         function toggleNavbar() {
             const navbar = document.getElementById("verticalNavbar");
@@ -565,30 +473,55 @@ window.onload = function() {
         }
 
 
-        function toggleImageSize(image) {
-            image.classList.toggle("enlarged");
-        }
-        
+
 
     </script>
-
   <script>
         // Logout function to clear the token and redirect to login page
         function logout() {
             localStorage.removeItem("authToken"); // Clear the token
             window.location.href = "/login.html"; // Redirect to login page
         }
-
+         
         // Check if the user is logged in (token present in localStorage)
         if (!localStorage.getItem("authToken")) {
             window.location.href = "/login.html"; // Redirect to login if no token
         }
-      
-   
-          
-       
-    
-    </script>
+  
+        
+   // Check and apply the saved theme on page load
+window.onload = function() {
+    const body = document.body;
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "white-theme") {
+        body.classList.add("white-theme");
+        body.style.background = "#ffffff";
+        body.style.color = "#000000";
+    } else {
+        // Default to dark theme if no theme is saved
+        body.style.background = "linear-gradient(120deg, #1e1e2e, #2d2d44)";
+        body.style.color = "#eaeaff";
+    }
+};
 
+// Theme toggle functionality
+function toggleTheme() {
+    const body = document.body;
+    if (body.classList.contains("white-theme")) {
+        // Switch to dark theme
+        body.classList.remove("white-theme");
+        body.style.background = "linear-gradient(120deg, #1e1e2e, #2d2d44)";
+        body.style.color = "#eaeaff";
+        localStorage.setItem("theme", "dark-theme"); // Save theme preference
+    } else {
+        // Switch to white theme
+        body.classList.add("white-theme");
+        body.style.background = "#ffffff";
+        body.style.color = "#000000";
+        localStorage.setItem("theme", "white-theme"); // Save theme preference
+    }
+}
+
+    </script>
 </body>
 </html>
