@@ -475,23 +475,14 @@
           
 
                     <ul class="resources-list"><br>
-                    
+                       
                        <a href="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/UI-Notes.pdf?alt=media&token=84673888-45d0-4bb8-b3fe-0833076f9204">Full UI Notes</a>
-                    </ul>
+                    <br>   <a href="https://mgmfyit.vercel.app/testing.html">Tue-source-code (images are not visible becoz the photos are stored locally!)</a>
+                      </ul>
                 </div>
             `;
             break;
-        case 'engagements':
-            contentArea.innerHTML = `
-                <div class="engagements-section">
-                    <h2>Student Engagements</h2>
-                    <div class="engagements-images">
-                       <p>There are no presentations conducted for this Subject.</p>
-                    </div>
-                </div>
-            `;
-            break;
-     
+      
         
         
         
@@ -527,11 +518,12 @@ window.onload = function() {
         }
 
        
+     
      // Check if the user is logged in (token present in localStorage)
      if (!localStorage.getItem("authToken")) {
-        window.location.href = "/login.html"; // Redirect to login if no token
-    }
-  
+      window.location.href = "/login.html"; // Redirect to login if no token
+  }
+
     
     </script>
 
