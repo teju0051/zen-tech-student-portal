@@ -1,70 +1,399 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farewell Student Portal</title>
+    <link rel="icon" type="image/x-icon" href="https://teju0051.github.io/Zen-Tech/favicon.ico">
+    <title>Login | Student Portal </title>
+   <!-- Favicon -->
+   <link rel="icon" href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffe6e6;
+        /* Reset and Base Styles */
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
+            box-sizing: border-box;
         }
 
-        .container {
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 30px 40px;
-            max-width: 500px;
-            width: 100%;
-        }
-
-        h1 {
-            color: #ff3366;
-        }
-
-        p {
-            color: #555;
-            line-height: 1.8;
-        }
-
-        .signature {
-            margin-top: 20px;
-            font-style: italic;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e8eaf6;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
         }
 
-        .highlight {
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #e8eaf6;
+        }
+
+        .login-box {
+            width: 380px;
+            padding: 40px 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            border-top: 6px solid #673ab7;
+        }
+
+        .login-box h1 {
+            font-size: 1.8em;
+            color: #4a148c;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #d1d1d1;
+            border-radius: 6px;
+            background-color: #fafafa;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: #673ab7;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #311b92;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
             font-weight: bold;
-            color: #ff0066;
+            transition: background-color 0.3s;
+            margin-top: 10px;
         }
 
+        .login-btn:hover {
+            background-color: #4527a0;
+        }
+
+        /* Footer */
         footer {
-            margin-top: 30px;
-            font-size: 1rem;
-            color: #777;
-            font-weight: bold;
+            background: #e8eaf6;
+            color: #333;
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.85rem;
+            border-top: 2px solid #673ab7;
+            margin-top: auto; /* Push footer to the bottom */
         }
+
+        footer a {
+            color: #673ab7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #4527a0;
+            text-decoration: underline;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 0.8rem;
+                padding: 1.2rem;
+            }
+
+            select {
+                width: 100%;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+        .logo {
+            width: 150px; /* Adjust size as needed */
+            margin-bottom: 20px; /* Space between logo and heading */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Watermark Styles */
+        .watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Prevent interaction */
+            opacity: 0.1;
+        }
+
+        .watermark span {
+            font-size: 4rem;
+            color: #673ab7;
+            transform: rotate(-45deg);
+            user-select: none; /* Prevent text selection */
+        }
+
+           /* Full-Screen Video Styles */
+           #video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Login Page Styles */
+        .hidden {
+            display: none;
+        }
+        #play-video-btn {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          padding: 15px 30px;
+          font-size: 1.2em;
+          color: #fff;
+          background-color: #673ab7;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: bold;
+          transition: background-color 0.3s;
+          z-index: 10000; /* Ensure it appears above other elements */
+      }
+      
+      #play-video-btn:hover {
+          background-color: #4527a0;
+      }
+      /* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+
+.modal-content h1 {
+  font-size: 1.5rem;
+  color: #ff0000;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #333;
+  margin-top: 10px;
+}
+
+.modal-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-content button:hover {
+  background-color: #cc0000;
+}
+
     </style>
+
+
 </head>
 <body>
-    <div class="container">
-        <h1>Farewell, MGM Student Portal</h1>
-        <p>The MGM Student Portal is no longer available for students. We cherished every moment of working with all of you and being part of your academic journey.</p>
-        <p>We will miss you all dearly. A heartfelt thanks to <span class="highlight">Kunal</span> for giving us this wonderful opportunity to contribute to MGM CCSIT Kamothe.</p>
-        <p class="signature">- Prajakta Mane<br>Manager</p>
-        <footer>
-            We will miss you!<br>
-            Regards,<br>
-            Zen-Tech Operations Team
-        </footer>
+     <!-- Video Overlay -->
+     <div id="video-overlay">
+      <video id="intro-video" autoplay playsinline>
+          <source src="https://zen-tech-student-portal.vercel.app/demo-vid.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        
+      </video>
+      <button id="play-video-btn">Launch Student Portal</button>
+  </div>
+  <!-- Login Section -->
+  <div class="login-container hidden" id="content">
+    <div class="login-box">
+        <img src="https://zen-tech-student-portal.vercel.app/Student's%20Portal!.png" alt="Zentech Logo" class="logo">
+        <h1>Welcome Students!</h1>
+        <input type="text" placeholder="Username" class="input-field" id="username">
+        <input type="password" placeholder="Password" class="input-field" id="password">
+        <button class="login-btn" onclick="login()">Login</button>
     </div>
+</div>
+
+    <script>
+     
+
+      
+      document.getElementById('play-video-btn').addEventListener('click', () => {
+        const video = document.getElementById('intro-video');
+        
+        // Play the video
+        video.play().then(() => {
+            console.log('Video started with sound.');
+        }).catch((error) => {
+            console.error('Error playing video:', error);
+        });
+    
+       
+        // Hide the button after entering fullscreen
+        document.getElementById('play-video-btn').style.display = 'none';
+    });
+
+      document.getElementById('play-video-btn').addEventListener('click', () => {
+        const video = document.getElementById('intro-video');
+        video.play().then(() => {
+            // Video is playing
+            console.log('Video started with sound.');
+        }).catch((error) => {
+            console.error('Error playing video with sound:', error);
+        });
+    
+   
+       
+    });
+
+      const video = document.getElementById("intro-video");
+      const overlay = document.getElementById("video-overlay");
+      const content = document.getElementById("content");
+
+      video.addEventListener("ended", () => {
+          overlay.style.display = "none"; // Hide video overlay
+          content.classList.remove("hidden"); // Show main content
+      });
+
+
+      function generateToken(username) {
+          return `${username}-${Date.now()}`; // Simple token with username and timestamp
+      }
+  
+      function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value; // Corrected this line
+    
+        // Check if username and password are correct
+        if (username === "1" && password === "1") {
+            const token = generateToken(username); // Generate token
+            localStorage.setItem("authToken", token); // Store token in localStorage
+           window.location.href="https://zen-tech-student-portal.vercel.app/";
+        } else {
+           alert("Incorrect Username Or Password");
+        }
+    }
+    
+    function showSuspendedModal() {
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+    
+        modal.innerHTML = `
+           <div class="modal-content">
+    <h1>Servers Are Under Maintenance!</h1>
+    <p>We are currently testing new features. Please check back later.</p>
+    <button onclick="window.location.href='https://t-service-india.vercel.app/login.html'">CONFIRM</button>
+</div>
+
+        `;
+        document.body.appendChild(modal);
+    
+        // Close the modal if clicked outside the modal content
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+    }
+    
+
+       // Disable right-click
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+    // Disable common developer shortcuts
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "F12" || 
+            (e.ctrlKey && e.shiftKey && e.key === "I") || 
+            (e.ctrlKey && e.key === "U") || 
+            (e.ctrlKey && e.shiftKey && e.key === "C") || 
+            (e.ctrlKey && e.key === "S")) {
+            e.preventDefault();
+        }
+    });
+
+  // Function to detect if the user is on a mobile device
+function isMobile() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+// Detect developer tools and block access
+if (!isMobile()) {
+    const devtoolsDetector = setInterval(() => {
+        const widthThreshold = window.outerWidth - window.innerWidth > 200;
+        const heightThreshold = window.outerHeight - window.innerHeight > 200;
+
+        if (widthThreshold || heightThreshold) {
+            document.body.innerHTML = "Abnormal activity detected on your device. Please log in using a different browser. If the issue persists across multiple browsers, kindly contact your manager for assistance.";
+            clearInterval(devtoolsDetector);
+        }
+    }, 1000);
+}
+  </script>
+  
+     
+
+<script>
+
+import { inject } from "@vercel/analytics";
+inject();
+
+</script>
 </body>
 </html>
+    
