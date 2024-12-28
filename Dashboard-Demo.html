@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+     <!-- Favicon -->
+   <link rel="icon" href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png">
+    <title>Dashboard | Student Portal</title>
+
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e8eaf6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-user-select: none; /* For Safari */
+            -moz-user-select: none;    /* For Firefox */
+            -ms-user-select: none;     /* For Internet Explorer/Edge */
+            user-select: none;         /* For Chrome and modern browsers */
+        }
+
+        .wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Section */
+        header {
+            background: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #673ab7;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+.header-buttons {
+    display: flex;
+    gap: 1rem; /* Reduced gap between buttons */
+    justify-content: center; /* Center align buttons */
+}
+
+.button, select {
+    background: #673ab7;
+    color: #ffffff;
+    border: none;
+    padding: 0.4rem 1rem; /* Reduced button size */
+    font-size: 0.9rem; /* Adjust font size */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.button:hover, select:hover {
+    background-color: #4527a0;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.name-container {
+    text-align: center; /* Center align name below buttons */
+    margin-top: 0.5rem; /* Add some spacing */
+}
+
+.header-name {
+    font-size: 1rem; /* Adjust font size */
+    font-weight: bold;
+    color: #4a4a75;
+}
+
+/* Media Queries for Smaller Screens */
+@media (max-width: 768px) {
+  header {
+      padding: 1rem 0.5rem; /* Adjust padding for smaller devices */
+  }
+
+  .button {
+      font-size: 0.9rem; /* Adjust button text size */
+      padding: 0.5rem 1rem; /* Reduce button padding */
+  }
+
+  .header-name {
+      font-size: 0.9rem; /* Adjust name text size */
+  }
+}
+
+        .info-icon {
+            margin-left: 8px;
+            cursor: pointer;
+            background-color: #ffffff;
+            color: #673ab7;
+            font-size: 0.9rem;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            width: 300px;
+            background-color: #333;
+            color: #ffffff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 8px;
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .info-icon:hover + .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-repeat: no-repeat;
+            background-image: url(https://teju0051.github.io/Assets/zentehc-remove-bg.png);
+            
+            background-position: center bottom; /* Center the image */
+            background-repeat: no-repeat; /* Prevent repeating the image */
+            background-size: cover; /* Ensure the image covers the entire container */
+        }
+
+        .main-content .welcome-card {
+            background: #ffffffc3;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+            border-color: #252525;  /* Set border color */
+    border-width: 2px;     /* Set border width */
+    border-style: solid;    
+
+            color: #333;
+        }
+
+        .welcome-card h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #4a4a75;
+            margin-bottom: 1.2rem;
+        }
+
+        .welcome-card p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Footer Section */
+        footer {
+            background: #ffffff;
+            color: #333;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+            border-top: 2px solid #673ab7;
+            box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        footer a {
+            color: #673ab7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #4527a0;
+            text-decoration: underline;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            select {
+                width: 100%;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        /* Spinner and overlay styles */
+#spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Slightly black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    visibility: hidden; /* Initially hidden */
+}
+
+.spinner {
+    border: 4px solid rgba(103, 90, 183, 0.3); /* Light version of the theme color */
+    border-top: 4px solid #675ab7; /* The main color for the spinner */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.marquee-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 1px solid #ddd;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.marquee-label {
+  background: linear-gradient(45deg, #ff0000, #ff9900);
+  color: #fff;
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+ 
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  position: relative;
+}
+
+
+
+.marquee-content {
+  flex-grow: 1;
+  background-color: #6a1b9a;
+  color: #fff;
+  padding: 12px 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-text {
+  display: inline-block;
+  position: absolute;
+  animation: marqueeScroll 10s linear infinite;
+  will-change: transform;
+}
+
+/* Add animation for scrolling */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
+/* Style the user manual link */
+.user-manual-link {
+    color: #007bff;
+    font-size: 16px;
+    text-decoration: none;
+    margin-right: 10px; /* Space between the manual link and manager info */
+}
+
+/* Change color on hover for user manual link */
+.user-manual-link:hover {
+    color: #0056b3;
+}
+
+/* Style the info icon */
+.info-icon {
+    color: #007bff;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 5px;
+}
+    </style>
+    <script>
+        function handleSelectionChange(event) {
+            const selectedValue = event.target.value;
+            if (selectedValue) {
+                alert("For optimal viewing, we recommend using a PC or laptop. Some mobile devices may not offer the best experience.");
+                window.location.href = selectedValue;
+            }
+        }
+    </script>
+</head>
+<body>
+ <!-- Spinner Overlay -->
+ <div id="spinner-overlay">
+    <div class="spinner"></div>
+</div>
+<script>
+    // Show the spinner for 3 seconds
+window.onload = function() {
+    const spinnerOverlay = document.getElementById('spinner-overlay');
+    spinnerOverlay.style.visibility = 'visible';
+
+    setTimeout(function() {
+        spinnerOverlay.style.visibility = 'hidden';
+    }, 3000); // 3 seconds delay
+};
+
+</script>
+    <div class="wrapper">
+
+        <!-- Header Section -->
+        <header>
+            <div class="header-buttons">
+                <select onchange="handleSelectionChange(event)">
+                    <option value="">Select a Subject</option>
+                    <option value="ui.html">Demo Subject</option>option>
+                   
+                
+     
+                </select>
+                <button class="button logout-button" onclick="logout()">Logout</button>
+            </div>
+        
+            <div class="header-name">
+              <p>
+                <a href="#" class="user-manual-link" >
+                  <i class="fas fa-book"></i> User Manual
+              </a>
+              </p>
+          </div>
+          
+        </header>
+
+
+        <div class="marquee-container">
+          <div class="marquee-label">Announcement: </div>
+         <marquee>Notice from Zen-Tech & College Updates will be Displayed Here.</marquee>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="welcome-card">
+                <h2>Welcome, Students!</h2>
+                <p>Please select a subject to continue.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>2024 &copy; School/College name will be displayed here | Designed & Developed by <a href="https://zen-tech.vercel.app/"> Zen-Tech</a> | Version: 1.0.0</p>
+    </footer>
+
+    <script>
+        // Logout function to clear the token and redirect to login page
+        function logout() {
+            localStorage.removeItem("authToken"); // Clear the token
+            window.location.href = "/login.html"; // Redirect to login page
+        }
+
+ // Check if the user is logged in (token present in localStorage)
+ if (!localStorage.getItem("authToken")) {
+    window.location.href = "/login.html"; // Redirect to login if no token
+}
+
+
+
+//anti-cheat mechanism
+
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+document.addEventListener('keydown', function(e) {
+    // Disable F12 (DevTools)
+    if (e.key === 'F12' || 
+        // Disable Ctrl + Shift + I (DevTools)
+        (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+        // Disable Ctrl + Shift + J (DevTools)
+        (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+        // Disable Ctrl + U (View Source)
+        (e.ctrlKey && e.key === 'U') ||
+        // Disable Ctrl + Shift + S (Save Page)
+        (e.ctrlKey && e.shiftKey && e.key === 'S')) {
+        e.preventDefault();
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey && e.key === 'S') || // Ctrl+S
+        (e.ctrlKey && e.key === 'P')) { // Ctrl+P
+        e.preventDefault();
+    }
+});
+
+    
+    </script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+</body>
+</html>
