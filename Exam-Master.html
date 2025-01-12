@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Master</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add these links in your HTML head section -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+<style>
+    /* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #101C1E; /* Midnight Green */
+    color: #E0F2F1; /* Light Mint Green */
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #004D40; /* Dark Green */
+    color: #E0F2F1; /* Light Mint Green */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.header h1 {
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+}
+
+.header h1::before {
+    content: '\f19d'; /* Font Awesome icon for graduation cap */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 10px;
+}
+
+/* Question Panel Styles */
+.question-panel {
+    height: 450px;
+    overflow-y: auto;
+    background-color: #263238; /* Dark Greyish Green */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-left: 4px solid #00796B; /* Teal Green */
+    color: #E0F2F1;
+}
+
+.question-btn {
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #80CBC4; /* Lighter Teal */
+}
+
+.question-btn i {
+    margin-right: 8px;
+}
+
+/* Footer Styles */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #004D40;
+    padding: 15px 30px;
+    border-top: 1px solid #004D40;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.footer span {
+    font-size: 14px;
+    color: #B2DFDB; /* Light Mint Green */
+}
+
+.footer .submit-btn {
+    padding: 12px 20px;
+    background-color: #00796B; /* Teal Green */
+    color: #E0F2F1;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer .submit-btn i {
+    margin-right: 8px;
+}
+
+.footer .submit-btn:hover {
+    background-color: #004D40;
+}
+
+/* Form Label & Control */
+.form-label {
+    font-weight: bold;
+    color: #80CBC4;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #80CBC4;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #263238;
+    color: #E0F2F1;
+}
+
+.btn-primary {
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: #00796B;
+    color: #E0F2F1;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #004D40;
+}
+
+/* Footer Right Links */
+.footer-right {
+    font-size: 14px;
+    color: #80CBC4;
+}
+
+.footer-right a {
+    color: #80CBC4;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-right a:hover {
+    color: #004D40;
+    text-decoration: underline;
+}
+
+/* Cheating Detection Panel */
+.cheating-container {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #263238;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    z-index: 9999;
+}
+
+.cheating-container h2 {
+    color: #D32F2F;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.cheating-container .details {
+    margin-bottom: 20px;
+    color: #E0F2F1;
+}
+
+.cheating-container button {
+    padding: 12px 24px;
+    background-color: #D32F2F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cheating-container button:hover {
+    background-color: #B71C1C;
+}
+
+/* Spinner Container */
+#loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(16, 28, 30, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Spinner Icon */
+#loading-spinner i {
+    font-size: 50px;
+    color: #80CBC4;
+    animation: spin 1.5s linear infinite;
+}
+
+/* Spinner Animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+</style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Exam Master</h1>
+        <div id="timer">Time Left: 1:00:00</div>
+        <div id="studentDetails"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-5" id="mainContent">
+        <!-- Step 1: Login -->
+        <div id="loginPage">
+            <h2 class="mb-4">Login</h2>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="studentName" class="form-label">Name:</label>
+                    <input type="text" id="studentName" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="rollNumber" class="form-label">Roll Number:</label>
+                    <input type="text" id="rollNumber" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+      <!-- Step 2: Rules Page -->
+<div id="rulesPage" class="d-none">
+    <h2 class="mb-4">Exam Rules</h2>
+    <ul>
+        <li>This is a class test, so it will not be considered as your final marks, but you will get +1 for viva.</li>
+        <li>If any illegal activities are detected, the paper will be terminated immediately.</li>
+        <li>Do not switch the tab during the exam.</li>
+        <li>Do not exit the fullscreen mode.</li>
+        <li><strong>Make sure select the answer before submitting, unnecessary triigering the button may lead the anti-cheat system to get activated!.</strong></li>
+        <li>The Windows (Win) key must not be pressed during the exam.</li>
+    </ul>
+
+    <p class="text-danger"><strong>Note:</strong> Failure to follow any of the rules will result in the termination of your exam.</p>
+
+    <button id="agreeBtn" class="btn btn-success">Agree & Start Exam</button>
+</div>
+
+<div id="loading-spinner">
+    <i class="fas fa-spinner"></i>
+</div>
+<script>
+    // Hide the spinner 3 seconds after the page is fully loaded
+    window.onload = function() {
+        setTimeout(function() {
+            document.getElementById('loading-spinner').style.display = 'none';
+        }, 3000); // 3000ms = 3 seconds
+    };
+</script>
+
+
+        <!-- Step 3: Exam Page -->
+        <div id="examPage" class="d-none">
+            <div class="row">
+                <!-- Sidebar for Question Numbers -->
+                <div class="col-md-3">
+                    <div class="border p-3 question-panel">
+                        <h5 class="mb-3">Questions</h5>
+                        <div id="questionNumbers"></div>
+                    </div>
+                </div>
+
+                <!-- Main Question Area -->
+                <div class="col-md-9">
+                    <div id="questionDisplay" class="p-3">
+                        <h4>Click on a question number to view the question.</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div>
+            <span class="badge bg-secondary text-light">Gray: Not Visited</span>
+            <span class="badge bg-warning text-dark">Yellow: Not Attempted</span>
+            <span class="badge bg-success text-light">Green: Attempted</span>
+        </div>
+        Server: South-East Asia 01
+        <div class="footer-right">
+            Designed and Developed by <a href="#">Zen-Tech</a>
+        </div>
+        <button id="submitExam" class="submit-btn d-none" onclick="setTimeout(() => location.reload(), 3000)">Submit Exam</button>    </div>
+    
+
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const questions = [
+            {
+                question: "Which of the following is a correct syntax to declare a pointer in C++?",
+                options: ["int *ptr;", "int &ptr;", "int ptr*;", "int #ptr;"],
+            },
+            {
+                question: "Which of the following concepts means determining at runtime what method to invoke?",
+                options: ["Data hiding", "Dynamic binding", "Encapsulation", "Data abstraction"],
+            },
+            {
+                question: "Which of the following is a correct way to create an object in C++?",
+                options: ["ClassName obj;", "ClassName::obj;", "new ClassName;", "createObject(ClassName);"],
+            },
+            {
+                question: "What is the size of an int data type in a 64-bit architecture in C++?",
+                options: ["2 bytes", "4 bytes", "8 bytes", "16 bytes"],
+            },
+            {
+                question: "Which operator is used to access members of a class using a pointer?",
+                options: ["->", ".", "::", "=>"],
+            },
+            {
+                question: "Which of the following is NOT a C++ access specifier?",
+                options: ["public", "protected", "private", "secure"],
+            },
+            {
+                question: "What will be the output of the following code?\n\nint a = 5, b = 2;\ncout << a / b;",
+                options: ["2.5", "2", "5", "2.0"],
+            },
+            {
+                question: "Which header file is required for using the std::vector class?",
+                options: ["#include <vector>", "#include <array>", "#include <list>", "#include <map>"],
+            },
+            {
+                question: "Which keyword is used to define a constant in C++?",
+                options: ["const", "constant", "define", "static"],
+            },
+            {
+                question: "What is the default return type of the main() function in C++?",
+                options: ["void", "int", "float", "char"],
+            },
+        ];
+    
+        const totalQuestions = questions.length;
+        const questionStatus = Array(totalQuestions).fill("gray");
+        const answers = Array(totalQuestions).fill(null);
+        let currentQuestion = null;
+    
+        // Handle Login
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            handleLogin();
+        });
+    
+        // Handle Rules Agreement
+        document.getElementById("agreeBtn").addEventListener("click", function () {
+            switchToExamPage();
+        });
+    
+        // Initialize question numbers
+        function initializeQuestionNumbers() {
+            const questionNumbersDiv = document.getElementById("questionNumbers");
+            questionNumbersDiv.innerHTML = "";
+            for (let i = 1; i <= totalQuestions; i++) {
+                const btn = document.createElement("button");
+                btn.textContent = i;
+                btn.className = "btn btn-outline-secondary w-100 mb-2 question-btn";
+                btn.id = `question-${i}`;
+                btn.onclick = () => showQuestion(i);
+                questionNumbersDiv.appendChild(btn);
+            }
+        }
+    
+        // Show selected question
+        function showQuestion(questionNumber) {
+            currentQuestion = questionNumber;
+            updateQuestionStatus(questionNumber, "yellow");
+            const question = questions[questionNumber - 1];
+            const savedAnswer = answers[questionNumber - 1];
+            const questionDisplay = document.getElementById("questionDisplay");
+    
+            let optionsHTML = "";
+            question.options.forEach((option, index) => {
+                const isChecked = savedAnswer === `${index + 1}` ? "checked" : "";
+                optionsHTML += `<input type="radio" name="q${questionNumber}" value="${index + 1}" ${isChecked}> ${option}<br>`;
+            });
+    
+            questionDisplay.innerHTML = `
+                <h4>Question ${questionNumber}</h4>
+                <p>${question.question}</p>
+                <div>${optionsHTML}</div>
+                <button class="btn btn-primary mt-3" onclick="submitAnswer(${questionNumber})">Submit Answer</button>
+            `;
+        }
+    
+        // Submit an answer
+        function submitAnswer(questionNumber) {
+            const options = document.querySelectorAll(`input[name="q${questionNumber}"]`);
+            let selectedOption = null;
+            for (const option of options) {
+                if (option.checked) {
+                    selectedOption = option.value;
+                    break;
+                }
+            }
+    
+            if (selectedOption) {
+                answers[questionNumber - 1] = selectedOption;
+                updateQuestionStatus(questionNumber, "green");
+            } else {
+                alert("Please select an option before submitting.");
+            }
+        }
+    
+        // Update question status color
+        function updateQuestionStatus(questionNumber, status) {
+            const btn = document.getElementById(`question-${questionNumber}`);
+            btn.className = `btn w-100 mb-2 question-btn btn-${status === "green" ? "success" : "warning"}`;
+        }
+    
+        // Handle login functionality
+        function handleLogin() {
+            const studentName = document.getElementById("studentName").value.trim();
+            const rollNumber = document.getElementById("rollNumber").value.trim();
+            if (studentName && rollNumber) {
+                document.getElementById("studentDetails").textContent = `Name: ${studentName} | Roll No: ${rollNumber}`;
+                document.getElementById("loginPage").classList.add("d-none");
+                document.getElementById("rulesPage").classList.remove("d-none");
+            }
+        }
+    
+        // Switch to the exam page
+        function switchToExamPage() {
+            document.getElementById("rulesPage").classList.add("d-none");
+            document.getElementById("examPage").classList.remove("d-none");
+            document.getElementById("submitExam").classList.remove("d-none");
+            initializeQuestionNumbers();
+            startTimer();
+            toggleFullScreen();
+        }
+    
+        // Submit the exam
+        document.getElementById("submitExam").addEventListener("click", function () {
+            const studentName = document.getElementById("studentName").value.trim();
+            const rollNumber = document.getElementById("rollNumber").value.trim();
+            const data = {
+                studentName,
+                rollNumber,
+                answers,
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `${studentName}_${rollNumber}_ExamResults.json`;
+            link.click();
+            exitFullScreen();
+        });
+    
+        // Start Timer
+        function startTimer() {
+            let timeLeft = 60 * 60; // 1 hour in seconds
+            const timerDisplay = document.getElementById("timer");
+    
+            const timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time's up! Submitting your exam.");
+                    document.getElementById("submitExam").click();
+                } else {
+                    const hours = Math.floor(timeLeft / 3600);
+                    const minutes = Math.floor((timeLeft % 3600) / 60);
+                    const seconds = timeLeft % 60;
+                    timerDisplay.textContent = `Time Left: ${hours}:${minutes}:${seconds}`;
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+    
+        // Fullscreen functions
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            }
+        }
+    
+        function exitFullScreen() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+        }
+    </script>
+    
+
+    <script>
+        // Function to toggle full-screen mode
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            }
+        }
+    
+        // Prevent exiting full screen
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                toggleFullScreen(); // Re-enter full-screen mode
+            }
+        });
+    
+        // Disable specific keys and key combinations
+        document.addEventListener('keydown', function (e) {
+            const username = "Raj"; // Replace this with a dynamic username if needed
+    
+            // Block F11, F12, Escape, and other keys
+            const blockedKeys = ['F11', 'F12', 'Escape', 'Meta', 'OS'];
+            if (blockedKeys.includes(e.key) || (e.ctrlKey && (e.key === 'u' || e.key === 's'))) {
+                e.preventDefault();
+            }
+    
+            // Disable key if it matches any letter in the username
+            if (username.includes(e.key)) {
+                e.preventDefault();
+                console.error(`Error: Key '${e.key}' is not allowed.`);
+            }
+        });
+    
+        // Disable right-click
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+    
+        // Monitor focus
+        window.addEventListener('blur', function () {
+            toggleFullScreen(); // Re-enter full-screen mode if the user switches tabs
+        });
+    
+        // Start the exam in full-screen mode
+        document.getElementById("agreeBtn").addEventListener("click", function () {
+            document.getElementById("rulesPage").classList.add("d-none");
+            document.getElementById("examPage").classList.remove("d-none");
+            document.getElementById("submitExam").classList.remove("d-none");
+            initializeQuestionNumbers();
+            startTimer();
+            toggleFullScreen(); // Start in full-screen mode
+        });
+    
+        // Prevent default actions for certain key combinations
+        window.addEventListener('keydown', function (event) {
+            if (event.ctrlKey && (event.key === 'I' || event.key === 'J' || event.key === 'C' || event.key === 'U')) {
+                event.preventDefault();
+            }
+        });
+    
+        // Prevent opening developer tools using context menu or key combinations
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
+                event.preventDefault();
+            }
+        });
+    </script>
+    
+    
+</body>
+</html>
