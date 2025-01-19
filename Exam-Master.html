@@ -263,8 +263,16 @@
         <li>Do not exit the fullscreen mode.</li>
         <li><strong>Make sure select the answer before submitting, unnecessary triigering the button may lead the anti-cheat system to get activated!.</strong></li>
         <li>The Windows (Win) key must not be pressed during the exam.</li>
+        <li>If you select the answer and don't press submit, the answer will not be recorded.</li>
+                <li>Once you submit a question, the question number's color will change from yellow to green.</li>
+                <li>If you review the question (i.e., click on the attempted question again), it might turn from green to yellow. Don't worry, it is recorded, and you can submit your exam!</li>
+                <li><strong>Note:</strong> The submit button does not have confirmation. It will directly submit your paper when you click it!</li>
+                <li>Do not engage in any illegal activities that trigger the anti-cheat system. Your exam will be terminated without warning!</li>
+                <li>The same name and roll number cannot log in again for one hour (cooldown period).</li>
+      
     </ul>
 
+    
     <p class="text-danger"><strong>Note:</strong> Failure to follow any of the rules will result in the termination of your exam.</p>
     <button id="agreeBtn" class="btn btn-success">Agree & Start Quiz</button>
     <script>
@@ -470,17 +478,37 @@
             btn.className = `btn w-100 mb-2 question-btn btn-${status === "green" ? "success" : "warning"}`;
         }
     
-        // Handle login functionality
+
+        //login-repeat-duplicated-ban
         function handleLogin() {
             const studentName = document.getElementById("studentName").value.trim();
             const rollNumber = document.getElementById("rollNumber").value.trim();
+            const currentTime = Date.now();
+            const cooldownTime = 60 * 60 * 1000; // 1 hour in milliseconds
+        
             if (studentName && rollNumber) {
+                // Use only roll number as the key for login tracking
+                const studentKey = `rollNumber-${rollNumber}`;
+                const lastLoginTime = localStorage.getItem(studentKey);
+        
+                if (lastLoginTime && currentTime - lastLoginTime < cooldownTime) {
+                    const remainingTime = Math.ceil((cooldownTime - (currentTime - lastLoginTime)) / (60 * 1000));
+                    alert(`Roll number ${rollNumber} has recently logged in. Please try again after ${remainingTime} Mins`);
+                    return;
+                }
+        
+                // Save the current login attempt to localStorage
+                localStorage.setItem(studentKey, currentTime);
+        
+                // Display student details
                 document.getElementById("studentDetails").textContent = `Name: ${studentName} | Roll No: ${rollNumber}`;
                 document.getElementById("loginPage").classList.add("d-none");
                 document.getElementById("rulesPage").classList.remove("d-none");
+            } else {
+                alert("Please enter both name and roll number!");
             }
         }
-    
+        
         // Switch to the exam page
         function switchToExamPage() {
             document.getElementById("rulesPage").classList.add("d-none");
@@ -668,6 +696,13 @@
             initializeQuestionNumbers();
             startTimer();
             toggleFullScreen();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            // Check if Ctrl is pressed along with R
+            if (event.ctrlKey && event.key.toLowerCase() === "r") {
+                event.preventDefault(); // Prevent the default refresh behavior
+            }
         });
     </script>
     
