@@ -18,6 +18,7 @@
     color: #333; /* Dark Text Color */
     margin: 0;
     padding: 0;
+    zoom:1.25;
 }
 
 /* Header Styles */
@@ -76,7 +77,7 @@
     left: 0;
     width: 100%;
     background-color: #F1F1F1;
-    padding: 15px 30px;
+    padding: 10px 30px;
     border-top: 1px solid #E0E0E0;
     display: flex;
     justify-content: space-between;
@@ -231,7 +232,7 @@
     <!-- Header -->
     <div class="header">
         <h1>Exam Master</h1>
-        <div id="timer">Time Left: 1:00:00</div>
+        <div id="timer">Time Left: 15:00</div>
         <div id="studentDetails"></div>
     </div>
 
@@ -255,26 +256,15 @@
 
       <!-- Step 2: Rules Page -->
 <div id="rulesPage" class="d-none">
-    <h2 class="mb-4">Exam Rules</h2>
+    <h2 class="mb-4">Activity Rules</h2>
     <ul>
-        <li>This is a class test, so it will not be considered as your final marks, but you will get +1 for viva.</li>
-        <li>If any illegal activities are detected, the paper will be terminated immediately.</li>
-        <li>Do not switch the tab during the exam.</li>
-        <li>Do not exit the fullscreen mode.</li>
-        <li><strong>Make sure select the answer before submitting, unnecessary triigering the button may lead the anti-cheat system to get activated!.</strong></li>
-        <li>The Windows (Win) key must not be pressed during the exam.</li>
-        <li>If you select the answer and don't press submit, the answer will not be recorded.</li>
-                <li>Once you submit a question, the question number's color will change from yellow to green.</li>
-                <li>If you review the question (i.e., click on the attempted question again), it might turn from green to yellow. Don't worry, it is recorded, and you can submit your exam!</li>
-                <li><strong>Note:</strong> The submit button does not have confirmation. It will directly submit your paper when you click it!</li>
-                <li>Do not engage in any illegal activities that trigger the anti-cheat system. Your exam will be terminated without warning!</li>
-                <li>The same name and roll number cannot log in again for one hour (cooldown period).</li>
-      
+        <li>There are a total of 10 quesions</li>
+        <li>Quiz Duration: 15 Mins</li>
+        <li>Don't use google for finding the answers</li>
+       
     </ul>
 
-    
-    <p class="text-danger"><strong>Note:</strong> Failure to follow any of the rules will result in the termination of your exam.</p>
-    <button id="agreeBtn" class="btn btn-success">Agree & Start Quiz</button>
+      <button id="agreeBtn" class="btn btn-success">Start Quiz</button>
     <script>
         // Full-screen functionality
         function enterFullScreen() {
@@ -342,8 +332,8 @@
     <div class="footer">
         <div>
             <span class="badge bg-secondary text-light">Gray: Not Visited</span>
-            <span class="badge bg-warning text-dark">Yellow: Not Attempted</span>
-            <span class="badge bg-success text-light">Green: Attempted</span>
+            <span class="badge bg-danger text-light">Red: Incorrect</span>
+            <span class="badge bg-success text-light">Green: Correct</span>
         </div>
         Server: South-East Asia 01
         <div class="footer-right">
@@ -354,211 +344,147 @@
 
     <!-- Bootstrap Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
+      const questions = [
+          { question: "What is the primary benefit of effective time management?", options: ["Increased stress and anxiety", "Improved productivity and focus", "Decreased opportunities for growth", "Reduced work-life balance"] },
 
-        
-        const questions = [
-            {
-                question: "Which of the following is a correct syntax to declare a pointer in C++?",
-                options: ["int *ptr;", "int &ptr;", "int ptr*;", "int #ptr;"],
-            },
-            {
-                question: "Which of the following concepts means determining at runtime what method to invoke?",
-                options: ["Data hiding", "Dynamic binding", "Encapsulation", "Data abstraction"],
-            },
-            {
-                question: "Which of the following is a correct way to create an object in C++?",
-                options: ["ClassName obj;", "ClassName::obj;", "new ClassName;", "createObject(ClassName);"],
-            },
-            {
-                question: "What is the size of an int data type in a 64-bit architecture in C++?",
-                options: ["2 bytes", "4 bytes", "8 bytes", "16 bytes"],
-            },
-            {
-                question: "Which operator is used to access members of a class using a pointer?",
-                options: ["->", ".", "::", "=>"],
-            },
-            {
-                question: "Which of the following is NOT a C++ access specifier?",
-                options: ["public", "protected", "private", "secure"],
-            },
-            {
-                question: "What will be the output of the following code?\n\nint a = 5, b = 2;\ncout << a / b;",
-                options: ["2.5", "2", "5", "2.0"],
-            },
-            {
-                question: "Which header file is required for using the std::vector class?",
-                options: ["#include <vector>", "#include <array>", "#include <list>", "#include <map>"],
-            },
-            {
-                question: "Which keyword is used to define a constant in C++?",
-                options: ["const", "constant", "define", "static"],
-            },
-            {
-                question: "What is the default return type of the main() function in C++?",
-                options: ["void", "int", "float", "char"],
-            },
-        ];
-    
-        const totalQuestions = questions.length;
-        const questionStatus = Array(totalQuestions).fill("gray");
-        const answers = Array(totalQuestions).fill(null);
-        let currentQuestion = null;
-    
-        // Handle Login
-        document.getElementById("loginForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-            handleLogin();
-        });
-    
-        // Handle Rules Agreement
-        document.getElementById("agreeBtn").addEventListener("click", function () {
-            switchToExamPage();
-        });
-    
-        // Initialize question numbers
-        function initializeQuestionNumbers() {
-            const questionNumbersDiv = document.getElementById("questionNumbers");
-            questionNumbersDiv.innerHTML = "";
-            for (let i = 1; i <= totalQuestions; i++) {
-                const btn = document.createElement("button");
-                btn.textContent = i;
-                btn.className = "btn btn-outline-secondary w-100 mb-2 question-btn";
-                btn.id = `question-${i}`;
-                btn.onclick = () => showQuestion(i);
-                questionNumbersDiv.appendChild(btn);
-            }
-        }
-    
-        // Show selected question
-        function showQuestion(questionNumber) {
-            currentQuestion = questionNumber;
-            updateQuestionStatus(questionNumber, "yellow");
-            const question = questions[questionNumber - 1];
-            const savedAnswer = answers[questionNumber - 1];
-            const questionDisplay = document.getElementById("questionDisplay");
-    
-            let optionsHTML = "";
-            question.options.forEach((option, index) => {
-                const isChecked = savedAnswer === `${index + 1}` ? "checked" : "";
-                optionsHTML += `<input type="radio" name="q${questionNumber}" value="${index + 1}" ${isChecked}> ${option}<br>`;
-            });
-    
-            questionDisplay.innerHTML = `
-                <h4>Question ${questionNumber}</h4>
-                <p>${question.question}</p>
-                <div>${optionsHTML}</div>
-                <button class="btn btn-primary mt-3" onclick="submitAnswer(${questionNumber})">Submit Answer</button>
-            `;
-        }
-    
-        // Submit an answer
-        function submitAnswer(questionNumber) {
-            const options = document.querySelectorAll(`input[name="q${questionNumber}"]`);
-            let selectedOption = null;
-            for (const option of options) {
-                if (option.checked) {
-                    selectedOption = option.value;
-                    break;
-                }
-            }
-    
-            if (selectedOption) {
-                answers[questionNumber - 1] = selectedOption;
-                updateQuestionStatus(questionNumber, "green");
-            } else {
-                alert("Please select an option before submitting.");
-            }
-        }
-    
-        // Update question status color
-        function updateQuestionStatus(questionNumber, status) {
-            const btn = document.getElementById(`question-${questionNumber}`);
-            btn.className = `btn w-100 mb-2 question-btn btn-${status === "green" ? "success" : "warning"}`;
-        }
-    
+          { question: "What is the best way to prioritize tasks effectively?", options: ["Start with the easiest tasks first.", "Focus on tasks that are urgent and important.", "Complete tasks in random order.", "Postpone tasks that seem difficul"] },
 
-        //login-repeat-duplicated-ban
-        function handleLogin() {
-            const studentName = document.getElementById("studentName").value.trim();
-            const rollNumber = document.getElementById("rollNumber").value.trim();
-            const currentTime = Date.now();
-            const cooldownTime = 60 * 60 * 1000; // 1 hour in milliseconds
-        
-            if (studentName && rollNumber) {
-                // Use only roll number as the key for login tracking
-                const studentKey = `rollNumber-${rollNumber}`;
-                const lastLoginTime = localStorage.getItem(studentKey);
-        
-                if (lastLoginTime && currentTime - lastLoginTime < cooldownTime) {
-                    const remainingTime = Math.ceil((cooldownTime - (currentTime - lastLoginTime)) / (60 * 1000));
-                    alert(`Roll number ${rollNumber} has recently logged in. Please try again after ${remainingTime} Mins`);
-                    return;
-                }
-        
-                // Save the current login attempt to localStorage
-                localStorage.setItem(studentKey, currentTime);
-        
-                // Display student details
-                document.getElementById("studentDetails").textContent = `Name: ${studentName} | Roll No: ${rollNumber}`;
-                document.getElementById("loginPage").classList.add("d-none");
-                document.getElementById("rulesPage").classList.remove("d-none");
+          { question: "In the Eisenhower Matrix, tasks that are urgent and important should be:", options: ["Delegated to someone else", "Completed immediately", "Scheduled for later", "Ignored completely"] },
+
+          { question: "What does the Pareto Principle (80/20 rule) suggest? ", options: ["80% of results come from 20% of efforts.", "20% of results come from 80% of efforts.", "80% of tasks should be completed in 20% of the time.", "Effort and results are always equal."] },
+
+          { question: "Which of the following strategies is most effective for minimizing distractions during work or study?", options: ["Keeping notifications on to stay updated.", "Working in a quiet and organized environment.", "Multitasking to get more done at once.", "Constantly checking social media for breaks."] },
+
+          { question: "When using the DO step in time management, which type of tasks should you focus on?", options: ["Tasks that are neither urgent nor important.", "Tasks that are urgent and important.", "Tasks that can be delegated to others.", "Tasks that are important but not urgent."] },
+
+          { question: "Which of the following is a common mistake to avoid in time management?", options: ["Prioritizing tasks based on importance rather than urgency.", "Setting unrealistic deadlines for yourself.", "Breaking tasks into smaller, manageable parts.", "Allocating specific time blocks for focused work."] },
+
+          { question: "What’s the main difference between the Pareto 80/20 rule and the Eisenhower Matrix?", options: ["The Pareto rule focuses on results, while the Eisenhower Matrix focuses on urgency.", "The Pareto rule prioritizes tasks by effort, while the Eisenhower Matrix categorizes by importance.", "The Pareto rule schedules tasks, while the Eisenhower Matrix delegates them.",] },
+
+          { question: "Which of the following is the most effective approach to time management?", options: ["Focus only on urgent tasks, ignoring important ones.", "Work continuously without breaks to maximize productivity.", "Prioritize important tasks and manage time by setting clear goals.", "Complete tasks based on how easy or difficult they seem."] },
+
+          { question: "Which of the following is the best approach to improve focus on an individual task and ensure its effective completion?", options: ["Multitask to handle more tasks at once.", "Focus on one task at a time, setting clear goals and minimizing distractions.", "Switch between tasks frequently to maintain interest.", "Complete easy tasks first to feel productive."] },
+      ];
+  
+      const correctAnswers = [2, 2, 2, 1, 2, 2, 2, 1, 3, 2]; // Correct answer indexes (1-based)
+      const totalQuestions = questions.length;
+      const answers = Array(totalQuestions).fill(null);
+      let currentQuestion = null;
+  
+      document.getElementById("loginForm").addEventListener("submit", function (event) {
+          event.preventDefault();
+          handleLogin();
+      });
+  
+      document.getElementById("agreeBtn").addEventListener("click", function () {
+          switchToExamPage();
+      });
+  
+      function initializeQuestionNumbers() {
+          const questionNumbersDiv = document.getElementById("questionNumbers");
+          questionNumbersDiv.innerHTML = "";
+          for (let i = 1; i <= totalQuestions; i++) {
+              const btn = document.createElement("button");
+              btn.textContent = i;
+              btn.className = "btn btn-outline-secondary w-100 mb-2 question-btn";
+              btn.id = `question-${i}`;
+              btn.onclick = () => showQuestion(i);
+              questionNumbersDiv.appendChild(btn);
+          }
+      }
+  
+      function showQuestion(questionNumber) {
+          currentQuestion = questionNumber;
+          const question = questions[questionNumber - 1];
+          const savedAnswer = answers[questionNumber - 1];
+          const questionDisplay = document.getElementById("questionDisplay");
+  
+          let optionsHTML = "";
+          question.options.forEach((option, index) => {
+              const isChecked = savedAnswer === `${index + 1}` ? "checked" : "";
+              optionsHTML += `<input type="radio" name="q${questionNumber}" value="${index + 1}" ${isChecked}> ${option}<br>`;
+          });
+  
+          questionDisplay.innerHTML = `
+              <h4>Question ${questionNumber}</h4>
+              <p>${question.question}</p>
+              <div>${optionsHTML}</div>
+              <button class="btn btn-primary mt-3" onclick="submitAnswer(${questionNumber})">Submit Answer</button>
+          `;
+      }
+  
+      function submitAnswer(questionNumber) {
+          const options = document.querySelectorAll(`input[name="q${questionNumber}"]`);
+          let selectedOption = null;
+  
+          for (const option of options) {
+              if (option.checked) {
+                  selectedOption = parseInt(option.value);
+                  break;
+              }
+          }
+  
+          if (selectedOption) {
+              answers[questionNumber - 1] = selectedOption;
+  
+              if (selectedOption === correctAnswers[questionNumber - 1]) {
+                  updateQuestionStatus(questionNumber, "green");
+              } else {
+                  updateQuestionStatus(questionNumber, "red");
+              }
+          } else {
+              alert("Please select an option before submitting.");
+          }
+      }
+  
+      function updateQuestionStatus(questionNumber, status) {
+          const btn = document.getElementById(`question-${questionNumber}`);
+          if (status === "green") {
+              btn.className = "btn w-100 mb-2 question-btn btn-success";
+          } else if (status === "red") {
+              btn.className = "btn w-100 mb-2 question-btn btn-danger";
+          } else {
+              btn.className = "btn w-100 mb-2 question-btn btn-warning";
+          }
+      }
+  
+      function handleLogin() {
+          const studentName = document.getElementById("studentName").value.trim();
+          const rollNumber = document.getElementById("rollNumber").value.trim();
+          if (studentName && rollNumber) {
+              document.getElementById("loginPage").classList.add("d-none");
+              document.getElementById("rulesPage").classList.remove("d-none");
+          }
+      }
+  
+      function switchToExamPage() {
+          document.getElementById("rulesPage").classList.add("d-none");
+          document.getElementById("examPage").classList.remove("d-none");
+          initializeQuestionNumbers();
+          startTimer();
+          toggleFullScreen();
+      }
+  
+      function startTimer() {
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+        const timerDisplay = document.getElementById("timer");
+    
+        const timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time's up! Submitting your exam.");
+                document.getElementById("submitExam").click(); // Trigger exam submission
             } else {
-                alert("Please enter both name and roll number!");
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`; // Format MM:SS
+                timeLeft--;
             }
-        }
-        
-        // Switch to the exam page
-        function switchToExamPage() {
-            document.getElementById("rulesPage").classList.add("d-none");
-            document.getElementById("examPage").classList.remove("d-none");
-            document.getElementById("submitExam").classList.remove("d-none");
-            initializeQuestionNumbers();
-            startTimer();
-            toggleFullScreen();
-        }
+        }, 1000); // Decrement every second
+    }
     
-        // Submit the exam
-        document.getElementById("submitExam").addEventListener("click", function () {
-            const studentName = document.getElementById("studentName").value.trim();
-            const rollNumber = document.getElementById("rollNumber").value.trim();
-            const data = {
-                studentName,
-                rollNumber,
-                answers,
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `${studentName}_${rollNumber}_ExamResults.json`;
-            link.click();
-            exitFullScreen();
-        });
-    
-        // Start Timer
-        function startTimer() {
-            let timeLeft = 60 * 60; // 1 hour in seconds
-            const timerDisplay = document.getElementById("timer");
-    
-            const timerInterval = setInterval(() => {
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    alert("Time's up! Submitting your exam.");
-                    document.getElementById("submitExam").click();
-                } else {
-                    const hours = Math.floor(timeLeft / 3600);
-                    const minutes = Math.floor((timeLeft % 3600) / 60);
-                    const seconds = timeLeft % 60;
-                    timerDisplay.textContent = `Time Left: ${hours}:${minutes}:${seconds}`;
-                    timeLeft--;
-                    
-                }
-            }, 1000);
-        }
-    
-       
-    </script>
+  </script>
     <!--anti-cheat -->
     <script>
       
