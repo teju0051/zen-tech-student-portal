@@ -257,7 +257,23 @@
           Your browser does not support the video tag.
         
       </video>
-      <button id="play-video-btn">Launch Student Portal</button>
+      <button id="play-video-btn">Launch Fullscreen</button>
+
+      <script>
+        document.getElementById("play-video-btn").addEventListener("click", function() {
+          // Enter fullscreen mode
+          if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+          } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            document.documentElement.webkitRequestFullscreen();
+          } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+            document.documentElement.msRequestFullscreen();
+          }
+        });
+      </script>
+      
   </div>
   <!-- Login Section -->
   <div class="login-container hidden" id="content">
