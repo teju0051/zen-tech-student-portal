@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a192f;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            background: #112240;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+        .quiz-container:hover {
+            transform: scale(1.02);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #233554;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: #64ffda;
+            transition: width 0.5s ease-in-out;
+        }
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: -25px;
+            font-size: 18px;
+            color: #64ffda;
+        }
+        .question-number {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #64ffda;
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 8px;
+            background: #233554;
+            color: white;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .options button:hover {
+            background: #ffcc00;
+            color: #112240;
+            transform: scale(1.05);
+        }
+        .correct {
+            background: #64ffda !important;
+            color: #112240 !important;
+        }
+        .wrong {
+            background: #ff6b6b !important;
+            color: white !important;
+        }
+        .summary {
+            font-size: 22px;
+            margin-top: 20px;
+            color: #64ffda;
+        }
+        .summary p {
+            font-size: 20px;
+            color: #ffcc00;
+        }
+        .score {
+            font-size: 24px;
+            color: #ff6b6b;
+            margin-top: 10px;
+        }
+        footer {
+            margin-top: auto;
+            padding: 15px;
+            background: #233554;
+            color: #64ffda;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="progress-bar">
+            <div class="progress"></div>
+            <div class="progress-text" id="progressText">Question 1 / 3</div>
+        </div>
+        <div class="question-number">Question <span id="qNumber">1</span> / <span id="totalQuestions">3</span></div>
+        <div class="question" id="question">Loading...</div>
+        <div class="options" id="options"></div>
+    </div>
+
+    <div class="summary" id="summary"></div>
+
+    <footer>
+        Designed and Developed by Zen-Tech || Hosted by T-Service
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "Which of the following is a characteristic of an effective problem solver?",
+                options: ["Avoiding challenges", "Relying solely on intuition", "Seeking feedback and adapting", "Ignoring alternative solutions"],
+                answer: 2
+            },
+            {
+                question: "What does brainstorming involve in the context of problem solving?",
+                options: ["Narrowing down ideas", "Generating a variety of ideas", "Selecting the best solution immediately", "Ignoring creative input"],
+                answer: 1
+            },
+            {
+                question: "In the problem-solving process, what does 'implementing the solution' mean?",
+                options: ["Generating ideas", "Putting the plan into action", "Identifying the problem", "Analysing potential obstacles"],
+                answer: 1
+            },
+            {
+                question: "Problem solving skills help us to",
+                options: ["Understand the environment", "Sticking to a predetermined solution", "refuse to adapt", "ignoring evidence and facts"],
+                answer: 0
+            },
+            {
+                question: "Why is it important to evaluate the results after implementing a solution?",
+                options: ["To prove the solution is perfect", "To identify areas for improvement", "To ignore feedback", "To rush to the next problem"],
+                answer: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userChoices = [];
+
+        document.getElementById("totalQuestions").textContent = quizData.length;
+
+        function loadQuestion() {
+            if (currentQuestion >= quizData.length) {
+                displaySummary();
+                setTimeout(() => {
+                    window.location.href = "https://t-service-india.vercel.app/login.html"; // Redirect after 15 seconds
+                }, 15000); // Redirects after 15 seconds
+                return;
+            }
+
+            document.getElementById("qNumber").textContent = currentQuestion + 1;
+            document.getElementById("question").textContent = quizData[currentQuestion].question;
+            document.getElementById("progressText").textContent = `Question ${currentQuestion + 1} / ${quizData.length}`;
+
+            const optionsContainer = document.getElementById("options");
+            optionsContainer.innerHTML = "";
+
+            quizData[currentQuestion].options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+
+            updateProgressBar();
+        }
+
+        function checkAnswer(selectedIndex) {
+            const correctIndex = quizData[currentQuestion].answer;
+            const buttons = document.querySelectorAll(".options button");
+
+            userChoices.push({
+                question: quizData[currentQuestion].question,
+                selected: quizData[currentQuestion].options[selectedIndex],
+                correct: quizData[currentQuestion].options[correctIndex]
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+            }
+
+            setTimeout(() => {
+                if (selectedIndex === correctIndex) {
+                    buttons[selectedIndex].classList.add("correct");
+                } else {
+                    buttons[selectedIndex].classList.add("wrong");
+                    buttons[correctIndex].classList.add("correct");
+                }
+
+                setTimeout(() => {
+                    currentQuestion++;
+                    loadQuestion();
+                }, 2000);
+            }, 2000);
+        }
+
+        function updateProgressBar() {
+            const progress = document.querySelector(".progress");
+            progress.style.width = ((currentQuestion / quizData.length) * 100) + "%";
+        }
+
+        function displaySummary() {
+            let summaryContent = "<h2>Quiz Summary</h2>";
+            userChoices.forEach((choice, index) => {
+                summaryContent += `
+                    <p><strong>Question ${index + 1}: </strong>${choice.question}</p>
+                    <p>Your answer: ${choice.selected}</p>
+                    <p>Correct answer: ${choice.correct}</p>
+                    <hr>
+                `;
+            });
+            summaryContent += `<div class="score">Your final score: ${score} / ${quizData.length}</div>`;
+            document.getElementById("summary").innerHTML = summaryContent;
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
