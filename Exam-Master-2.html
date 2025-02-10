@@ -1,497 +1,92 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="https://teju0051.github.io/Zen-Tech/favicon.ico">
-    <title>Login | Student Portal </title>
-   <!-- Favicon -->
-   <link rel="icon" href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png">
+    <title>Server Down</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-          font-family: Arial, sans-serif;
-          background-color: #0a192f;
-          color: #ffffff;
-          text-align: center;
-          margin: 0;
-          padding: 20px;
-      }
-
-       
-        .quiz-container {
-          max-width: 600px;
-          margin: auto;
-          background: #112240;
-          border-radius: 12px;
-          padding: 30px;
-          box-shadow: 0 6px 15px rgba(0, 255, 255, 0.3);
-          transition: transform 0.3s ease-in-out;
-      }
-      .quiz-container:hover {
-          transform: scale(1.02);
-      }
-      .progress-bar {
-          width: 100%;
-          height: 12px;
-          background: #233554;
-          border-radius: 6px;
-          margin-bottom: 20px;
-          overflow: hidden;
-          position: relative;
-      }
-      .progress {
-          height: 100%;
-          width: 0%;
-          background: #64ffda;
-          transition: width 0.5s ease-in-out;
-      }
-      .progress-text {
-          position: absolute;
-          width: 100%;
-          text-align: center;
-          top: -25px;
-          font-size: 18px;
-          color: #64ffda;
-      }
-      .question-number {
-          font-size: 26px;
-          font-weight: bold;
-          margin-bottom: 15px;
-          color: #64ffda;
-      }
-      .question {
-          font-size: 24px;
-          margin-bottom: 20px;
-      }
-      .options button {
-          display: block;
-          width: 100%;
-          padding: 15px;
-          margin: 10px 0;
-          border: none;
-          cursor: pointer;
-          font-size: 18px;
-          border-radius: 8px;
-          background: #233554;
-          color: white;
-          transition: background 0.3s, transform 0.2s;
-      }
-      .options button:hover {
-          background: #ffcc00;
-          color: #112240;
-          transform: scale(1.05);
-      }
-      .correct {
-          background: #64ffda !important;
-          color: #112240 !important;
-      }
-      .wrong {
-          background: #ff6b6b !important;
-          color: white !important;
-      }
-      /* Footer Styling */
-      footer {
-          margin-top: auto; /* Push footer to the bottom */
-          padding: 15px;
-          background: #233554;
-          color: #64ffda;
-          font-size: 16px;
-          border-radius: 8px;
-      }
-     
-
-        /* Watermark Styles */
-        .watermark {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            text-align: center;
+            background-color: #f8f9fa;
             display: flex;
-            align-items: center;
             justify-content: center;
-            pointer-events: none; /* Prevent interaction */
-            opacity: 0.1;
-        }
-
-        .watermark span {
-            font-size: 4rem;
-            color: #673ab7;
-            transform: rotate(-45deg);
-            user-select: none; /* Prevent text selection */
-        }
-
-           /* Full-Screen Video Styles */
-           #video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 9999;
-            display: flex;
             align-items: center;
-            justify-content: center;
+            height: 100vh;
         }
-
-        #intro-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .container {
+            max-width: 600px;
+            padding: 30px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
         }
-
-        /* Login Page Styles */
-        .hidden {
+        .popup, .overlay {
             display: none;
         }
-        #play-video-btn {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          padding: 15px 30px;
-          font-size: 1.2em;
-          color: #ffffff;
-          background-color: #ff0000;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: bold;
-          transition: background-color 0.3s;
-          z-index: 10000; /* Ensure it appears above other elements */
-      }
-      
-      #play-video-btn:hover {
-          background-color: #000000;
-      }
-      /* Modal Styles */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  width: 300px;
-}
-
-.modal-content h1 {
-  font-size: 1.5rem;
-  color: #ff0000;
-}
-
-.modal-content p {
-  font-size: 1rem;
-  color: #333;
-  margin-top: 10px;
-}
-
-.modal-content button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #ff0000;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.modal-content button:hover {
-  background-color: #cc0000;
-}
-
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+        }
     </style>
-
-
 </head>
 <body>
-     <!-- Video Overlay -->
-     <div id="video-overlay">
-      <video id="intro-video" autoplay playsinline>
-          <source src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/student-portal-related%2Fnew-version-intro.mp4?alt=media&token=ccce4b40-dcc8-4e1f-be59-eb606adf75ec" type="video/mp4">
-          Your browser does not support the video tag.
+    <div class="container text-center">
+        <i class="fas fa-exclamation-triangle fa-3x text-warning animate__animated animate__tada"></i>
+        <h1 class="display-5 text-danger animate__animated animate__fadeInDown">Server Down</h1>
+        <p class="lead animate__animated animate__fadeInUp">Our servers are currently undergoing maintenance. Please Contact Administrator to get acccess!</p>
         
-      </video>
-      <button id="play-video-btn">Tap To Begin</button>
-
-      <script>
-        document.getElementById("play-video-btn").addEventListener("click", function() {
-          // Enter fullscreen mode
-          if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen();
-          } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-            document.documentElement.mozRequestFullScreen();
-          } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-            document.documentElement.webkitRequestFullscreen();
-          } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-            document.documentElement.msRequestFullscreen();
-          }
-        });
-      </script>
-      
-  </div>
- 
-
-  <div class="quiz-container">
-    <div class="progress-bar">
-        <div class="progress"></div>
-        <div class="progress-text" id="progressText">Question 1 / 3</div>
+        <a href="https://t-service-india.vercel.app/login.html" class="btn btn-primary btn-lg">Back</a>
+        <button class="btn btn-secondary btn-lg" onclick="showPopup()">Enter Access Key</button>
     </div>
-    <div class="question-number">Question <span id="qNumber">1</span> / <span id="totalQuestions">3</span></div>
-    <div class="question" id="question">Loading...</div>
-    <div class="options" id="options"></div>
-</div>
-<br><br><br><br><br><br>
-<!-- Footer -->
-<footer>
-    Designed and Developed by Zen-Tech || Hosted by T-Service
-</footer>
-
-<script>
-    const quizData = [
-    {
-        question: "Which of the following is a characteristic of an effective problem solver?",
-        options: ["Avoiding challenges", "Relying solely on intuition", "Seeking feedback and adapting", "Ignoring alternative solutions"],
-        answer: 2
-    },
-    {
-        question: "What does brainstorming involve in the context of problem solving?",
-        options: ["Narrowing down ideas", "Generating a variety of ideas", "Selecting the best solution immediately", "Ignoring creative input"],
-        answer: 1
-    },
-    {
-        question: "In the problem-solving process, what does 'implementing the solution' mean?",
-        options: ["Generating ideas", "Putting the plan into action", "Identifying the problem", "Analysing potential obstacles"],
-        answer: 1
-    },
-    {
-        question: "Problem solving skills help us to",
-        options: ["Understand the environment", "Sticking to a predetermined solution", "refuse to adapt", "ignoring evidence and facts"],
-        answer: 0
-    },
-    {
-        question: "Why is it important to evaluate the results after implementing a solution?",
-        options: ["To prove the solution is perfect", "To identify areas for improvement", "To ignore feedback", "To rush to the next problem"],
-        answer: 1
-    }
-];
-
-    let currentQuestion = 0;
-
-    document.getElementById("totalQuestions").textContent = quizData.length;
-
-    function loadQuestion() {
-        if (currentQuestion >= quizData.length) {
-            document.querySelector('.quiz-container').innerHTML = "<h2>🎉 Quiz Completed! 🎉</h2><p>Great job! You've finished the quiz.</p>";
-            return;
-        }
-
-        document.getElementById("qNumber").textContent = currentQuestion + 1;
-        document.getElementById("question").textContent = quizData[currentQuestion].question;
-        document.getElementById("progressText").textContent = `Question ${currentQuestion + 1} / ${quizData.length}`;
-
-        const optionsContainer = document.getElementById("options");
-        optionsContainer.innerHTML = "";
-
-        quizData[currentQuestion].options.forEach((option, index) => {
-            const button = document.createElement("button");
-            button.textContent = option;
-            button.onclick = () => checkAnswer(index);
-            optionsContainer.appendChild(button);
-        });
-
-        updateProgressBar();
-    }
-
-    function checkAnswer(selectedIndex) {
-        const correctIndex = quizData[currentQuestion].answer;
-        const buttons = document.querySelectorAll(".options button");
     
-        setTimeout(() => {
-            if (selectedIndex === correctIndex) {
-                buttons[selectedIndex].classList.add("correct");
-            } else {
-                buttons[selectedIndex].classList.add("wrong");
-                buttons[correctIndex].classList.add("correct");
-            }
-    
-            setTimeout(() => {
-                currentQuestion++;
-                loadQuestion();
-            }, 2000);
-        }, 2000);
-    }
-
-    function updateProgressBar() {
-        const progress = document.querySelector(".progress");
-        progress.style.width = ((currentQuestion / quizData.length) * 100) + "%";
-    }
-
-    loadQuestion();
-
-    function loadQuestion() {
-        if (currentQuestion >= quizData.length) {
-            document.querySelector('.quiz-container').innerHTML = "<h2>🎉 Quiz Completed! 🎉</h2><p>Great job! You've finished the quiz.</p>";
-    
-            // Redirect after 5 seconds
-            setTimeout(() => {
-                window.location.href = "https://t-service-india.vercel.app/login.html";
-            }, 5000); // Redirects after 5 seconds
-            return;
-        }
-    
-        document.getElementById("qNumber").textContent = currentQuestion + 1;
-        document.getElementById("question").textContent = quizData[currentQuestion].question;
-        document.getElementById("progressText").textContent = `Question ${currentQuestion + 1} / ${quizData.length}`;
-    
-        const optionsContainer = document.getElementById("options");
-        optionsContainer.innerHTML = "";
-    
-        quizData[currentQuestion].options.forEach((option, index) => {
-            const button = document.createElement("button");
-            button.textContent = option;
-            button.onclick = () => checkAnswer(index);
-            optionsContainer.appendChild(button);
-        });
-    
-        updateProgressBar();
-    }
-    
-</script>
-
-
-
-
-
-    <script>
-     
-
-      
-      document.getElementById('play-video-btn').addEventListener('click', () => {
-        const video = document.getElementById('intro-video');
-        
-        // Play the video
-        video.play().then(() => {
-            console.log('Video started with sound.');
-        }).catch((error) => {
-            console.error('Error playing video:', error);
-        });
-    
-       
-        // Hide the button after entering fullscreen
-        document.getElementById('play-video-btn').style.display = 'none';
-    });
-
-      document.getElementById('play-video-btn').addEventListener('click', () => {
-        const video = document.getElementById('intro-video');
-        video.play().then(() => {
-            // Video is playing
-            console.log('Video started with sound.');
-        }).catch((error) => {
-            console.error('Error playing video with sound:', error);
-        });
+    <div id="overlay" class="overlay"></div>
+    <div id="popup" class="popup text-center">
+        <h3>Enter Access Key</h3>
+        <input type="text" id="accessKey" class="form-control mb-2 text-center" placeholder="Enter Key">
+        <button class="btn btn-success" onclick="validateKey()">Submit</button>
+        <button class="btn btn-danger" onclick="hidePopup()">Cancel</button>
+    </div>
     
    
-       
-    });
 
-      const video = document.getElementById("intro-video");
-      const overlay = document.getElementById("video-overlay");
-      const content = document.getElementById("content");
-
-      video.addEventListener("ended", () => {
-          overlay.style.display = "none"; // Hide video overlay
-          content.classList.remove("hidden"); // Show main content
-      });
-
-
-     
-    function showSuspendedModal() {
-        const modal = document.createElement('div');
-        modal.classList.add('modal');
-    
-        modal.innerHTML = `
-           <div class="modal-content">
-    <h1>Servers Are Under Maintenance!</h1>
-    <p>We are currently testing new features. Please check back later.</p>
-    <button onclick="window.location.href='https://t-service-india.vercel.app/login.html'">CONFIRM</button>
-</div>
-
-        `;
-        document.body.appendChild(modal);
-    
-        // Close the modal if clicked outside the modal content
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.remove();
+    <script>
+        function showPopup() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('popup').style.display = 'block';
+        }
+        
+        function hidePopup() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('popup').style.display = 'none';
+        }
+        
+        function validateKey() {
+            var key = document.getElementById('accessKey').value;
+            if (key === '#8GJGPJYQ2') {
+            window.location.href="https://zen-tech.vercel.app/Quiz.html";
+            } else {
+                alert('Invalid Key!');
             }
-        });
-    }
-    
-
-       // Disable right-click
-    document.addEventListener("contextmenu", (e) => e.preventDefault());
-
-    // Disable common developer shortcuts
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "F12" || 
-            (e.ctrlKey && e.shiftKey && e.key === "I") || 
-            (e.ctrlKey && e.key === "U") || 
-            (e.ctrlKey && e.shiftKey && e.key === "C") || 
-            (e.ctrlKey && e.key === "S")) {
-            e.preventDefault();
         }
-    });
+    </script>
 
-  // Function to detect if the user is on a mobile device
-function isMobile() {
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-
-// Detect developer tools and block access
-if (!isMobile()) {
-    const devtoolsDetector = setInterval(() => {
-        const widthThreshold = window.outerWidth - window.innerWidth > 200;
-        const heightThreshold = window.outerHeight - window.innerHeight > 200;
-
-        if (widthThreshold || heightThreshold) {
-            document.body.innerHTML = "Abnormal activity detected on your device. Please log in using a different browser. If the issue persists across multiple browsers, kindly contact your manager for assistance.";
-            clearInterval(devtoolsDetector);
-        }
-    }, 1000);
-}
-  </script>
-  
-     
-
-<script>
-
-import { inject } from "@vercel/analytics";
-inject();
-
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-    
