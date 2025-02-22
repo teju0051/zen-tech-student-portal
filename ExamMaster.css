@@ -33,23 +33,29 @@ body {
     display: flex;
     align-items: center;
     justify-self: center;
-    padding-top: 5px;
+    /* padding-top: 5px; */
 }
-.header h1 {
+/* .header h1 {
     font-size:  26px;
     font-weight: 500;
     font-family: "Merriweather", serif;
     font-weight: 400;
+} */
       
-/* font-style: italic; */
+/* removed the logo from here */
+/* adding new logo in img format */
+.logoImg{
+    height: 100%;
+    width: 200px;
+    /* border: 2px solid black; */
 }
-      
-.header h1::before {
-    content: '\f19d';   
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
+
+.logoImg img{
+    /* border: 2px solid red; */
+    height: 170px;
+    width: 250px;
 }
-      
+
 .firstPage{
     display: flex;
     justify-content: center;
