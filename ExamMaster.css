@@ -10,7 +10,7 @@
 }
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #FAFAFA; /* Light Theme Background */
+    background-color: rgba(147, 239, 147, 0.189); /* Light Theme Background */
     color: #333; /* Dark Text Color */
     margin: 0;
     padding: 0; 
