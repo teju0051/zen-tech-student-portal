@@ -28,17 +28,21 @@
         <!-- Step 1: Login -->
         <div class="firstPage">
             <div id="loginPage">
-                <h2 class="mb-4" id="loginPageHeader">LOGIN</h2>
+                <h2 class="mb-4" id="loginPageHeader">Log In</h2>
                 
                 <form id="loginForm">
-                    <div class="mb-3">
-                        <label for="studentName" class="form-label">Name:</label>
-                        <input type="text" id="studentName" class="form-control" required>
+                    <div class="loginInput">
+                        <div class="mb-3">
+                            <label for="studentName" class="form-label"></label>
+                            <input type="text" id="studentName" 
+                            class="form-control" required value="Enter your name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="rollNumber" class="form-label"></label>
+                            <input type="text" id="rollNumber" class="form-control" required value="Enter your roll number">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="rollNumber" class="form-label">Roll Number:</label>
-                        <input type="text" id="rollNumber" class="form-control" required>
-                    </div>
+             
                     <div id="submitButton">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>

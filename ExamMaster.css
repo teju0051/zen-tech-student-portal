@@ -10,7 +10,7 @@
 }
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #FAFAFA; /* Light Theme Background */
+    background-color: rgba(147, 239, 147, 0.189); /* Light Theme Background */
     color: #333; /* Dark Text Color */
     margin: 0;
     padding: 0; 
@@ -71,17 +71,37 @@ body {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid red;
     width: 50vw;
-    height: 60vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
+    margin -bottom: px;
 }
 #loginForm{
     width: 40vw;
     height: 50vh;
-    padding: 20px;
+    /* padding: 20px; */
+    /* border: 2px solid black; */
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+    padding-right: 30px;
+    /* row-gap: -10px; */
+}
+.loginInput{
+    /* border: 2px solid black; */
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+    padding-right: 30px;
+    
+}
+.mb-3{
+    box-shadow: ;
 }
 #submitButton{
     display: flex;
