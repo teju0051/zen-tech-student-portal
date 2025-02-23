@@ -79,7 +79,6 @@ body {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    margin -bottom: px;
 }
 #loginForm{
     width: 40vw;
@@ -99,9 +98,6 @@ body {
     padding-left: 30px;
     padding-right: 30px;
     
-}
-.mb-3{
-    box-shadow: ;
 }
 #submitButton{
     display: flex;
