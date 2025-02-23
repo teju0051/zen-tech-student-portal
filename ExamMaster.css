@@ -10,10 +10,13 @@
 }
 body {
     font-family: 'Arial', sans-serif;
-    background-color: rgba(145, 232, 145, 0.064); /* Light Theme Background */
+    /* background-color: rgba(145, 232, 145, 0.064); */
+    background-color: rgba(0, 255, 255, 0.122) ;
     color: #333; /* Dark Text Color */
     margin: 0;
     padding: 0; 
+    /* background-image: url("backgroundImg2.jpg"); */
+    background-size: 100%;
 }
       
 /* Header Styles and first login page */
@@ -34,6 +37,7 @@ body {
     align-items: center;
     justify-self: center;
     /* padding-top: 5px; */
+
 }
 /* .header h1 {
     font-size:  26px;
@@ -68,7 +72,8 @@ body {
     padding-top: 10px;
 }   
 #loginPage{
-    background-color: white;
+    /* background-color: white; */
+    background-color: rgba(128, 128, 128, 0.321);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 50vw;
@@ -77,6 +82,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* background-color: rgba(237, 169, 169, 0.256); */
 }
 #loginForm{
     width: 40vw;
@@ -87,6 +93,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+#submitButton button{
+    background-color: rgba(255, 0, 0, 0.375);
 }
 /* Rule pages */
 .rulesPageContainer{
