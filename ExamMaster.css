@@ -119,6 +119,7 @@ body {
 
 .row{
     border: 2px solid black;
+    height: 100%;
 }
 
 .col-md-3 {                 /*container of question panel*/
