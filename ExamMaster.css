@@ -11,7 +11,8 @@
 body {
     font-family: 'Arial', sans-serif;
     /* background-color: rgba(145, 232, 145, 0.064); */
-    background-color: rgba(0, 255, 255, 0.122) ;
+    /* background-color: rgba(0, 255, 255, 0.122) ; */
+    /* background-color: rgba(245, 222, 179, 0.329); */
     color: #333; /* Dark Text Color */
     margin: 0;
     padding: 0; 
@@ -74,7 +75,7 @@ body {
 }   
 #loginPage{
     /* background-color: white; */
-    background-color: rgba(128, 128, 128, 0.321);
+    background-color: rgba(128, 128, 128, 0.149);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 50vw;
