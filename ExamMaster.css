@@ -127,8 +127,8 @@ body {
     height: 70vh;
     width: 90vw;
     background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px 
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    /* border-radius: 10px  */
 }
 
 .row{
@@ -140,9 +140,11 @@ body {
     height: 100%;  
     overflow-y: auto;
     background-color: #FFFFFF; /* White Panel */
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    /* border-top-left-radius: 10px; */
+    /* border-bottom-left-radius: 10px; */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid black;
+
     padding: 20px;
     color: #333;
     /* border: 2px solid red; */
