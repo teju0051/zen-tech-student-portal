@@ -9,289 +9,81 @@
     <!-- Add these links in your HTML head section -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="ExamMaster.css">
 
-<style>
-      /* Global Styles */
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #FAFAFA; /* Light Theme Background */
-    color: #333; /* Dark Text Color */
-    margin: 0;
-    padding: 0;
- 
-}
 
-/* Header Styles */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #FFFFFF; /* White Header */
-    color: #333;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.header h1 {
-    font-size: 26px;
-    display: flex;
-    align-items: center;
-}
-
-.header h1::before {
-    content: '\f19d'; /* Font Awesome icon for graduation cap */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    margin-right: 10px;
-}
-
-/* Question Panel Styles */
-.question-panel {
-    height: 450px;
-    overflow-y: auto;
-    background-color: #FFFFFF; /* White Panel */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-left: 4px solid #2196F3; /* Blue Border */
-    color: #333;
-}
-
-.question-btn {
-    margin-bottom: 12px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #000000;
-    cursor: pointer;
-}
-
-.question-btn i {
-    margin-right: 8px;
-}
-
-/* Footer Styles */
-.footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #F1F1F1;
-    padding: 10px 30px;
-    border-top: 1px solid #E0E0E0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.footer span {
-    font-size: 14px;
-    color: #666;
-}
-
-.footer .submit-btn {
-    padding: 12px 20px;
-    background-color: #2196F3;
-    color: #FFF;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.footer .submit-btn i {
-    margin-right: 8px;
-}
-
-.footer .submit-btn:hover {
-    background-color: #1565C0;
-}
-
-/* Form Label & Control */
-.form-label {
-    font-weight: bold;
-    color: #333;
-}
-
-.form-control {
-    border-radius: 8px;
-    border: 1px solid #CCC;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #FFF;
-    color: #333;
-}
-
-.btn-primary {
-    border-radius: 5px;
-    font-weight: bold;
-    background-color: #2196F3;
-    color: #FFF;
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: #1565C0;
-}
-
-/* Footer Right Links */
-.footer-right {
-    font-size: 14px;
-    color: #2196F3;
-}
-
-.footer-right a {
-    color: #2196F3;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.footer-right a:hover {
-    color: #1565C0;
-    text-decoration: underline;
-}
-
-/* Cheating Detection Panel */
-.cheating-container {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #FFF;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    z-index: 9999;
-}
-
-.cheating-container h2 {
-    color: #D32F2F;
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.cheating-container .details {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.cheating-container button {
-    padding: 12px 24px;
-    background-color: #D32F2F;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.cheating-container button:hover {
-    background-color: #B71C1C;
-}
-
-/* Spinner Container */
-#loading-spinner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(250, 250, 250, 0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-/* Spinner Icon */
-#loading-spinner i {
-    font-size: 50px;
-    color: #2196F3;
-    animation: spin 1.5s linear infinite;
-}
-
-/* Spinner Animation */
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-</style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>Exam Master</h1>
+        <div class="logoImg" id="ExamMasterDiv">
+            <img src="finalLogo-removebg-preview.png" alt="">
+        </div>
+        <!-- <div id="studentDetails">hello</div> -->
         <div id="timer">Time Left: 15:00</div>
-        <div id="studentDetails"></div>
     </div>
 
     <!-- Main Content -->
     <div class="container mt-5" id="mainContent">
         <!-- Step 1: Login -->
-        <div id="loginPage">
-            <h2 class="mb-4">Login</h2>
-            <form id="loginForm">
-                <div class="mb-3">
-                    <label for="studentName" class="form-label">Name:</label>
-                    <input type="text" id="studentName" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label for="rollNumber" class="form-label">Roll Number:</label>
-                    <input type="text" id="rollNumber" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+        <div class="firstPage">
+            <div id="loginPage">
+                <h2 class="mb-4" id="loginPageHeader">LOGIN</h2>
+                
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="studentName" class="form-label">Name:</label>
+                        <input type="text" id="studentName" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rollNumber" class="form-label">Roll Number:</label>
+                        <input type="text" id="rollNumber" class="form-control" required>
+                    </div>
+                    <div id="submitButton">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    
+                </form>
+            </div>
         </div>
 
+
       <!-- Step 2: Rules Page -->
-<div id="rulesPage" class="d-none">
-    <h2 class="mb-4">Activity Rules</h2>
-    <ul>
-        <li>There are a total of 6 quesions</li>
-        <li>Quiz Duration: 15 Mins</li>
-        <li>Don't use google for finding the answers</li>
-       
-    </ul>
-
-      <button id="agreeBtn" class="btn btn-success">Start Quiz</button>
-    <script>
-        // Full-screen functionality
-        function enterFullScreen() {
-            const elem = document.documentElement; // To trigger full-screen mode on the entire document
-        
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { // Firefox
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { // IE/Edge
-                elem.msRequestFullscreen();
-            }
-        }
-        
-        // When the user clicks the "Agree & Start Quiz" button
-        document.getElementById("agreeBtn").addEventListener("click", function () {
-            enterFullScreen(); // Enter full screen after the user clicks "Agree & Start Quiz"
-            switchToExamPage();
-        });
-        
-        </script>
-        
-
-
-
+    <div class="rulesPageContainer">
+        <div id="rulesPage" class="d-none">
+            <h2 class="mb-4">Activity Rules</h2>
+            <ul>
+                <li>There are a total of 6 quesions</li>
+                <li>Quiz Duration: 15 Mins</li>
+                <li>Don't use google for finding the answers</li>
+            
+            </ul>
+    
+            <button id="agreeBtn" class="btn btn-success">Start Quiz</button>
+            <script>
+                // Full-screen functionality
+                function enterFullScreen() {
+                    const elem = document.documentElement; // To trigger full-screen mode on the entire document
+                
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    } else if (elem.mozRequestFullScreen) { // Firefox
+                        elem.mozRequestFullScreen();
+                    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.msRequestFullscreen) { // IE/Edge
+                        elem.msRequestFullscreen();
+                    }
+                }
+                
+                // When the user clicks the "Agree & Start Quiz" button
+                document.getElementById("agreeBtn").addEventListener("click", function () {
+                    enterFullScreen(); // Enter full screen after the user clicks "Agree & Start Quiz"
+                    switchToExamPage();
+                });
+                
+            </script>
+        </div>
     </div>
 
 <div id="loading-spinner">
@@ -312,7 +104,7 @@
             <div class="row">
                 <!-- Sidebar for Question Numbers -->
                 <div class="col-md-3">
-                    <div class="border p-3 question-panel">
+                    <div class="question-panel">
                         <h5 class="mb-3">Questions</h5>
                         <div id="questionNumbers"></div>
                     </div>
@@ -479,8 +271,8 @@
     }
     
   </script>
-    <!--anti-cheat -->
-    <script>
+   <!-- anti-cheat -->
+    <script> 
       
     
         // Configurable max violations
