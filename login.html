@@ -111,9 +111,24 @@
       localStorage.setItem("sessionToken", token);
 
       setTimeout(() => {
-        window.location.href = "https://zen-tech-student-portal.vercel.app/"; 
+        window.location.href = "https://zen-tech-student-portal.vercel.app/Sycs"; 
       }, 2000);
     }
+
+      else if (username === "mgmsyit" && password === "Student") {
+         btn.disabled = true;
+      spinner.classList.remove('hidden');
+      text.textContent = 'Logging in...';
+
+      // Generate and save session token
+      const token = generateToken(username);
+      localStorage.setItem("sessionToken", token);
+
+      setTimeout(() => {
+        window.location.href = "https://zen-tech-student-portal.vercel.app/Syit"; 
+      }, 2000);
+    }
+
        else if (username === "admin@zentech.org" && password === "Admin123") {
     // Show the popup instead of logging in
     const popup = document.getElementById('suspendPopup');
