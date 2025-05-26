@@ -101,7 +101,7 @@
 
    
 
-    if (username === "mgmsyit" && password === "Student") {
+    if (username === "mgmsycs" && password === "Student") {
       btn.disabled = true;
       spinner.classList.remove('hidden');
       text.textContent = 'Logging in...';
@@ -111,7 +111,7 @@
       localStorage.setItem("sessionToken", token);
 
       setTimeout(() => {
-        window.location.href = "https://mgmfyit.vercel.app/"; 
+        window.location.href = "https://zen-tech-student-portal.vercel.app/"; 
       }, 2000);
     }
        else if (username === "admin@zentech.org" && password === "Admin123") {
