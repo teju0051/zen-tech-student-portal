@@ -1,437 +1,221 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
-
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-  />
-  <!-- Favicon -->
-  <link
-    rel="icon"
-    href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png"
-  />
-  <title>Dashboard | Student Portal</title>
-
+  <title>Zen-Tech's Student Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-  @keyframes marquee {
-    0% {
-      transform: translateX(100%);
+    body {
+      font-family: 'Poppins', sans-serif;
     }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-
-  .animate-marquee {
-    animation: marquee 25s linear infinite;
-    display: inline-block;
-    white-space: nowrap;
-    min-width: 100%; /* ✅ THIS IS IMPORTANT */
-  }
-    /* No scrolling anywhere */
-    html, body {
-      height: 100%;
-      margin: 0;
-      overflow: hidden; /* Disable scroll */
-    }
-
-    /* Container setup */
-    body > div.flex-grow {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      height: 64px; /* fixed header height */
-      flex-shrink: 0;
-    }
-
-    footer {
-      height: 56px; /* fixed footer height */
-      flex-shrink: 0;
-    }
-
-    main {
-      flex-grow: 1;
-      position: relative;
-      overflow: hidden; /* prevent scroll inside main */
-    }
-
-    /* Video fills main area */
-    #background-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.1);
-      transform-origin: center;
-      z-index: 0;
-    }
-
-    /* Sidebar inside main */
-    aside {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 280px;
-      background: rgba(109, 40, 217, 0.3); /* bg-purple-700 with opacity */
-      box-shadow: 0 0 10px rgba(109, 40, 217, 0.7);
-     
-      padding: 0.75rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
-      overflow-y: hidden;
-      z-index: 10;
-      color: #4c1d95; /* text-purple-900 */
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
   </style>
 </head>
+<body class="min-h-screen flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url('https://cdn.wallpapersafari.com/71/3/oNUCsY.jpg');">
 
-<body
-  class="bg-purple-50 text-purple-900 font-sans select-none flex flex-col min-h-screen overflow-x-hidden leading-relaxed">
-
-
-
-    <script>
-  const token = localStorage.getItem("sessionToken");
-
-  if (!token) {
-    // No token found, redirect to login
-    window.location.href = "https://zen-tech-student-portal.vercel.app/login.html";
-  }
-
-</script>
-
-
-<script>
-  function logout() {
-    localStorage.removeItem("sessionToken");
-    window.location.href = "https://zen-tech-student-portal.vercel.app/login.html";
-  }
-</script>
-  <!-- Spinner Overlay -->
-  <div
-    id="spinner-overlay"
-    class="fixed top-0 left-0 w-full h-full bg-white bg-opacity-50 flex justify-center items-center z-50 invisible"
-    role="status" aria-live="polite" aria-label="Loading"
-  >
-    <div
-      class="border-4 border-purple-300 border-t-purple-700 rounded-full w-12 h-12 animate-spin"
-    ></div>
-  </div>
-
-  <script>
-    // Show the spinner for 3 seconds
-    window.onload = function () {
-      const spinnerOverlay = document.getElementById("spinner-overlay");
-      spinnerOverlay.classList.remove("invisible");
-
-      setTimeout(function () {
-        spinnerOverlay.classList.add("invisible");
-      }, 3000); // 3 seconds delay
-    };
-  </script>
-
-  <div class="flex-grow flex flex-col min-h-screen">
-    <!-- Header Section -->
-   <header
-  class="w-full bg-purple-100 text-purple-900 shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 flex-shrink-0"
->
-  <!-- Navigation: Dropdown and Buttons -->
-  <nav class="flex items-center gap-4 relative" aria-label="Primary navigation">
-    <!-- Custom Dropdown -->
-    <div class="relative">
-      <button
-        onclick="toggleDropdown()"
-        id="dropdownButton"
-        aria-haspopup="true"
-        aria-expanded="false"
-        class="px-4 py-2 bg-white text-purple-800 border border-purple-300 rounded-md shadow hover:bg-purple-200 transition text-sm flex items-center gap-2 w-48"
-      >
-        Choose Subject<i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
-      </button>
-
-      <div
-        id="dropdownMenu"
-        role="menu"
-        aria-labelledby="dropdownButton"
-        class="absolute mt-2 w-48 bg-white border border-purple-300 rounded-md shadow hidden z-10"
-      >
-        <ul class="text-sm text-purple-800" role="none">
-          <li
-            class="px-4 py-2 text-gray-500 cursor-not-allowed"
-            role="menuitem"
-            aria-disabled="true"
-            tabindex="-1"
-          >
-            No subjects available
-          </li>
-        </ul>
-      </div>
+<!-- Main Content -->
+<div class="flex-grow flex items-center justify-center p-4">
+  <div class="w-full max-w-5xl rounded-2xl overflow-hidden shadow-xl grid grid-cols-1 md:grid-cols-2">
+    
+    <!-- Left Panel (Now with light translucent white background) -->
+    <div class="hidden md:flex flex-col justify-center items-center bg-white/10 text-purple-800 p-10 space-y-6">
+      <img src="https://zen-tech-student-portal.vercel.app/Student's%20Portal!.png" class="w-44" alt="ERP Icon" />
+      <h2 class="text-3xl font-bold">Welcome to Student Portal</h2>
+      <p class="text-lg text-purple-700 text-center">Powering Smart Institutions with Beautiful Simplicity</p>
     </div>
-  </nav>
 
-  <!-- Date and Time -->
-  <div id="dateTime" class="text-sm font-medium text-purple-800 text-center md:text-right"></div>
+   <!-- Right Panel (Login Form) with white background and purple text -->
+<div class="p-8 sm:p-12 bg-white text-purple-800 rounded-tr-2xl rounded-br-2xl shadow-lg">
+  <h3 class="text-2xl sm:text-3xl font-semibold mb-6 text-center">Login to your Account</h3>
+  <form class="space-y-5" onsubmit="return showSpinner(event)">
+    <div>
+      <label for="username" class="block font-medium mb-1">Username / Email</label>
+      <input type="text" id="username" placeholder="Enter your ID" required
+             class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border border-purple-300 text-purple-900 placeholder-purple-400 bg-white">
+    </div>
+    <div>
+      <label for="password" class="block font-medium mb-1">Password</label>
+      <input type="password" id="password" placeholder="Enter password" required
+             class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border border-purple-300 text-purple-900 placeholder-purple-400 bg-white">
+    </div>
+   <!-- Audio element -->
+<audio id="loginSound" src="your-audio-file.mp3"></audio>
 
-  <!-- Manager Info & User Manual -->
-  <div class="text-sm text-purple-800 text-center md:text-right" aria-label="Manager info and user manual">
-    <p>
-      <a 
-        href="#"
-        class="text-purple-600 hover:underline inline-flex items-center gap-1"
-        target="_blank" rel="noopener noreferrer"
-        aria-label="Open User Manual (PDF)"
-      >
-        <i class="fas fa-book" aria-hidden="true"></i> User Manual |
+<!-- Your existing button -->
+<button id="loginBtn" type="submit"
+  class="w-full py-3 rounded-lg font-semibold bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 transition transform hover:scale-105 shadow-md flex items-center justify-center gap-2 text-white">
+  <span id="loginText">Login</span>
+  <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"></path>
+  </svg>
+</button>
 
-      </a>
-
-      <a
-        href="#"
-        class="text-purple-600 hover:underline inline-flex items-center gap-1"
-        target="_blank" rel="noopener noreferrer"
-        aria-label="Open User Manual (PDF)"
-      >
-             <i class="fas fa-calendar-alt" aria-hidden="true"></i> Time Table
-
-      </a>
-
-      <strong class="ml-2">Manager: Mansi Shitole</strong>
-    </p>
-  </div>
-</header>
+<!-- Script to handle click and play audio -->
 <script>
-  function updateDateTime() {
-    const now = new Date();
+  const loginBtn = document.getElementById('loginBtn');
+  const loginSound = document.getElementById('loginSound');
 
-    const options = {
-      weekday: 'short',  // Mon, Tue, etc.
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true,
-      timeZone: 'Asia/Kolkata'
-    };
-
-    const dateTimeString = new Intl.DateTimeFormat('en-IN', options).format(now);
-
-    document.getElementById('dateTime').textContent = dateTimeString;
-  }
-
-  setInterval(updateDateTime, 1000);
-  updateDateTime(); // Initial call
+  loginBtn.addEventListener('click', () => {
+    loginSound.play();
+ });
 </script>
 
+  </form>
+  <p class="text-center text-sm text-purple-500 mt-6">
+    Designed and Developed by <span class="font-semibold"> <a href="https://zen-tech.vercel.app/" class="hover:underline">Zen-Tech </a></span>
+  </p>
+</div>
 
-    <!-- Announcement Section -->
-    <section
-      class="w-full bg-purple-200 text-purple-900 shadow-inner flex items-center px-4 py-2 overflow-hidden flex-shrink-0"
-      aria-live="polite"
-      aria-atomic="true"
-      aria-label="Announcement"
-    >
-      <span class="font-semibold mr-4 whitespace-nowrap">Announcement:</span>
-      <div class="overflow-hidden relative w-full">
-        <div
-          class="inline-block whitespace-nowrap text-sm animate-marquee"
-        >
-          SY STARTING SOON
-        </div>
-      </div>
-    </section>
-
-    <!-- Main Content -->
-   <main class="flex bg-white relative overflow-hidden h-screen">
-
-
-  <!-- Video fills background -->
-  <video
-    id="background-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    aria-hidden="true"
-    class="absolute top-0 left-0 w-full h-full object-cover"
-  >
-    <source
-      src="https://ik.imagekit.io/ofvul0fub/mgmccsitcoc_3472922137725348071_40664611749_2024-10-06.mp4?tr=orig&updatedAt=1746960260608"
-      type="video/mp4"
-    />
-
-  </video>
-
-  <!-- Spacer for content growth -->
-  <div class="flex-grow"></div>
-
-  <!-- Sidebar aligned right -->
-  <aside class="w-64 z-10 bg-opacity-60 bg-purple-300 p-4 text-white">
-    <img
-      src="https://tse4.mm.bing.net/th/id/OIP._18yiYI-XojRfBB-xSI4GAHaH5?rs=1&pid=ImgDetMain"
-      alt="Profile Image"
-      class="w-16 h-16 rounded-full object-cover border-4 border-purple-500 mx-auto"
-    />
-    <div class="text-white font-semibold text-sm text-center mt-2">SYIT</div>
-
-
-    <div class="flex flex-col h-full w-full">
-  <!-- Scrollable Button Section Only -->
-  <div class="flex flex-col gap-2 overflow-y-auto pr-1 custom-scroll" style="max-height: 270px;">
-
-<!-- Unmute Video Button -->
-<button id="toggle-audio-btn"
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
-  Unmute Video
-</button>
-
-<!-- Logout Button -->
-<button onclick="logout()"
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
-  Logout
-</button>
-
-
-<!-- Disabled Buttons with Purple Theme -->
-<button disabled
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
-  Events
-</button>
-
-<button disabled
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
-  Result
-</button>
-
-<button disabled
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
-  PYQs
-</button>
-
-<button disabled
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
-  Error in Content?
-</button>
-
-<!-- Feedback Button -->
-<button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7'"
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
-  Feedback
-</button>
-
-
- 
-
-   
-  </div>
-
-  <!-- Social Media Icons (not scrollable) -->
-  <div class="flex justify-center gap-6 mt-4 text-white py-3 border-t border-gray-700">
-    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-      class="hover:text-blue-600">
-      <i class="fab fa-facebook fa-lg"></i>
-    </a>
-    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-      class="hover:text-pink-600">
-      <i class="fab fa-instagram fa-lg"></i>
-    </a>
-    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-      class="hover:text-blue-700">
-      <i class="fab fa-linkedin fa-lg"></i>
-    </a>
   </div>
 </div>
 
-<style>
-  .custom-scroll::-webkit-scrollbar {
-    width: 4px;
-  }
-  .custom-scroll::-webkit-scrollbar-thumb {
-    background-color: #a78bfa;
-    border-radius: 10px;
-  }
-</style>
 
-
-
-  </aside>
-</main>
-
-<!-- JavaScript for Mute Toggle -->
+  <!-- Footer -->
+  <footer class="text-center text-xs text-purple py-4">
+    A Platform of <span class="font-semibold">T-Service</span> || Server: SEA-1
+  </footer>
 <script>
-  const video = document.getElementById('background-video');
-  const toggleBtn = document.getElementById('toggle-audio-btn');
+  function generateToken(username) {
+    const timestamp = Date.now();
+    return btoa(username + "_" + timestamp);
+  }
 
-  toggleBtn.addEventListener('click', () => {
-    video.muted = !video.muted;
-    toggleBtn.textContent = video.muted ? 'Unmute Video' : 'Mute Video';
+  function showSpinner(e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    const btn = document.getElementById('loginBtn');
+    const text = document.getElementById('loginText');
+    const spinner = document.getElementById('spinner');
+
+   
+
+    if (username === "mgmsycs" && password === "Student") {
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      text.textContent = 'Logging in...';
+
+      // Generate and save session token
+      const token = generateToken(username);
+      localStorage.setItem("sessionToken", token);
+
+      setTimeout(() => {
+        window.location.href = "https://zen-tech-student-portal.vercel.app/Sycs"; 
+      }, 2000);
+    }
+
+      else if (username === "mgmsyit" && password === "Student") {
+         btn.disabled = true;
+      spinner.classList.remove('hidden');
+      text.textContent = 'Logging in...';
+
+      // Generate and save session token
+      const token = generateToken(username);
+      localStorage.setItem("sessionToken", token);
+
+      setTimeout(() => {
+        window.location.href = "https://zen-tech-student-portal.vercel.app/Syit"; 
+      }, 2000);
+    }
+
+       else if (username === "admin@zentech.org" && password === "Admin123") {
+    // Show the popup instead of logging in
+    const popup = document.getElementById('suspendPopup');
+    popup.style.display = 'block';
+     document.getElementById('overlay').classList.remove('hidden');
+
+    // Attach click listeners to Confirm and Cancel buttons
+    document.getElementById('confirmBtn').onclick = () => location.reload();
+    document.getElementById('cancelBtn').onclick = () => location.reload();
+
+  }
+    
+    
+    
+    else {
+      alert("Invalid username or password!");
+    }
+  }
+
+  // anti-cheat mechanism
+  function showWarning() {
+    alert("Anti-Cheat System Activated!");
+    document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>⚠️ Abnormal activity detected. Session has been suspended!!\n\nPlease refrain from doing any illegal activities.\nElse permanent ban to your IP will be implemented!!</h1>";
+    document.body.style.pointerEvents = 'none';
+  }
+
+  document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    showWarning();
   });
+
+  ['copy', 'paste', 'cut'].forEach(evt =>
+    document.addEventListener(evt, e => {
+      e.preventDefault();
+      showWarning();
+    })
+  );
+
+  document.addEventListener('selectstart', e => {
+    e.preventDefault();
+    showWarning();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['I', 'J'].includes(e.key)) ||
+      (e.ctrlKey && e.key.toUpperCase() === 'U')
+    ) {
+      e.preventDefault();
+      showWarning();
+    }
+
+    const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
+    if ((e.key === 'Backspace' || e.key === 'Delete') && !isInput) {
+      e.preventDefault();
+      showWarning();
+    }
+  });
+
+
+
 </script>
 
 
-<!-- Footer -->
-<footer
-  class="bg-purple-200 text-purple-900 text-center p-4 text-sm border-t-2 border-purple-400 shadow-inner flex-shrink-0"
-  role="contentinfo"
->
-  <strong>
-    &copy; 2024 - 2027 MGM-BSC-IT | Designed & Developed by
-    <a
-      href="https://zen-tech.vercel.app/"
-      class="text-purple-700 hover:underline hover:text-purple-900 transition duration-300"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Zen-Tech
-    </a>
-    | Version: 9.00.00
-  </strong>
-</footer>
+<!-- Overlay for blur -->
+<div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-40"></div>
 
+<!-- Popup Panel -->
+<div id="suspendPopup" class="hidden fixed top-1/2 left-1/2 z-50 w-[500px] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white p-10 shadow-2xl text-center">
+  <!-- Alert Icon -->
+  <div class="flex justify-center mb-6">
+    <svg class="w-16 h-16 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.29 3.86L1.82 18a1.5 1.5 0 001.29 2.25h17.78a1.5 1.5 0 001.29-2.25L13.71 3.86a1.5 1.5 0 00-2.42 0zM12 9v4m0 4h.01"/>
+    </svg>
   </div>
 
-  <script>
-    function toggleDropdown() {
-      const dropdownMenu = document.getElementById("dropdownMenu");
-      const dropdownButton = document.getElementById("dropdownButton");
-      const expanded = dropdownButton.getAttribute("aria-expanded") === "true";
-      if (expanded) {
-        dropdownMenu.classList.add("hidden");
-        dropdownButton.setAttribute("aria-expanded", "false");
-      } else {
-        dropdownMenu.classList.remove("hidden");
-        dropdownButton.setAttribute("aria-expanded", "true");
-      }
-    }
-
+  <h3 class="text-3xl font-bold mb-4 text-red-700">Tips</h3>
+  <p class="mb-8 text-lg text-gray-700">There are abnormal activities with your account. It has been temporarily suspended for your safety and security.</p>
   
+  <div class="flex justify-center gap-6">
+    <button id="confirmBtn" class="px-8 py-3 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition">Confirm</button>
+    <button id="cancelBtn" class="px-8 py-3 rounded-lg bg-gray-300 font-semibold hover:bg-gray-400 transition">Cancel</button>
+  </div>
+</div>
 
-    // Close dropdown when clicking outside
-    window.addEventListener("click", function (event) {
-      const dropdown = document.getElementById("dropdownMenu");
-      const button = document.getElementById("dropdownButton");
-      if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.add("hidden");
-        button.setAttribute("aria-expanded", "false");
-      }
-    });
-  </script>
 
 
 </body>
-
 </html>
