@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  />
+  <!-- Favicon -->
+  <link
+    rel="icon"
+    href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png"
+  />
+  <title>Dashboard | Student Portal</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+    display: inline-block;
+    white-space: nowrap;
+    min-width: 100%; /* ✅ THIS IS IMPORTANT */
+  }
+    /* No scrolling anywhere */
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden; /* Disable scroll */
+    }
+
+    /* Container setup */
+    body > div.flex-grow {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      height: 64px; /* fixed header height */
+      flex-shrink: 0;
+    }
+
+    footer {
+      height: 56px; /* fixed footer height */
+      flex-shrink: 0;
+    }
+
+    main {
+      flex-grow: 1;
+      position: relative;
+      overflow: hidden; /* prevent scroll inside main */
+    }
+
+    /* Video fills main area */
+    #background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.1);
+      transform-origin: center;
+      z-index: 0;
+    }
+
+    /* Sidebar inside main */
+    aside {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 280px;
+      background: rgba(109, 40, 217, 0.3); /* bg-purple-700 with opacity */
+      box-shadow: 0 0 10px rgba(109, 40, 217, 0.7);
+     
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      overflow-y: hidden;
+      z-index: 10;
+      color: #4c1d95; /* text-purple-900 */
+    }
+  </style>
+</head>
+
+<body
+  class="bg-purple-50 text-purple-900 font-sans select-none flex flex-col min-h-screen overflow-x-hidden leading-relaxed">
+
+
+
+    <script>
+  const token = localStorage.getItem("sessionToken");
+
+  if (!token) {
+    // No token found, redirect to login
+    window.location.href = "https://zen-tech-student-portal.vercel.app/login.html";
+  }
+
+</script>
+
+
+<script>
+  function logout() {
+    localStorage.removeItem("sessionToken");
+    window.location.href = "https://zen-tech-student-portal.vercel.app/login.html";
+  }
+</script>
+  <!-- Spinner Overlay -->
+  <div
+    id="spinner-overlay"
+    class="fixed top-0 left-0 w-full h-full bg-white bg-opacity-50 flex justify-center items-center z-50 invisible"
+    role="status" aria-live="polite" aria-label="Loading"
+  >
+    <div
+      class="border-4 border-purple-300 border-t-purple-700 rounded-full w-12 h-12 animate-spin"
+    ></div>
+  </div>
+
+  <script>
+    // Show the spinner for 3 seconds
+    window.onload = function () {
+      const spinnerOverlay = document.getElementById("spinner-overlay");
+      spinnerOverlay.classList.remove("invisible");
+
+      setTimeout(function () {
+        spinnerOverlay.classList.add("invisible");
+      }, 3000); // 3 seconds delay
+    };
+  </script>
+
+  <div class="flex-grow flex flex-col min-h-screen">
+    <!-- Header Section -->
+   <header
+  class="w-full bg-purple-100 text-purple-900 shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 flex-shrink-0"
+>
+  <!-- Navigation: Dropdown and Buttons -->
+  <nav class="flex items-center gap-4 relative" aria-label="Primary navigation">
+    <!-- Custom Dropdown -->
+    <div class="relative">
+      <button
+        onclick="toggleDropdown()"
+        id="dropdownButton"
+        aria-haspopup="true"
+        aria-expanded="false"
+        class="px-4 py-2 bg-white text-purple-800 border border-purple-300 rounded-md shadow hover:bg-purple-200 transition text-sm flex items-center gap-2 w-48"
+      >
+        Choose Subject<i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
+      </button>
+
+      <div
+        id="dropdownMenu"
+        role="menu"
+        aria-labelledby="dropdownButton"
+        class="absolute mt-2 w-48 bg-white border border-purple-300 rounded-md shadow hidden z-10"
+      >
+        <ul class="text-sm text-purple-800" role="none">
+          <li
+            class="px-4 py-2 text-gray-500 cursor-not-allowed"
+            role="menuitem"
+            aria-disabled="true"
+            tabindex="-1"
+          >
+            No subjects available
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Date and Time -->
+  <div id="dateTime" class="text-sm font-medium text-purple-800 text-center md:text-right"></div>
+
+  <!-- Manager Info & User Manual -->
+  <div class="text-sm text-purple-800 text-center md:text-right" aria-label="Manager info and user manual">
+    <p>
+      <a 
+        href="#"
+        class="text-purple-600 hover:underline inline-flex items-center gap-1"
+        target="_blank" rel="noopener noreferrer"
+        aria-label="Open User Manual (PDF)"
+      >
+        <i class="fas fa-book" aria-hidden="true"></i> User Manual |
+
+      </a>
+
+      <a
+        href="#"
+        class="text-purple-600 hover:underline inline-flex items-center gap-1"
+        target="_blank" rel="noopener noreferrer"
+        aria-label="Open User Manual (PDF)"
+      >
+             <i class="fas fa-calendar-alt" aria-hidden="true"></i> Time Table
+
+      </a>
+
+      <strong class="ml-2">Manager: Mansi Shitole</strong>
+    </p>
+  </div>
+</header>
+<script>
+  function updateDateTime() {
+    const now = new Date();
+
+    const options = {
+      weekday: 'short',  // Mon, Tue, etc.
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZone: 'Asia/Kolkata'
+    };
+
+    const dateTimeString = new Intl.DateTimeFormat('en-IN', options).format(now);
+
+    document.getElementById('dateTime').textContent = dateTimeString;
+  }
+
+  setInterval(updateDateTime, 1000);
+  updateDateTime(); // Initial call
+</script>
+
+
+    <!-- Announcement Section -->
+    <section
+      class="w-full bg-purple-200 text-purple-900 shadow-inner flex items-center px-4 py-2 overflow-hidden flex-shrink-0"
+      aria-live="polite"
+      aria-atomic="true"
+      aria-label="Announcement"
+    >
+      <span class="font-semibold mr-4 whitespace-nowrap">Announcement:</span>
+      <div class="overflow-hidden relative w-full">
+        <div
+          class="inline-block whitespace-nowrap text-sm animate-marquee"
+        >
+          SY STARTING SOON
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+   <main class="flex bg-white relative overflow-hidden h-screen">
+
+
+  <!-- Video fills background -->
+  <video
+    id="background-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    aria-hidden="true"
+    class="absolute top-0 left-0 w-full h-full object-cover"
+  >
+    <source
+      src="https://ik.imagekit.io/ofvul0fub/mgmccsitcoc_3472922137725348071_40664611749_2024-10-06.mp4?tr=orig&updatedAt=1746960260608"
+      type="video/mp4"
+    />
+
+  </video>
+
+  <!-- Spacer for content growth -->
+  <div class="flex-grow"></div>
+
+  <!-- Sidebar aligned right -->
+  <aside class="w-64 z-10 bg-opacity-60 bg-purple-300 p-4 text-white">
+    <img
+      src="https://tse4.mm.bing.net/th/id/OIP._18yiYI-XojRfBB-xSI4GAHaH5?rs=1&pid=ImgDetMain"
+      alt="Profile Image"
+      class="w-16 h-16 rounded-full object-cover border-4 border-purple-500 mx-auto"
+    />
+    <div class="text-white font-semibold text-sm text-center mt-2">SYIT</div>
+
+
+    <div class="flex flex-col h-full w-full">
+  <!-- Scrollable Button Section Only -->
+  <div class="flex flex-col gap-2 overflow-y-auto pr-1 custom-scroll" style="max-height: 270px;">
+
+<!-- Unmute Video Button -->
+<button id="toggle-audio-btn"
+  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
+  Unmute Video
+</button>
+
+<!-- Logout Button -->
+<button onclick="logout()"
+  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
+  Logout
+</button>
+
+
+<!-- Disabled Buttons with Purple Theme -->
+<button disabled
+  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
+  Events
+</button>
+
+<button disabled
+  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
+  Result
+</button>
+
+<button disabled
+  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
+  PYQs
+</button>
+
+<button disabled
+  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
+  Error in Content?
+</button>
+
+<!-- Feedback Button -->
+<button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7'"
+  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
+  Feedback
+</button>
+
+
+ 
+
+   
+  </div>
+
+  <!-- Social Media Icons (not scrollable) -->
+  <div class="flex justify-center gap-6 mt-4 text-white py-3 border-t border-gray-700">
+    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+      class="hover:text-blue-600">
+      <i class="fab fa-facebook fa-lg"></i>
+    </a>
+    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+      class="hover:text-pink-600">
+      <i class="fab fa-instagram fa-lg"></i>
+    </a>
+    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+      class="hover:text-blue-700">
+      <i class="fab fa-linkedin fa-lg"></i>
+    </a>
+  </div>
+</div>
+
+<style>
+  .custom-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background-color: #a78bfa;
+    border-radius: 10px;
+  }
+</style>
+
+
+
+  </aside>
+</main>
+
+<!-- JavaScript for Mute Toggle -->
+<script>
+  const video = document.getElementById('background-video');
+  const toggleBtn = document.getElementById('toggle-audio-btn');
+
+  toggleBtn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    toggleBtn.textContent = video.muted ? 'Unmute Video' : 'Mute Video';
+  });
+</script>
+
+
+<!-- Footer -->
+<footer
+  class="bg-purple-200 text-purple-900 text-center p-4 text-sm border-t-2 border-purple-400 shadow-inner flex-shrink-0"
+  role="contentinfo"
+>
+  <strong>
+    &copy; 2024 - 2027 MGM-BSC-IT | Designed & Developed by
+    <a
+      href="https://zen-tech.vercel.app/"
+      class="text-purple-700 hover:underline hover:text-purple-900 transition duration-300"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Zen-Tech
+    </a>
+    | Version: 9.00.00
+  </strong>
+</footer>
+
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      const dropdownMenu = document.getElementById("dropdownMenu");
+      const dropdownButton = document.getElementById("dropdownButton");
+      const expanded = dropdownButton.getAttribute("aria-expanded") === "true";
+      if (expanded) {
+        dropdownMenu.classList.add("hidden");
+        dropdownButton.setAttribute("aria-expanded", "false");
+      } else {
+        dropdownMenu.classList.remove("hidden");
+        dropdownButton.setAttribute("aria-expanded", "true");
+      }
+    }
+
+  
+
+    // Close dropdown when clicking outside
+    window.addEventListener("click", function (event) {
+      const dropdown = document.getElementById("dropdownMenu");
+      const button = document.getElementById("dropdownButton");
+      if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.add("hidden");
+        button.setAttribute("aria-expanded", "false");
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>
