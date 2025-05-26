@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Student Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-purple-50 h-screen flex">
+
+  <script>
+  const token = localStorage.getItem("sessionToken");
+
+  if (!token) {
+    // No token found, redirect to login
+    window.location.href = "https://zen-tech-student-portal.vercel.app/";
+  }
+
+</script>
+
+
+ <!-- Loading Spinner -->
+  <div id="spinnerOverlay" class="fixed inset-0 bg-white bg-opacity-60 backdrop-blur-sm flex justify-center items-center z-50">
+    <div class="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
+
+
+  <!-- Vertical Sidebar -->
+  <div class="w-64 bg-purple-100 shadow-md flex flex-col justify-between">
+    <div>
+      <!-- Header -->
+      <div class="p-6 bg-purple-700 text-white text-xl font-bold">
+        Dashboard
+      </div>
+
+      <!-- Subheader -->
+      <div class="px-6 py-4 text-purple-900 font-semibold border-b border-purple-300">
+        SYCS
+      </div>
+
+      <!-- Navigation Buttons -->
+      <nav class="flex flex-col p-4 space-y-3">
+        <button onclick="showHome()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition">Home</button>
+        <button onclick="showSubjects()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition">Subject</button>
+        <button onclick="showEvents()"class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition">Events</button>
+        <button onclick="showResults()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition">Result</button>
+        <button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7';" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition">Feedback</button>
+        <button onclick="logout()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition">Logout</button>
+      </nav>
+    </div>
+
+<script>
+  function logout() {
+    localStorage.removeItem("sessionToken");
+    window.location.href = "https://zen-tech-student-portal.vercel.app/";
+  }
+</script>
+    <!-- Footer -->
+    <footer class="p-4 bg-purple-200 text-sm text-center text-purple-700 border-t border-purple-300">
+      Designed, Developed and Maintained by <a href="https://zen-tech.vercel.app/"> <strong>Zen-Tech</strong></a>
+    </footer>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="flex-1 p-10 text-purple-900 space-y-6 overflow-y-auto">
+
+    <!-- Default Content Section -->
+    <div id="homeSection" class="space-y-6">
+      <!-- Default Image -->
+      <div class="flex justify-center">
+        <img src="https://www.mgmccsitcoc.org/images/logo.png" alt="Student Portal Banner" class="rounded-xl shadow-md" />
+      </div>
+
+      <!-- Welcome Text -->
+      <div class="text-center">
+        <h1 class="text-3xl font-bold">Welcome to Student Portal</h1>
+        <p class="text-red-600 mt-2 font-medium">⚠️ Please do not share your username and password with other departments.</p>
+      </div>
+
+      <!-- Marquee Info -->
+      <div class="bg-purple-200 border border-purple-300 px-4 py-2 rounded shadow-inner overflow-hidden">
+        <marquee behavior="scroll" direction="left" class="text-purple-800 font-semibold">
+          📢 Will be updated after confirmation from your CRs.
+        </marquee>
+      </div>
+
+      <!-- Manager + User Manual -->
+      <div class="flex justify-between items-center mt-4">
+                <a href="#" class="text-purple-700 underline hover:text-purple-900 transition">User Manual</a>
+        <p class="font-semibold">Manager: Prakriti Jadhav</p>
+         <p class="font-semibold">Version: 9.00.00</p>
+
+      </div>
+
+      <!-- Team Info -->
+      <div class="bg-white rounded-xl p-4 shadow-md space-y-4">
+        <div class="flex flex-col md:flex-row justify-between gap-8">
+          <!-- Zen-Tech Team -->
+          <div class="flex-1">
+            <h2 class="text-xl font-bold text-purple-800 mb-2">Zen-Tech Team</h2>
+            <ul class="space-y-2">
+              <li>👤 Tejas Shinde</li>
+              <li>👤 Prakriti Jadhav</li>
+            </ul>
+          </div>
+          <!-- Class Representatives -->
+          <div class="flex-1">
+            <h2 class="text-xl font-bold text-purple-800 mb-2">Class Representatives</h2>
+            <ul class="space-y-2">
+              <li>👤 Padmaj Jadhav</li>
+              <li>👤 -</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subject Section -->
+    <div id="subjectSection" class="hidden space-y-4">
+      <h2 class="text-2xl font-bold text-purple-800">📚 Subjects</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+  <li><a href="subjects/c-programming.html" class="block bg-purple-100 px-4 py-2 rounded shadow hover:bg-purple-200 transition">Subject not declared yet</a></li>
+   
+      </ul>
+    </div>
+
+<!-- Event Section -->
+<div id="eventSection" class="hidden space-y-4">
+  <h2 class="text-2xl font-bold text-purple-800">🎉 Events</h2>
+  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    <li>
+      <a href="events/college-fest.html" class="block bg-purple-100 px-4 py-2 rounded shadow hover:bg-purple-200 transition">
+       Film Showcase (FYCS 2024-25)
+      </a>
+    </li>
+   
+  </ul>
+</div>
+
+
+<!-- Result Section -->
+<div id="resultSection" class="hidden space-y-4">
+  <h2 class="text-2xl font-bold text-purple-800">📊 Results</h2>
+  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    <li>
+      <a href="results/c-programming.html" class="block bg-purple-100 px-4 py-2 rounded shadow hover:bg-purple-200 transition">
+        Sem-2 Result
+      </a>
+    </li>
+  
+  </ul>
+</div>
+
+    
+
+  </div>
+
+  <!-- Script -->
+  <script>
+ function showResults() {
+  document.getElementById('homeSection').classList.add('hidden');
+  document.getElementById('subjectSection').classList.add('hidden');
+  document.getElementById('eventSection').classList.add('hidden');
+  document.getElementById('resultSection').classList.remove('hidden');
+}
+
+function showEvents() {
+  document.getElementById('homeSection').classList.add('hidden');
+  document.getElementById('subjectSection').classList.add('hidden');
+  document.getElementById('resultSection').classList.add('hidden');
+  document.getElementById('eventSection').classList.remove('hidden');
+}
+
+function showSubjects() {
+  document.getElementById('homeSection').classList.add('hidden');
+  document.getElementById('eventSection').classList.add('hidden');
+  document.getElementById('resultSection').classList.add('hidden');
+  document.getElementById('subjectSection').classList.remove('hidden');
+}
+
+function showHome() {
+  document.getElementById('subjectSection').classList.add('hidden');
+  document.getElementById('eventSection').classList.add('hidden');
+  document.getElementById('resultSection').classList.add('hidden');
+  document.getElementById('homeSection').classList.remove('hidden');
+}
+
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const spinner = document.getElementById("spinnerOverlay");
+        if (spinner) {
+          spinner.style.display = "none";
+        }
+      }, 3000);
+    });
+
+
+
+  </script>
+
+</body>
+</html>
