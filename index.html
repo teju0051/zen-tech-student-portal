@@ -108,7 +108,7 @@
 
   if (!token) {
     // No token found, redirect to login
-    window.location.href = "/login.html";
+    window.location.href = "https://zen-tech-student-portal.vercel.app/login.html";
   }
 
 </script>
@@ -117,7 +117,7 @@
 <script>
   function logout() {
     localStorage.removeItem("sessionToken");
-    window.location.href = "/login.html";
+    window.location.href = "https://zen-tech-student-portal.vercel.app/login.html";
   }
 </script>
   <!-- Spinner Overlay -->
@@ -418,10 +418,7 @@
       }
     }
 
-    function logout() {
-      alert("Logout clicked");
-      // Add your logout logic here
-    }
+  
 
     // Close dropdown when clicking outside
     window.addEventListener("click", function (event) {
