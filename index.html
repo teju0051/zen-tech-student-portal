@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zen-Tech's Student Portal</title>
+  <title>Login | Student Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -25,133 +25,114 @@
 <div class="flex-grow flex items-center justify-center p-4">
   <div class="w-full max-w-5xl rounded-2xl overflow-hidden shadow-xl grid grid-cols-1 md:grid-cols-2">
     
-    <!-- Left Panel (Now with light translucent white background) -->
+    <!-- Left Panel -->
     <div class="hidden md:flex flex-col justify-center items-center bg-white/10 text-purple-800 p-10 space-y-6">
       <img src="https://zen-tech-student-portal.vercel.app/Student's%20Portal!.png" class="w-44" alt="ERP Icon" />
       <h2 class="text-3xl font-bold">Welcome to Student Portal</h2>
       <p class="text-lg text-purple-700 text-center">Powering Smart Institutions with Beautiful Simplicity</p>
     </div>
 
-   <!-- Right Panel (Login Form) with white background and purple text -->
-<div class="p-8 sm:p-12 bg-white text-purple-800 rounded-tr-2xl rounded-br-2xl shadow-lg">
-  <h3 class="text-2xl sm:text-3xl font-semibold mb-6 text-center">Login to your Account</h3>
-  <form class="space-y-5" onsubmit="return showSpinner(event)">
-    <div>
-      <label for="username" class="block font-medium mb-1">Username / Email</label>
-      <input type="text" id="username" placeholder="Enter your ID" required
-             class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border border-purple-300 text-purple-900 placeholder-purple-400 bg-white">
+    <!-- Right Panel (Login Form) -->
+    <div class="p-8 sm:p-12 bg-white text-purple-800 rounded-tr-2xl rounded-br-2xl shadow-lg">
+      <h3 class="text-2xl sm:text-3xl font-semibold mb-6 text-center">Login to your Account</h3>
+      <form class="space-y-5" onsubmit="return handleLogin(event)">
+        <div>
+          <label for="username" class="block font-medium mb-1">Username / Email</label>
+          <input type="text" id="username" placeholder="Enter your ID" required
+                 class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border border-purple-300 text-purple-900 placeholder-purple-400 bg-white">
+        </div>
+        <div>
+          <label for="password" class="block font-medium mb-1">Password</label>
+          <input type="password" id="password" placeholder="Enter password" required
+                 class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border border-purple-300 text-purple-900 placeholder-purple-400 bg-white">
+        </div>
+        <!-- Audio element -->
+        <audio id="loginSound" src="your-audio-file.mp3"></audio>
+
+        <button id="loginBtn" type="submit"
+          class="w-full py-3 rounded-lg font-semibold bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 transition transform hover:scale-105 shadow-md flex items-center justify-center gap-2 text-white">
+          <span id="loginText">Login</span>
+          <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"></path>
+          </svg>
+        </button>
+      </form>
+      <p class="text-center text-sm text-purple-500 mt-6">
+        Designed and Developed by <span class="font-semibold"> <a href="https://zen-tech.vercel.app/" class="hover:underline">Zen-Tech </a></span>
+      </p>
     </div>
-    <div>
-      <label for="password" class="block font-medium mb-1">Password</label>
-      <input type="password" id="password" placeholder="Enter password" required
-             class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border border-purple-300 text-purple-900 placeholder-purple-400 bg-white">
-    </div>
-   <!-- Audio element -->
-<audio id="loginSound" src="your-audio-file.mp3"></audio>
-
-<!-- Your existing button -->
-<button id="loginBtn" type="submit"
-  class="w-full py-3 rounded-lg font-semibold bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 transition transform hover:scale-105 shadow-md flex items-center justify-center gap-2 text-white">
-  <span id="loginText">Login</span>
-  <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"></path>
-  </svg>
-</button>
-
-<!-- Script to handle click and play audio -->
-<script>
-  const loginBtn = document.getElementById('loginBtn');
-  const loginSound = document.getElementById('loginSound');
-
-  loginBtn.addEventListener('click', () => {
-    loginSound.play();
- });
-</script>
-
-  </form>
-  <p class="text-center text-sm text-purple-500 mt-6">
-    Designed and Developed by <span class="font-semibold"> <a href="https://zen-tech.vercel.app/" class="hover:underline">Zen-Tech </a></span>
-  </p>
-</div>
 
   </div>
 </div>
 
+<!-- Footer -->
+<footer class="text-center text-xs text-purple py-4">
+  A Platform of <span class="font-semibold">T-Service</span> || Server: SEA-1
+</footer>
 
-  <!-- Footer -->
-  <footer class="text-center text-xs text-purple py-4">
-    A Platform of <span class="font-semibold">T-Service</span> || Server: SEA-1
-  </footer>
 <script>
+  // Encrypted (base64) users data string 
+  const encryptedUsers = "W3sidXNlcm5hbWUiOiJtZ210c3ljcyIsInBhc3N3b3JkIjoiU3R1ZGVudCIsImVtYWlsIjoibWdtc3ljc0BleGFtcGxlLmNvbSIsInJvbGUiOiJzeWNzX3N0dWRlbnQiLCJyZWRpcmVjdCI6Imh0dHBzOi8vemVuLXRlY2gtc3R1ZGVudC1wb3J0YWwudmVyY2VsLmFwcC9TeWNzIn0seyJ1c2VybmFtZSI6Im1nbXN5aXQiLCJwYXNzd29yZCI6IlN0dWRlbnQiLCJlbWFpbCI6Im1nbXN5aXRAZXhhbXBsZS5jb20iLCJyb2xlIjoic3lpdF9zdHVkZW50IiwicmVkaXJlY3QiOiJodHRwczovL3plbi10ZWNoLXN0dWRlbnQtcG9ydGFsLnZlcmNlbC5hcHAvU3lpdCJ9LHsidXNlcm5hbWUiOiJhZG1pbkB6ZW50ZWNoLm9yZyIsInBhc3N3b3JkIjoiQWRtaW4xMjMiLCJlbWFpbCI6ImFkbWluQHplbnRlY2gub3JnIiwicm9sZSI6ImFkbWluIiwicmVkaXJlY3QiOm51bGx9XQ==";
+
+  // Decode and parse users array
+  const users = JSON.parse(atob(encryptedUsers));
+
+  const loginSound = document.getElementById('loginSound');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginText = document.getElementById('loginText');
+  const spinner = document.getElementById('spinner');
+
   function generateToken(username) {
     const timestamp = Date.now();
     return btoa(username + "_" + timestamp);
   }
 
-  function showSpinner(e) {
-    e.preventDefault();
+  function handleLogin(event) {
+    event.preventDefault();
 
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
+    const usernameInput = document.getElementById('username').value.trim();
+    const passwordInput = document.getElementById('password').value.trim();
 
-    const btn = document.getElementById('loginBtn');
-    const text = document.getElementById('loginText');
-    const spinner = document.getElementById('spinner');
+    // Find user
+    const user = users.find(u => (u.username === usernameInput || u.email === usernameInput) && u.password === passwordInput);
 
-   
-
-    if (username === "mgmsycs" && password === "Student") {
-      btn.disabled = true;
-      spinner.classList.remove('hidden');
-      text.textContent = 'Logging in...';
-
-      // Generate and save session token
-      const token = generateToken(username);
-      localStorage.setItem("sessionToken", token);
-
-      setTimeout(() => {
-        window.location.href = "https://zen-tech-student-portal.vercel.app/Sycs"; 
-      }, 2000);
+    if (!user) {
+      alert("Invalid username/email or password!");
+      return false;
     }
 
-      else if (username === "mgmsyit" && password === "Student") {
-         btn.disabled = true;
-      spinner.classList.remove('hidden');
-      text.textContent = 'Logging in...';
+    if (user.username === 'admin@zentech.org') {
+      const popup = document.getElementById('suspendPopup');
+      popup.style.display = 'block';
+      document.getElementById('overlay').classList.remove('hidden');
 
-      // Generate and save session token
-      const token = generateToken(username);
-      localStorage.setItem("sessionToken", token);
-
-      setTimeout(() => {
-        window.location.href = "https://zen-tech-student-portal.vercel.app/Syit"; 
-      }, 2000);
+      document.getElementById('confirmBtn').onclick = () => location.reload();
+      document.getElementById('cancelBtn').onclick = () => location.reload();
+      return false;
     }
 
-       else if (username === "admin@zentech.org" && password === "Admin123") {
-    // Show the popup instead of logging in
-    const popup = document.getElementById('suspendPopup');
-    popup.style.display = 'block';
-     document.getElementById('overlay').classList.remove('hidden');
+    loginSound.play();
+    loginBtn.disabled = true;
+    spinner.classList.remove('hidden');
+    loginText.textContent = 'Logging in...';
 
-    // Attach click listeners to Confirm and Cancel buttons
-    document.getElementById('confirmBtn').onclick = () => location.reload();
-    document.getElementById('cancelBtn').onclick = () => location.reload();
+    const token = generateToken(user.username);
+    localStorage.setItem("sessionToken", token);
+    localStorage.setItem("email", user.email);
+    localStorage.setItem("role", user.role);
 
-  }
-    
-    
-    
-    else {
-      alert("Invalid username or password!");
-    }
+    setTimeout(() => {
+      window.location.href = user.redirect;
+    }, 2000);
+
+    return false;
   }
 
-  // anti-cheat mechanism
+  // Anti-cheat mechanism
   function showWarning() {
     alert("Anti-Cheat System Activated!");
-    document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>⚠️ Abnormal activity detected. Session has been suspended!!\n\nPlease refrain from doing any illegal activities.\nElse permanent ban to your IP will be implemented!!</h1>";
+    document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>⚠️ Abnormal activity detected. Session has been suspended!!<br><br>Please refrain from doing any illegal activities.<br>Else permanent ban to your IP will be implemented!!</h1>";
     document.body.style.pointerEvents = 'none';
   }
 
@@ -188,10 +169,8 @@
       showWarning();
     }
   });
-
-
-
 </script>
+
 
 
 <!-- Overlay for blur -->
@@ -199,23 +178,24 @@
 
 <!-- Popup Panel -->
 <div id="suspendPopup" class="hidden fixed top-1/2 left-1/2 z-50 w-[500px] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white p-10 shadow-2xl text-center">
-  <!-- Alert Icon -->
   <div class="flex justify-center mb-6">
     <svg class="w-16 h-16 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" d="M10.29 3.86L1.82 18a1.5 1.5 0 001.29 2.25h17.78a1.5 1.5 0 001.29-2.25L13.71 3.86a1.5 1.5 0 00-2.42 0zM12 9v4m0 4h.01"/>
     </svg>
   </div>
 
-  <h3 class="text-3xl font-bold mb-4 text-red-700">Tips</h3>
-  <p class="mb-8 text-lg text-gray-700">There are abnormal activities with your account. It has been temporarily suspended for your safety and security.</p>
-  
+  <h3 class="text-3xl font-bold mb-4 text-red-700">Account Suspended</h3>
+  <p class="mb-10 text-lg text-red-600">Due to breaking the rules, your account has been suspended for 7 days.</p>
+
   <div class="flex justify-center gap-6">
-    <button id="confirmBtn" class="px-8 py-3 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition">Confirm</button>
-    <button id="cancelBtn" class="px-8 py-3 rounded-lg bg-gray-300 font-semibold hover:bg-gray-400 transition">Cancel</button>
+    <button id="confirmBtn" class="rounded-lg border border-gray-900 px-8 py-2 text-gray-900 transition hover:bg-gray-900 hover:text-white">
+      Ok
+    </button>
+    <button id="cancelBtn" class="rounded-lg border border-gray-900 px-8 py-2 text-gray-900 transition hover:bg-gray-900 hover:text-white">
+      Cancel
+    </button>
   </div>
 </div>
-
-
 
 </body>
 </html>
