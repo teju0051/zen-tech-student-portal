@@ -1,109 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
-
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-  />
-  <!-- Favicon -->
-  <link
-    rel="icon"
-    href="https://i.ibb.co/Kb6z2t5/favicon-48x48.png"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard | Student Portal</title>
-
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-  @keyframes marquee {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-
-  .animate-marquee {
-    animation: marquee 25s linear infinite;
-    display: inline-block;
-    white-space: nowrap;
-    min-width: 100%; /* ✅ THIS IS IMPORTANT */
-  }
-    /* No scrolling anywhere */
-    html, body {
-      height: 100%;
-      margin: 0;
-      overflow: hidden; /* Disable scroll */
-    }
-
-    /* Container setup */
-    body > div.flex-grow {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      height: 64px; /* fixed header height */
-      flex-shrink: 0;
-    }
-
-    footer {
-      height: 56px; /* fixed footer height */
-      flex-shrink: 0;
-    }
-
-    main {
-      flex-grow: 1;
-      position: relative;
-      overflow: hidden; /* prevent scroll inside main */
-    }
-
-    /* Video fills main area */
-    #background-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.1);
-      transform-origin: center;
-      z-index: 0;
-    }
-
-    /* Sidebar inside main */
-    aside {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 280px;
-      background: rgba(109, 40, 217, 0.3); /* bg-purple-700 with opacity */
-      box-shadow: 0 0 10px rgba(109, 40, 217, 0.7);
-     
-      padding: 0.75rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
-      overflow-y: hidden;
-      z-index: 10;
-      color: #4c1d95; /* text-purple-900 */
-    }
-  </style>
 </head>
+<body class="bg-yellow-50 h-screen flex">
 
-<body
-  class="bg-purple-50 text-purple-900 font-sans select-none flex flex-col min-h-screen overflow-x-hidden leading-relaxed">
-
-
-
-    <script>
+<!--
+  <script>
   const token = localStorage.getItem("sessionToken");
 
   if (!token) {
@@ -112,326 +18,343 @@
   }
 
 </script>
+-->
+  <!-- Loading Spinner -->
+  <div id="spinnerOverlay" class="fixed inset-0 bg-white bg-opacity-60 backdrop-blur-sm flex justify-center items-center z-50">
+    <div class="w-16 h-16 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+  </div>
 
+  <!-- Sidebar -->
+  <div class="w-64 bg-orange-100 shadow-md flex flex-col justify-between">
+    <div>
+      <div class="p-6 bg-orange-600 text-white text-xl font-bold">
+        Dashboard
+      </div>
 
-<script>
+      <div class="px-6 py-4 text-orange-900 font-semibold border-b border-orange-300">
+        SYIT
+      </div>
+
+      <nav class="flex flex-col p-4 space-y-3">
+        <button onclick="showHome()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Home</button>
+        <button onclick="showSubjects()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Subject</button>
+        <button onclick="showEvents()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Events</button>
+        <button onclick="showResults()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Result</button>
+        <button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7';" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Feedback</button>
+        <button onclick="logout()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Logout</button>
+
+        <script>
   function logout() {
     localStorage.removeItem("sessionToken");
     window.location.href = "https://zen-tech-student-portal.vercel.app/";
   }
 </script>
-  <!-- Spinner Overlay -->
-  <div
-    id="spinner-overlay"
-    class="fixed top-0 left-0 w-full h-full bg-white bg-opacity-50 flex justify-center items-center z-50 invisible"
-    role="status" aria-live="polite" aria-label="Loading"
-  >
-    <div
-      class="border-4 border-purple-300 border-t-purple-700 rounded-full w-12 h-12 animate-spin"
-    ></div>
-  </div>
-
-  <script>
-    // Show the spinner for 3 seconds
-    window.onload = function () {
-      const spinnerOverlay = document.getElementById("spinner-overlay");
-      spinnerOverlay.classList.remove("invisible");
-
-      setTimeout(function () {
-        spinnerOverlay.classList.add("invisible");
-      }, 3000); // 3 seconds delay
-    };
-  </script>
-
-  <div class="flex-grow flex flex-col min-h-screen">
-    <!-- Header Section -->
-   <header
-  class="w-full bg-purple-100 text-purple-900 shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 flex-shrink-0"
->
-  <!-- Navigation: Dropdown and Buttons -->
-  <nav class="flex items-center gap-4 relative" aria-label="Primary navigation">
-    <!-- Custom Dropdown -->
-    <div class="relative">
-      <button
-        onclick="toggleDropdown()"
-        id="dropdownButton"
-        aria-haspopup="true"
-        aria-expanded="false"
-        class="px-4 py-2 bg-white text-purple-800 border border-purple-300 rounded-md shadow hover:bg-purple-200 transition text-sm flex items-center gap-2 w-48"
-      >
-        Choose Subject<i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
-      </button>
-
-      <div
-        id="dropdownMenu"
-        role="menu"
-        aria-labelledby="dropdownButton"
-        class="absolute mt-2 w-48 bg-white border border-purple-300 rounded-md shadow hidden z-10"
-      >
-        <ul class="text-sm text-purple-800" role="none">
-          <li
-            class="px-4 py-2 text-gray-500 cursor-not-allowed"
-            role="menuitem"
-            aria-disabled="true"
-            tabindex="-1"
-          >
-            No subjects available
-          </li>
-        </ul>
-      </div>
+      </nav>
     </div>
-  </nav>
 
-  <!-- Date and Time -->
-  <div id="dateTime" class="text-sm font-medium text-purple-800 text-center md:text-right"></div>
-
-  <!-- Manager Info & User Manual -->
-  <div class="text-sm text-purple-800 text-center md:text-right" aria-label="Manager info and user manual">
-    <p>
-      <a 
-        href="#"
-        class="text-purple-600 hover:underline inline-flex items-center gap-1"
-        target="_blank" rel="noopener noreferrer"
-        aria-label="Open User Manual (PDF)"
-      >
-        <i class="fas fa-book" aria-hidden="true"></i> User Manual |
-
-      </a>
-
-      <a
-        href="#"
-        class="text-purple-600 hover:underline inline-flex items-center gap-1"
-        target="_blank" rel="noopener noreferrer"
-        aria-label="Open User Manual (PDF)"
-      >
-             <i class="fas fa-calendar-alt" aria-hidden="true"></i> Time Table
-
-      </a>
-
-      <strong class="ml-2">Manager: Mansi Shitole</strong>
-    </p>
+    <footer class="p-4 bg-yellow-200 text-sm text-center text-orange-800 border-t border-orange-300">
+      Designed, Developed and Maintained by <a href="https://zen-tech.vercel.app/" class="font-semibold underline">Zen-Tech</a>
+    </footer>
   </div>
-</header>
-<script>
-  function updateDateTime() {
-    const now = new Date();
 
-    const options = {
-      weekday: 'short',  // Mon, Tue, etc.
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true,
-      timeZone: 'Asia/Kolkata'
-    };
+  <!-- Main Content -->
+  <div class="flex-1 p-10 text-orange-900 space-y-6 overflow-y-auto">
 
-    const dateTimeString = new Intl.DateTimeFormat('en-IN', options).format(now);
+    <!-- Home Section -->
+    <div id="homeSection" class="space-y-6">
+      <div class="flex justify-center">
+        <img src="https://www.mgmccsitcoc.org/images/logo.png" alt="Student Portal Banner" class="rounded-xl shadow-md" />
+      </div>
 
-    document.getElementById('dateTime').textContent = dateTimeString;
-  }
+      <div class="text-center">
+        <h1 class="text-3xl font-bold">Welcome to Student Portal</h1>
+        <p class="text-red-600 mt-2 font-medium">⚠️ Please do not share your username and password with other departments.</p>
+      </div>
 
-  setInterval(updateDateTime, 1000);
-  updateDateTime(); // Initial call
-</script>
+      <div class="bg-yellow-200 border border-orange-300 px-4 py-2 rounded shadow-inner overflow-hidden">
+        <marquee behavior="scroll" direction="left" class="text-orange-800 font-semibold">
+          📢 Updates on the way stay tuned!
+        </marquee>
+      </div>
 
+      <div class="flex justify-between items-center mt-4">
+        <a href="#" class="text-orange-700 underline hover:text-orange-900 transition">User Manual</a>
+        <p class="font-semibold">Manager: Prajakta Mane</p>
+        <p class="font-semibold">Version: 9.00.00</p>
+      </div>
 
-    <!-- Announcement Section -->
-    <section
-      class="w-full bg-purple-200 text-purple-900 shadow-inner flex items-center px-4 py-2 overflow-hidden flex-shrink-0"
-      aria-live="polite"
-      aria-atomic="true"
-      aria-label="Announcement"
-    >
-      <span class="font-semibold mr-4 whitespace-nowrap">Announcement:</span>
-      <div class="overflow-hidden relative w-full">
-        <div
-          class="inline-block whitespace-nowrap text-sm animate-marquee"
-        >
-          SY STARTING SOON
+      <div class="bg-white rounded-xl p-4 shadow-md space-y-4">
+        <div class="flex flex-col md:flex-row justify-between gap-8">
+          <div class="flex-1">
+            <h2 class="text-xl font-bold text-orange-800 mb-2">Zen-Tech Team</h2>
+            <ul class="space-y-2">
+              <li>👤 Prajakta Mane</li>
+             
+            </ul>
+          </div>
+          <div class="flex-1">
+            <h2 class="text-xl font-bold text-orange-800 mb-2">Class Representatives</h2>
+            <ul class="space-y-2">
+              <li>👤 -</li>
+             
+            </ul>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Main Content -->
-   <main class="flex bg-white relative overflow-hidden h-screen">
-
-
-  <!-- Video fills background -->
-  <video
-    id="background-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    aria-hidden="true"
-    class="absolute top-0 left-0 w-full h-full object-cover"
-  >
-    <source
-      src="https://ik.imagekit.io/ofvul0fub/mgmccsitcoc_3472922137725348071_40664611749_2024-10-06.mp4?tr=orig&updatedAt=1746960260608"
-      type="video/mp4"
-    />
-
-  </video>
-
-  <!-- Spacer for content growth -->
-  <div class="flex-grow"></div>
-
-  <!-- Sidebar aligned right -->
-  <aside class="w-64 z-10 bg-opacity-60 bg-purple-300 p-4 text-white">
-    <img
-      src="https://tse4.mm.bing.net/th/id/OIP._18yiYI-XojRfBB-xSI4GAHaH5?rs=1&pid=ImgDetMain"
-      alt="Profile Image"
-      class="w-16 h-16 rounded-full object-cover border-4 border-purple-500 mx-auto"
-    />
-    <div class="text-white font-semibold text-sm text-center mt-2">SYIT</div>
+    <!-- Subject Section -->
+    <div id="subjectSection" class="hidden space-y-4">
+      <h2 class="text-2xl font-bold text-orange-800">📚 Subjects</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <li><a href="#" class="block bg-orange-100 px-4 py-2 rounded shadow hover:bg-orange-200 transition">Operating System</a></li>
+        <li><a href="#" class="block bg-orange-100 px-4 py-2 rounded shadow hover:bg-orange-200 transition">Applied Mathematics</a></li>
+         <li><a href="#" class="block bg-orange-100 px-4 py-2 rounded shadow hover:bg-orange-200 transition">Python</a></li>
+         
 
 
-    <div class="flex flex-col h-full w-full">
-  <!-- Scrollable Button Section Only -->
-  <div class="flex flex-col gap-2 overflow-y-auto pr-1 custom-scroll" style="max-height: 270px;">
+      </ul>
+    </div>
 
-<!-- Unmute Video Button -->
-<button id="toggle-audio-btn"
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
-  Unmute Video
-</button>
-
-<!-- Logout Button -->
-<button onclick="logout()"
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
-  Logout
-</button>
-
-
-<!-- Disabled Buttons with Purple Theme -->
-<button disabled
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
-  Events
-</button>
-
-<button disabled
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
-  Result
-</button>
-
-<button disabled
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
-  PYQs
-</button>
-
-<button disabled
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow cursor-not-allowed opacity-60 text-sm font-medium">
-  Error in Content?
-</button>
-
-<!-- Feedback Button -->
-<button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7'"
-  class="w-full px-4 py-2 bg-purple-200 text-purple-800 border border-purple-400 rounded-md shadow hover:bg-purple-300 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
-  Feedback
-</button>
-
-
- 
-
-   
-  </div>
-
-  <!-- Social Media Icons (not scrollable) -->
-  <div class="flex justify-center gap-6 mt-4 text-white py-3 border-t border-gray-700">
-    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-      class="hover:text-blue-600">
-      <i class="fab fa-facebook fa-lg"></i>
-    </a>
-    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-      class="hover:text-pink-600">
-      <i class="fab fa-instagram fa-lg"></i>
-    </a>
-    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-      class="hover:text-blue-700">
-      <i class="fab fa-linkedin fa-lg"></i>
-    </a>
-  </div>
-</div>
-
-<style>
-  .custom-scroll::-webkit-scrollbar {
-    width: 4px;
-  }
-  .custom-scroll::-webkit-scrollbar-thumb {
-    background-color: #a78bfa;
-    border-radius: 10px;
-  }
-</style>
-
-
-
-  </aside>
-</main>
-
-<!-- JavaScript for Mute Toggle -->
-<script>
-  const video = document.getElementById('background-video');
-  const toggleBtn = document.getElementById('toggle-audio-btn');
-
-  toggleBtn.addEventListener('click', () => {
-    video.muted = !video.muted;
-    toggleBtn.textContent = video.muted ? 'Unmute Video' : 'Mute Video';
-  });
-</script>
-
-
-<!-- Footer -->
-<footer
-  class="bg-purple-200 text-purple-900 text-center p-4 text-sm border-t-2 border-purple-400 shadow-inner flex-shrink-0"
-  role="contentinfo"
->
-  <strong>
-    &copy; 2024 - 2027 MGM-BSC-IT | Designed & Developed by
-    <a
-      href="https://zen-tech.vercel.app/"
-      class="text-purple-700 hover:underline hover:text-purple-900 transition duration-300"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Zen-Tech
-    </a>
-    | Version: 9.00.00
-  </strong>
-</footer>
-
-  </div>
-
-  <script>
-    function toggleDropdown() {
-      const dropdownMenu = document.getElementById("dropdownMenu");
-      const dropdownButton = document.getElementById("dropdownButton");
-      const expanded = dropdownButton.getAttribute("aria-expanded") === "true";
-      if (expanded) {
-        dropdownMenu.classList.add("hidden");
-        dropdownButton.setAttribute("aria-expanded", "false");
-      } else {
-        dropdownMenu.classList.remove("hidden");
-        dropdownButton.setAttribute("aria-expanded", "true");
-      }
-    }
+    <!-- Event Section -->
+    <div id="eventSection" class="hidden space-y-4">
+      <h2 class="text-2xl font-bold text-orange-800">🎉 Events</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <li>
+          <a href="#" class="block bg-orange-100 px-4 py-2 rounded shadow hover:bg-orange-200 transition">
+            Film Showcase (FYIT 2024-25)
+          </a>
+        </li>
+      </ul>
+    </div>
 
   
+<div class="space-y-4 hidden" id="resultSection">
+  <h2 class="text-xl font-bold"> Result</h2>
+  <input type="file" id="fileInput" />
+  <button id="uploadBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Upload</button>
 
-    // Close dropdown when clicking outside
-    window.addEventListener("click", function (event) {
-      const dropdown = document.getElementById("dropdownMenu");
-      const button = document.getElementById("dropdownButton");
-      if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.add("hidden");
-        button.setAttribute("aria-expanded", "false");
+  <!-- Popup Modal -->
+  <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded shadow-lg w-80">
+      <div id="popupContent">
+        <h2 class="text-xl font-semibold mb-4">Attention!</h2>
+        <p class="mb-4">You require admin privilege for this action!</p>
+        <div class="flex justify-between">
+          <button id="adminAccessBtn" class="bg-green-600 text-white px-4 py-2 rounded">Admin Access</button>
+          <button id="closeBtn" class="bg-gray-400 text-white px-4 py-2 rounded">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul id="fileList" class="mt-4 space-y-2"></ul>
+
+
+  <script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  const supabaseUrl = "https://ellxxhwuohbezfijkwvt.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI"; // Please keep your keys secure
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const fileInput = document.getElementById("fileInput");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const fileList = document.getElementById("fileList");
+  const popup = document.getElementById('popup');
+  const popupContent = document.getElementById('popupContent');
+
+  // When "Upload" button is clicked, show the popup instead of uploading immediately
+  uploadBtn.addEventListener('click', () => {
+    if (!fileInput.files[0]) {
+      alert('Please select a file first');
+      return;
+    }
+    popup.style.display = 'flex';
+  });
+
+  // Function to reset popup to initial state
+  function resetPopup() {
+    popupContent.innerHTML = `
+      <h2 class="text-xl font-semibold mb-4">Attention!</h2>
+      <p class="mb-4">You require admin privilege for this action!</p>
+      <div class="flex justify-between">
+        <button id="adminAccessBtn" class="bg-green-600 text-white px-4 py-2 rounded">Admin Access</button>
+        <button id="closeBtn" class="bg-gray-400 text-white px-4 py-2 rounded">Close</button>
+      </div>
+    `;
+    // Rebind buttons in popup
+    document.getElementById('adminAccessBtn').addEventListener('click', showAdminCodeInput);
+    document.getElementById('closeBtn').addEventListener('click', () => {
+      popup.style.display = 'none';
+      resetPopup();
+    });
+  }
+
+  // Show admin code input form
+  function showAdminCodeInput() {
+    popupContent.innerHTML = `
+      <h2 class="text-xl font-semibold mb-4">Enter Admin Code</h2>
+      <input type="password" id="adminCodeInput" placeholder="Enter code here" class="border border-gray-300 rounded px-3 py-2 w-full mb-4" />
+      <div class="flex justify-between">
+        <button id="submitCodeBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+        <button id="cancelBtn" class="bg-gray-400 text-white px-4 py-2 rounded">Cancel</button>
+      </div>
+      <p id="errorMsg" class="text-red-600 mt-2 hidden">Incorrect code, please try again.</p>
+    `;
+
+    // Bind submit and cancel buttons
+    document.getElementById('submitCodeBtn').addEventListener('click', handleAdminCodeSubmit);
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      popup.style.display = 'none';
+      resetPopup();
+    });
+  }
+
+  // Handle admin code submission
+  async function handleAdminCodeSubmit() {
+    const input = document.getElementById('adminCodeInput').value.trim();
+    const errorMsg = document.getElementById('errorMsg');
+
+    if (input === '#8gjgpjyq2') {
+      errorMsg.classList.add('hidden');
+      popup.style.display = 'none';
+      resetPopup();
+      // Proceed to upload file after admin access granted
+      await uploadFile();
+    } else {
+      errorMsg.classList.remove('hidden');
+    }
+  }
+
+  // Initialize popup buttons event listeners
+  document.getElementById('adminAccessBtn').addEventListener('click', showAdminCodeInput);
+  document.getElementById('closeBtn').addEventListener('click', () => {
+    popup.style.display = 'none';
+    resetPopup();
+  });
+
+  // Upload file function
+  async function uploadFile() {
+    const file = fileInput.files[0];
+    if (!file) {
+      alert("No file selected.");
+      return;
+    }
+
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = "Uploading...";
+
+    try {
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("results")
+        .upload(`public/${file.name}`, file, { cacheControl: "3600", upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage.from("results").getPublicUrl(`public/${file.name}`);
+      const publicUrl = data.publicUrl;
+
+      const { error: insertError } = await supabase
+        .from("uploaded_files")
+        .insert([{ file_name: file.name, file_url: publicUrl }]);
+
+      if (insertError) throw insertError;
+
+      alert("File uploaded successfully!");
+      fileInput.value = "";
+      fetchFiles();
+
+    } catch (err) {
+      alert("Error uploading file: " + err.message);
+    } finally {
+      uploadBtn.disabled = false;
+      uploadBtn.textContent = "Upload";
+    }
+  }
+
+  // Fetch uploaded files list
+  async function fetchFiles() {
+    const { data, error } = await supabase
+      .from("uploaded_files")
+      .select()
+      .order("uploaded_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching files:", error);
+      return;
+    }
+
+    fileList.innerHTML = ""; // clear list
+
+    data.forEach(file => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a href="${file.file_url}" target="_blank" class="text-blue-600 underline">${file.file_name}</a>
+      `;
+      fileList.appendChild(li);
+    });
+  }
+
+  fetchFiles();
+
+  // Optional: realtime subscription to update file list dynamically when new file added
+  supabase
+    .channel("public:uploaded_files")
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "uploaded_files" },
+      (payload) => {
+        const newFile = payload.new;
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <a href="${newFile.file_url}" target="_blank" class="text-blue-600 underline">${newFile.file_name}</a>
+        `;
+        fileList.insertBefore(li, fileList.firstChild); // newest on top
       }
+    )
+    .subscribe();
+
+</script>
+
+</div>
+
+
+
+  <!-- JS Scripts -->
+  <script>
+ 
+
+    function showResults() {
+      showOnly('resultSection');
+    }
+
+    function showEvents() {
+      showOnly('eventSection');
+    }
+
+    function showSubjects() {
+      showOnly('subjectSection');
+    }
+
+    function showHome() {
+      showOnly('homeSection');
+    }
+
+    function showOnly(idToShow) {
+      const sections = ['homeSection', 'subjectSection', 'eventSection', 'resultSection'];
+      sections.forEach(id => {
+        document.getElementById(id).classList.toggle('hidden', id !== idToShow);
+      });
+    }
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const spinner = document.getElementById("spinnerOverlay");
+        if (spinner) spinner.style.display = "none";
+      }, 2000);
     });
   </script>
 
-
 </body>
-
 </html>
