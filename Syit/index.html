@@ -4,11 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard | Student Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-yellow-50 h-screen flex">
 
-<!--
+
+
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        animation: {
+          fadeIn: "fadeIn 1.5s ease-in-out",
+        },
+        keyframes: {
+          fadeIn: {
+            "0%": { opacity: "0", transform: "translateY(20px)" },
+            "100%": { opacity: "1", transform: "translateY(0)" },
+          },
+        }
+      }
+    }
+  }
+</script>
+<script src="https://unpkg.com/heroicons@2.0.16/dist/24/outline/index.js" defer></script>
+
+</head>
+<body class="bg-gray-950 h-screen flex" >
+
+
   <script>
   const token = localStorage.getItem("sessionToken");
 
@@ -18,137 +40,168 @@
   }
 
 </script>
--->
-  <!-- Loading Spinner -->
-  <div id="spinnerOverlay" class="fixed inset-0 bg-white bg-opacity-60 backdrop-blur-sm flex justify-center items-center z-50">
-    <div class="w-16 h-16 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+<!-- Loading Spinner -->
+<div id="spinnerOverlay" class="fixed inset-0 bg-gray-950 bg-opacity-70 backdrop-blur-md flex justify-center items-center z-50">
+  <div class="w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
+</div>
+
+
+<!-- Sidebar -->
+<div class="w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-gray-200 shadow-2xl flex flex-col justify-between min-h-screen border-r border-violet-900 transition-all duration-500">
+
+  <!-- Header with Theme Toggle -->
+  <div>
+    <div class="flex items-center justify-between p-6 bg-violet-800 text-white text-2xl font-bold tracking-wide shadow-md rounded-b-2xl">
+      Dashboard
+        </div>
+
+    <!-- Department Info -->
+    <div class="px-6 py-3 text-violet-300 font-medium border-b border-gray-800 text-sm bg-gray-950/60 backdrop-blur-md animate-fade-in">
+      💼 SYIT - Student Portal
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex flex-col px-6 py-4 space-y-2 animate-fade-in">
+      <button onclick="showHome()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        🏠 Home
+      </button>
+      <button onclick="showSubjects()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        📚 Subjects
+      </button>
+      <button onclick="showEvents()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        📅 Events
+      </button>
+      <button onclick="showResults()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        📊 Results
+      </button>
+      <button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7';" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        📝 Feedback
+      </button>
+      <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-400 hover:bg-red-900 rounded-lg transition shadow-md">
+        🚪 Logout
+      </button>
+    </nav>
   </div>
 
-  <!-- Sidebar -->
-  <div class="w-64 bg-orange-100 shadow-md flex flex-col justify-between">
-    <div>
-      <div class="p-6 bg-orange-600 text-white text-xl font-bold">
-        Dashboard
-      </div>
+  <!-- Footer -->
+  <footer class="p-4 text-xs text-center text-violet-400 border-t border-gray-800 bg-gray-950/60 animate-fade-in">
+    Designed by <a href="https://zen-tech.vercel.app/" class="font-medium text-violet-300 hover:underline">Zen-Tech</a>
+  </footer>
+</div>
 
-      <div class="px-6 py-4 text-orange-900 font-semibold border-b border-orange-300">
-        SYIT
-      </div>
+<!-- Add Tailwind Animate Plugin CSS (once in <head>) -->
+<style>
+  @keyframes fade-in {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out both;
+  }
+</style>
 
-      <nav class="flex flex-col p-4 space-y-3">
-        <button onclick="showHome()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Home</button>
-        <button onclick="showSubjects()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Subject</button>
-        <button onclick="showEvents()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Events</button>
-        <button onclick="showResults()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Result</button>
-        <button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7';" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Feedback</button>
-        <button onclick="logout()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">Logout</button>
 
-        <script>
+
+
+
+<!-- Logout Script -->
+<script>
   function logout() {
     localStorage.removeItem("sessionToken");
     window.location.href = "https://zen-tech-student-portal.vercel.app/";
   }
 </script>
-      </nav>
+
+<!-- Main Content -->
+<div class="flex-1 p-10 text-gray-900 dark:text-gray-200 space-y-6 overflow-y-auto bg-white dark:bg-gray-950 transition-all duration-500">
+
+
+
+  <!-- Home Section -->
+  <div id="homeSection" class="space-y-6 animate-fadeIn">
+    <div class="flex justify-center">
+      <img src="https://www.mgmccsitcoc.org/images/logo.png" alt="Student Portal Banner" class="rounded-xl shadow-xl border border-violet-600" />
     </div>
 
-    <footer class="p-4 bg-yellow-200 text-sm text-center text-orange-800 border-t border-orange-300">
-      Designed, Developed and Maintained by <a href="https://zen-tech.vercel.app/" class="font-semibold underline">Zen-Tech</a>
-    </footer>
-  </div>
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">🎓 Welcome to Student Portal</h1>
+      <p class="text-fuchsia-500 mt-2 font-medium">⚠️ Do not share your credentials with other departments.</p>
+    </div>
 
-  <!-- Main Content -->
-  <div class="flex-1 p-10 text-orange-900 space-y-6 overflow-y-auto">
+    <div class="bg-violet-100 dark:bg-violet-900 border border-violet-300 dark:border-violet-600 px-4 py-2 rounded shadow-inner overflow-hidden">
+      <marquee behavior="scroll" direction="left" class="text-violet-600 dark:text-violet-200 font-semibold animate-pulse">
+        📢 Updates coming soon — stay tuned!
+      </marquee>
+    </div>
 
-    <!-- Home Section -->
-    <div id="homeSection" class="space-y-6">
-      <div class="flex justify-center">
-        <img src="https://www.mgmccsitcoc.org/images/logo.png" alt="Student Portal Banner" class="rounded-xl shadow-md" />
-      </div>
+    <div class="flex justify-between items-center mt-4 text-sm text-gray-700 dark:text-gray-400">
+      <a href="#" class="underline hover:text-violet-600 dark:hover:text-violet-400 transition">User Manual</a>
+      <p class="font-medium">Manager: Prajakta Mane</p>
+      <p class="font-medium">Version: 9.00.00</p>
+    </div>
 
-      <div class="text-center">
-        <h1 class="text-3xl font-bold">Welcome to Student Portal</h1>
-        <p class="text-red-600 mt-2 font-medium">⚠️ Please do not share your username and password with other departments.</p>
-      </div>
-
-      <div class="bg-yellow-200 border border-orange-300 px-4 py-2 rounded shadow-inner overflow-hidden">
-        <marquee behavior="scroll" direction="left" class="text-orange-800 font-semibold">
-          📢 Updates on the way stay tuned!
-        </marquee>
-      </div>
-
-      <div class="flex justify-between items-center mt-4">
-        <a href="#" class="text-orange-700 underline hover:text-orange-900 transition">User Manual</a>
-        <p class="font-semibold">Manager: Prajakta Mane</p>
-        <p class="font-semibold">Version: 9.00.00</p>
-      </div>
-
-      <div class="bg-white rounded-xl p-4 shadow-md space-y-4">
-        <div class="flex flex-col md:flex-row justify-between gap-8">
-          <div class="flex-1">
-            <h2 class="text-xl font-bold text-orange-800 mb-2">Zen-Tech Team</h2>
-            <ul class="space-y-2">
-              <li>👤 Prajakta Mane</li>
-             
-            </ul>
-          </div>
-          <div class="flex-1">
-            <h2 class="text-xl font-bold text-orange-800 mb-2">Class Representatives</h2>
-            <ul class="space-y-2">
-              <li>👤 -</li>
-             
-            </ul>
-          </div>
+    <div class="bg-gray-100 dark:bg-gray-900 rounded-xl p-4 shadow-lg space-y-4 border border-violet-400/30 dark:border-violet-700/30">
+      <div class="flex flex-col md:flex-row justify-between gap-8">
+        <div class="flex-1">
+          <h2 class="text-xl font-bold text-violet-600 dark:text-violet-400 mb-2">👩‍💼 Zen-Tech Team</h2>
+          <ul class="space-y-2 text-gray-800 dark:text-gray-300">
+            <li>👤 Prajakta Mane</li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <h2 class="text-xl font-bold text-violet-600 dark:text-violet-400 mb-2">🧑‍🏫 Class Representatives</h2>
+          <ul class="space-y-2 text-gray-800 dark:text-gray-300">
+            <li>👤 -</li>
+          </ul>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Subject Section -->
-    <div id="subjectSection" class="hidden space-y-4">
-      <h2 class="text-2xl font-bold text-orange-800">📚 Subjects</h2>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <li><a href="#" class="block bg-orange-100 px-4 py-2 rounded shadow hover:bg-orange-200 transition">Operating System</a></li>
-        <li><a href="#" class="block bg-orange-100 px-4 py-2 rounded shadow hover:bg-orange-200 transition">Applied Mathematics</a></li>
-         <li><a href="#" class="block bg-orange-100 px-4 py-2 rounded shadow hover:bg-orange-200 transition">Python</a></li>
-         
+  <!-- Subject Section -->
+  <div id="subjectSection" class="hidden space-y-4 animate-fadeIn">
+    <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400">📚 Subjects</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <li><a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">💻 Operating System</a></li>
+      <li><a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">📐 Applied Mathematics</a></li>
+      <li><a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">🐍 Python</a></li>
+    </ul>
+  </div>
 
+  <!-- Event Section -->
+  <div id="eventSection" class="hidden space-y-4 animate-fadeIn">
+    <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400">🎉 Events</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <li>
+        <a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
+          🎬 Film Showcase (FYIT 2024-25)
+        </a>
+      </li>
+    </ul>
+  </div>
 
-      </ul>
-    </div>
+  <!-- Result Section -->
+  <div class="space-y-4 hidden animate-fadeIn" id="resultSection">
+    <h2 class="text-xl font-bold text-violet-600 dark:text-violet-400">📊 Result</h2>
+    <input type="file" id="fileInput" class="bg-gray-100 dark:bg-gray-800 text-black dark:text-white border border-gray-400 dark:border-gray-600 p-2 rounded" />
+    <button id="uploadBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow">📤 Upload</button>
 
-    <!-- Event Section -->
-    <div id="eventSection" class="hidden space-y-4">
-      <h2 class="text-2xl font-bold text-orange-800">🎉 Events</h2>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <li>
-          <a href="#" class="block bg-orange-100 px-4 py-2 rounded shadow hover:bg-orange-200 transition">
-            Film Showcase (FYIT 2024-25)
-          </a>
-        </li>
-      </ul>
-    </div>
-
-  
-<div class="space-y-4 hidden" id="resultSection">
-  <h2 class="text-xl font-bold"> Result</h2>
-  <input type="file" id="fileInput" />
-  <button id="uploadBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Upload</button>
-
-  <!-- Popup Modal -->
-  <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white p-6 rounded shadow-lg w-80">
-      <div id="popupContent">
-        <h2 class="text-xl font-semibold mb-4">Attention!</h2>
+    <!-- Modal -->
+    <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+      <div class="bg-white dark:bg-gray-900 text-black dark:text-white p-6 rounded shadow-lg w-80 border border-gray-400 dark:border-violet-600">
+        <h2 class="text-xl font-semibold mb-4">⚠️ Attention!</h2>
         <p class="mb-4">You require admin privilege for this action!</p>
         <div class="flex justify-between">
-          <button id="adminAccessBtn" class="bg-green-600 text-white px-4 py-2 rounded">Admin Access</button>
-          <button id="closeBtn" class="bg-gray-400 text-white px-4 py-2 rounded">Close</button>
+          <button id="adminAccessBtn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Admin Access</button>
+          <button id="closeBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Close</button>
         </div>
       </div>
     </div>
-  </div>
 
-  <ul id="fileList" class="mt-4 space-y-2"></ul>
+    <ul id="fileList" class="mt-4 space-y-2 text-sm text-gray-800 dark:text-gray-300"></ul>
+  </div>
+</div>
+
 
 
   <script type="module">
