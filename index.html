@@ -47,7 +47,7 @@
                  class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border border-purple-300 text-purple-900 placeholder-purple-400 bg-white">
         </div>
         <!-- Audio element -->
-        <audio id="loginSound" src="your-audio-file.mp3"></audio>
+        <audio id="loginSound" src="https://zen-tech-student-portal.vercel.app/startup.mp3"></audio>
 
         <button id="loginBtn" type="submit"
           class="w-full py-3 rounded-lg font-semibold bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 transition transform hover:scale-105 shadow-md flex items-center justify-center gap-2 text-white">
@@ -59,6 +59,8 @@
         </button>
       </form>
       <p class="text-center text-sm text-purple-500 mt-6">
+            <button onclick="showRulesPopup()" class="text-purple-600  hover:text-purple-800">Rules</button>
+<br>
         Designed and Developed by <span class="font-semibold"> <a href="https://zen-tech.vercel.app/" class="hover:underline">Zen-Tech </a></span>
       </p>
     </div>
@@ -68,10 +70,71 @@
 
 <!-- Footer -->
 <footer class="text-center text-xs text-purple py-4">
-  A Platform of <span class="font-semibold">T-Service</span> || Server: SEA-1
+
+  A Platform of <span class="font-semibold">T-Service</span> || Server: India-1
 </footer>
 
+<!-- Portal Usage Terms Popup -->
+<div id="rulesOverlay" class="hidden fixed inset-0 z-50 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center">
+  <div class="bg-white max-w-2xl w-full p-8 sm:p-10 rounded-xl shadow-2xl relative border border-gray-200">
+    
+    <!-- Close Button -->
+    <button onclick="closeRulesPopup()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-semibold">&times;</button>
+
+    <!-- Title -->
+    <h2 class="text-2xl font-bold text-center text-purple-800 mb-6">
+       Terms of Access and Use
+    </h2>
+
+    <!-- Body Text -->
+    <p class="text-sm text-gray-600 mb-4">
+      By accessing and using this Student Portal, you acknowledge and agree to abide by the following terms and conditions, which are mandatory for all users of this platform.
+    </p>
+
+    <!-- Legal Rules List -->
+    <ol class="list-decimal list-inside space-y-3 text-sm text-gray-800">
+      <li>
+        <strong>Account Security:</strong> No Departments are allowed to share their login credentials. Accounts are strictly monitored.
+      </li>
+      <li>
+        <strong>Authorized Usage:</strong> The portal must be accessed via the institution's official network or Home networks only.
+      </li>
+      <li>
+        <strong>Content Submission:</strong> Only admins are permitted to upload study materials, notices, and official documents (After verification from faculties).
+      </li>
+      <li>
+        <strong>Monitoring & Compliance:</strong> All activities are logged. Misuse or manipulation will lead to disciplinary actions.
+      </li>
+   
+    
+    </ol>
+
+    <!-- Consent Notice -->
+    <p class="mt-6 text-sm text-gray-500 italic text-center">
+      By continuing, you confirm that you have read, understood, and agreed to the above terms of use.
+    </p>
+
+    <!-- Accept Button -->
+    <div class="mt-6 text-center">
+      <button onclick="closeRulesPopup()" class="px-6 py-2 text-sm rounded-md bg-purple-700 text-white hover:bg-purple-800 shadow-sm transition">
+        I Acknowledge and Agree
+      </button>
+    </div>
+  </div>
+</div>
+
+
 <script>
+
+
+  function showRulesPopup() {
+    document.getElementById('rulesOverlay').classList.remove('hidden');
+  }
+
+  function closeRulesPopup() {
+    document.getElementById('rulesOverlay').classList.add('hidden');
+  }
+
   // Encrypted (base64) users data string 
   const encryptedUsers = "W3sidXNlcm5hbWUiOiJtZ21zeWNzIiwicGFzc3dvcmQiOiJTdHVkZW50IiwiZW1haWwiOiJtZ21zeWNzQGV4YW1wbGUuY29tIiwicm9sZSI6InN5Y3Nfc3R1ZGVudCIsInJlZGlyZWN0IjoiaHR0cHM6Ly96ZW4tdGVjaC1zdHVkZW50LXBvcnRhbC52ZXJjZWwuYXBwL1N5Y3MifSx7InVzZXJuYW1lIjoibWdtc3lpdCIsInBhc3N3b3JkIjoiU3R1ZGVudCIsImVtYWlsIjoibWdtc3lpdEBleGFtcGxlLmNvbSIsInJvbGUiOiJzeWl0X3N0dWRlbnQiLCJyZWRpcmVjdCI6Imh0dHBzOi8vemVuLXRlY2gtc3R1ZGVudC1wb3J0YWwudmVyY2VsLmFwcC9TeWl0In0seyJ1c2VybmFtZSI6ImFkbWluQHplbnRlY2gub3JnIiwicGFzc3dvcmQiOiJBZG1pbjEyMyIsImVtYWlsIjoiYWRtaW5AemVudGVjaC5vcmciLCJyb2xlIjoiYWRtaW4iLCJyZWRpcmVjdCI6bnVsbH1d";
 
@@ -124,7 +187,7 @@
 
     setTimeout(() => {
       window.location.href = user.redirect;
-    }, 2000);
+    }, 4000);
 
     return false;
   }
@@ -136,22 +199,7 @@
     document.body.style.pointerEvents = 'none';
   }
 
-  document.addEventListener('contextmenu', e => {
-    e.preventDefault();
-    showWarning();
-  });
 
-  ['copy', 'paste', 'cut'].forEach(evt =>
-    document.addEventListener(evt, e => {
-      e.preventDefault();
-      showWarning();
-    })
-  );
-
-  document.addEventListener('selectstart', e => {
-    e.preventDefault();
-    showWarning();
-  });
 
   document.addEventListener('keydown', function (e) {
     if (
@@ -163,11 +211,7 @@
       showWarning();
     }
 
-    const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
-    if ((e.key === 'Backspace' || e.key === 'Delete') && !isInput) {
-      e.preventDefault();
-      showWarning();
-    }
+   
   });
 </script>
 
