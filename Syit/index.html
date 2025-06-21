@@ -24,11 +24,12 @@
       }
     }
   }
+
 </script>
 <script src="https://unpkg.com/heroicons@2.0.16/dist/24/outline/index.js" defer></script>
 
 </head>
-<body class="bg-gray-950 h-screen flex" >
+<body class="bg-gray-950 h-screen flex " >
 
 
   <script>
@@ -68,11 +69,21 @@
       <button onclick="showSubjects()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📚 Subjects
       </button>
-      <button onclick="showEvents()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
-        📅 Events
-      </button>
+     
       <button onclick="showResults()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📊 Results
+      </button>
+          <button   onclick="showQuiz()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        📊 Quiz (U_D)
+      </button>
+       <button   onclick="showPoll()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        📊 Poll_Sys (U_D)
+      </button>
+       <button   onclick="showLeaderboard()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        📊 Leaderboard (U_D)
+      </button>
+        <button   onclick="showSubmission()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+        📊 Submission (U_D)
       </button>
       <button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7';" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📝 Feedback
@@ -130,14 +141,14 @@
 
     <div class="bg-violet-100 dark:bg-violet-900 border border-violet-300 dark:border-violet-600 px-4 py-2 rounded shadow-inner overflow-hidden">
       <marquee behavior="scroll" direction="left" class="text-violet-600 dark:text-violet-200 font-semibold animate-pulse">
-        📢 Updates coming soon — stay tuned!
+        📢 Some Section are Under-Development (U_D) | Syllabus, Time-Table, Subjects will be updated soon. |
       </marquee>
     </div>
 
     <div class="flex justify-between items-center mt-4 text-sm text-gray-700 dark:text-gray-400">
       <a href="#" class="underline hover:text-violet-600 dark:hover:text-violet-400 transition">User Manual</a>
       <p class="font-medium">Manager: Prajakta Mane</p>
-      <p class="font-medium">Version: 9.00.00</p>
+      <p class="font-medium">Version: 9.10.00</p>
     </div>
 
     <div class="bg-gray-100 dark:bg-gray-900 rounded-xl p-4 shadow-lg space-y-4 border border-violet-400/30 dark:border-violet-700/30">
@@ -200,7 +211,95 @@
 
     <ul id="fileList" class="mt-4 space-y-2 text-sm text-gray-800 dark:text-gray-300"></ul>
   </div>
+
+
+  
+<!-- Poll Section -->
+<div id="pollSection" class="hidden relative p-6 space-y-6 bg-white dark:bg-gray-900 rounded-lg shadow-lg">
+
+
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400">Poll / voting [Under - Development]</h2>
+    <button disabled onclick="openPollModal()" class="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 transition-all">
+      + Create Poll
+    </button>
+  </div>
+
+  <!-- Poll Modal (Initially Hidden) -->
+  <div id="pollModal" class="fixed inset-0 z-50 bg-black bg-opacity-40 backdrop-blur-sm hidden flex items-center justify-center">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl max-w-lg w-full shadow-xl relative space-y-4">
+      
+      <!-- Close Button -->
+      <button onclick="closePollModal()" class="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-xl">&times;</button>
+
+      <h3 class="text-xl font-bold text-gray-800 dark:text-white">Create New Poll</h3>
+
+      <!-- Poll Form -->
+      <input type="text" id="pollQuestion" placeholder="Enter your question" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-white" />
+
+      <!-- Options -->
+      <div class="grid grid-cols-1 gap-2">
+        <input type="text" id="option1" placeholder="Option 1" class="p-2 border rounded-lg dark:bg-gray-700 dark:text-white" />
+        <input type="text" id="option2" placeholder="Option 2" class="p-2 border rounded-lg dark:bg-gray-700 dark:text-white" />
+        <input type="text" id="option3" placeholder="Option 3" class="p-2 border rounded-lg dark:bg-gray-700 dark:text-white" />
+        <input type="text" id="option4" placeholder="Option 4" class="p-2 border rounded-lg dark:bg-gray-700 dark:text-white" />
+      </div>
+
+      <button onclick="generateQRCodes()" class="mt-4 bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 transition-all w-full">
+        Generate QR Codes
+      </button>
+    </div>
+  </div>
+
+  <!-- QR Codes Display Section (Empty initially) -->
+  <div id="qrDisplaySection" class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 hidden">
+    <!-- QR cards will be dynamically added here -->
+  </div>
 </div>
+
+
+  <!-- Quiz Section -->
+  <div id="quizSection" class="hidden space-y-4 animate-fadeIn">
+    <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400">🎉 Quiz</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <li>
+        <a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
+          🎬 Quiz
+        </a>
+      </li>
+    </ul>
+  </div>
+
+    <!-- Leaderboard Section -->
+  <div id="leaderboardSection" class="hidden space-y-4 animate-fadeIn">
+    <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400">🎉 Leaderboard</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <li>
+        <a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
+          🎬 aa
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+
+    <!-- Submission  Section -->
+  <div id="submissionSection" class="hidden space-y-4 animate-fadeIn">
+    <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400">🎉Submission Deadlines</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <li>
+        <a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
+          🎬 daedlines
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+</div>
+
+
 
 
 
@@ -394,8 +493,26 @@
       showOnly('homeSection');
     }
 
+         function showPoll() {
+      showOnly('pollSection');
+    }
+  
+
+     function showLeaderboard() {
+      showOnly('leaderboardSection');
+    }
+
+         function showSubmission() {
+      showOnly('submissionSection');
+    }
+
+
+      function showQuiz() {
+      showOnly('quizSection');
+    }
+
     function showOnly(idToShow) {
-      const sections = ['homeSection', 'subjectSection', 'eventSection', 'resultSection'];
+      const sections = ['homeSection', 'subjectSection', 'eventSection', 'resultSection' , 'quizSection' , 'pollSection', 'leaderboardSection', 'submissionSection' ];
       sections.forEach(id => {
         document.getElementById(id).classList.toggle('hidden', id !== idToShow);
       });
@@ -407,7 +524,58 @@
         if (spinner) spinner.style.display = "none";
       }, 2000);
     });
+
+
+    function openPollModal() {
+  document.getElementById("pollModal").classList.remove("hidden");
+}
+
+function closePollModal() {
+  document.getElementById("pollModal").classList.add("hidden");
+}
+
   </script>
+
+<script>
+function generateQRCodes() {
+  const question = document.getElementById("pollQuestion").value.trim();
+  const options = [
+    document.getElementById("option1").value.trim(),
+    document.getElementById("option2").value.trim(),
+    document.getElementById("option3").value.trim(),
+    document.getElementById("option4").value.trim()
+  ];
+
+  // Simple check
+  if (!question || options.some(opt => !opt)) {
+    alert("Please enter a question and all 4 options.");
+    return;
+  }
+
+  // Display section
+  const qrDisplay = document.getElementById("qrDisplaySection");
+  qrDisplay.innerHTML = ""; // Clear old content
+  qrDisplay.classList.remove("hidden");
+
+  options.forEach((opt, index) => {
+    const voteLink = `https://zen-tech-student-portal.vercel.app/vote.html?question=${encodeURIComponent(question)}&option=${encodeURIComponent(opt)}`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(voteLink)}&size=180x180`;
+
+    const qrCard = `
+      <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-md text-center">
+        <h4 class="text-lg font-semibold mb-2 text-gray-700 dark:text-white">Option ${index + 1}: ${opt}</h4>
+        <img src="${qrUrl}" alt="QR Code for ${opt}" class="mx-auto" />
+        <p class="text-sm text-gray-500 mt-2">Scan to vote for this option</p>
+      </div>
+    `;
+
+    qrDisplay.innerHTML += qrCard;
+  });
+
+  closePollModal(); 
+}
+</script>
+
 
 </body>
 </html>
