@@ -41,11 +41,12 @@
   }
 
 </script>
+
+
 <!-- Loading Spinner -->
 <div id="spinnerOverlay" class="fixed inset-0 bg-gray-950 bg-opacity-70 backdrop-blur-md flex justify-center items-center z-50">
   <div class="w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
 </div>
-
 
 <!-- Sidebar -->
 <div class="w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-gray-200 shadow-2xl flex flex-col justify-between min-h-screen border-r border-violet-900 transition-all duration-500">
@@ -69,7 +70,7 @@
       <button onclick="showSubjects()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📚 Subjects
       </button>
-     
+     <!--
       <button onclick="showResults()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📊 Results
       </button>
@@ -84,7 +85,7 @@
       </button>
         <button   onclick="showSubmission()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📊 Submission (U_D)
-      </button>
+      </button> -->
       <button onclick="window.location.href='https://forms.gle/QfBVHcBR6zDuEpFo7';" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📝 Feedback
       </button>
@@ -123,8 +124,85 @@
   }
 </script>
 
+
+  
 <!-- Main Content -->
 <div class="flex-1 p-10 text-gray-900 dark:text-gray-200 space-y-6 overflow-y-auto bg-white dark:bg-gray-950 transition-all duration-500">
+<!-- Sticky Header -->
+<header class="w-full h-12 bg-white dark:bg-gray-900 shadow sticky top-0 z-50 flex items-center justify-between border-b border-violet-600 px-4">
+  
+  <!-- Date & Time Section -->
+  <div id="dateTime" class="text-sm font-medium text-violet-700 dark:text-violet-300"></div>
+
+  <!-- Search Section -->
+  <div class="relative flex items-center gap-2">
+    <!-- Search Icon -->
+    <button id="searchToggle" class="text-violet-700 dark:text-violet-300 focus:outline-none text-lg">
+      <svg xmlns="http://www.w3.org/2000/svg" 
+           fill="none" 
+           viewBox="0 0 24 24" 
+           stroke="currentColor" 
+           class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+      </svg>
+    </button>
+
+    <!-- Animated Search Input -->
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Search..." 
+      class="absolute right-8 origin-right transition-all duration-500 ease-in-out w-0 opacity-0 px-3 py-1 rounded-full border border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-800 dark:text-white dark:border-violet-600 scale-95"
+    />
+  </div>
+</header>
+
+
+<script>
+    const searchToggle = document.getElementById("searchToggle");
+  const searchInput = document.getElementById("searchInput");
+
+  searchToggle.addEventListener("click", () => {
+    const isOpen = searchInput.classList.contains("w-48");
+
+    if (isOpen) {
+      // Hide the input
+      searchInput.classList.remove("w-48", "opacity-100", "scale-100");
+      searchInput.classList.add("w-0", "opacity-0", "scale-95");
+    } else {
+      // Show the input
+      searchInput.classList.remove("w-0", "opacity-0", "scale-95");
+      searchInput.classList.add("w-48", "opacity-100", "scale-100");
+      searchInput.focus();
+    }
+  });
+
+  
+ function updateDateTime() {
+    const now = new Date();
+
+    // Format time with AM/PM
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+
+    // Format date
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    const formattedDate = now.toLocaleDateString('en-US', options);
+
+    // Final output
+    const formattedTime = `${formattedDate} | ${hours}:${minutes} ${ampm}`;
+    document.getElementById('dateTime').textContent = formattedTime;
+  }
+
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+ 
+
+</script>
 
 
 
@@ -141,14 +219,14 @@
 
     <div class="bg-violet-100 dark:bg-violet-900 border border-violet-300 dark:border-violet-600 px-4 py-2 rounded shadow-inner overflow-hidden">
       <marquee behavior="scroll" direction="left" class="text-violet-600 dark:text-violet-200 font-semibold animate-pulse">
-        📢 Some Section are Under-Development (U_D) | Syllabus, Time-Table, Subjects will be updated soon. |
+        📢  Syllabus, Time-Table, Subjects will be updated soon. 
       </marquee>
     </div>
 
     <div class="flex justify-between items-center mt-4 text-sm text-gray-700 dark:text-gray-400">
       <a href="#" class="underline hover:text-violet-600 dark:hover:text-violet-400 transition">User Manual</a>
       <p class="font-medium">Manager: Prajakta Mane</p>
-      <p class="font-medium">Version: 9.10.00</p>
+      <p class="font-medium">Version: 9.11.00</p>
     </div>
 
     <div class="bg-gray-100 dark:bg-gray-900 rounded-xl p-4 shadow-lg space-y-4 border border-violet-400/30 dark:border-violet-700/30">
@@ -176,6 +254,10 @@
       <li><a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">💻 Operating System</a></li>
       <li><a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">📐 Applied Mathematics</a></li>
       <li><a href="https://zen-tech-student-portal.vercel.app/Syit/Subject/Python" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">🐍 Python</a></li>
+      <li><a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">🧮 Data Structure</a></li>
+      <li><a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">💰 Finance</a></li>
+
+
     </ul>
   </div>
 
