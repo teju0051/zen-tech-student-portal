@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>finance-literacy| Student Portal</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            fadeIn: "fadeIn 1.5s ease-in-out",
+          },
+          keyframes: {
+            fadeIn: {
+              "0%": { opacity: "0", transform: "translateY(20px)" },
+              "100%": { opacity: "1", transform: "translateY(0)" },
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.42.3/dist/umd/supabase.min.js"></script>
+
+  <!-- Icons (optional) -->
+  <script src="https://unpkg.com/heroicons@2.0.16/dist/24/outline/index.js" defer></script>
+
+  <!-- CSS Animation -->
+  <style>
+    @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.8s ease-out both;
+    }
+  </style>
+
+</head>
+<body class="bg-gray-950 text-white h-screen flex">
+
+  <script>
+  const token = localStorage.getItem("sessionToken");
+
+  if (!token) {
+    // No token found, redirect to login
+    window.location.href = "https://zen-tech-student-portal.vercel.app/";
+  }
+
+</script>
+
+  <!-- Sidebar -->
+  <div class="w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-gray-200 shadow-2xl flex flex-col justify-between min-h-screen border-r border-violet-900">
+    <div>
+      <div class="p-6 bg-violet-800 text-white text-2xl font-bold rounded-b-2xl">Finance Literacy</div>
+      <div class="px-6 py-3 text-violet-300 font-medium border-b border-gray-800 text-sm bg-gray-950/60">
+        💼 SYIT - Student Portal
+      </div>
+      <nav class="flex flex-col px-6 py-4 space-y-2">
+        <button onclick="window.location.href='https://zen-tech-student-portal.vercel.app/Syit'" class="w-full text-left px-4 py-2 bg-gray-800 hover:bg-violet-700 rounded-lg transition">🏠 Back to Dashboard</button>
+        <button onclick="showSubjects()" class="w-full text-left px-4 py-2 bg-gray-800 hover:bg-violet-700 rounded-lg transition">📚 Notes</button>
+        <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-400 hover:bg-red-900 rounded-lg transition">🚪 Logout</button>
+      </nav>
+    </div>
+    <footer class="p-4 text-xs text-center text-violet-400 border-t border-gray-800 bg-gray-950/60">
+      Designed by <a href="https://zen-tech.vercel.app/" class="text-violet-300 hover:underline">Zen-Tech</a>
+    </footer>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-10 space-y-6 overflow-y-auto bg-white dark:bg-gray-950 transition-all duration-500">
+
+    <!-- Home -->
+    <div id="homeSection" class="animate-fadeIn">
+      <h1 class="text-3xl font-bold dark:text-white text-gray-900 text-center">Please select any option on the left to continue</h1>
+    </div>
+
+    <!-- Notes Upload Section -->
+    <div id="subjectSection" class="hidden space-y-4 animate-fadeIn">
+      <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400 flex justify-between items-center">
+        📚 Notes
+     <!-- Trigger Button -->
+<button onclick="openAdminPopup()" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-700 transition">
+  Upload PDF
+</button>
+<input type="file" id="fileInput" accept="application/pdf" class="hidden" />
+
+<!-- Admin Popup -->
+<div id="adminPopup" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 hidden">
+<div class="relative bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl max-w-sm w-full text-center">
+<button onclick="closeAdminPopup()" class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold">
+    &times;
+  </button>
+  <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+      🔒 This requires admin privilege to use this option!
+    </h2>
+
+    <div id="popupStage1">
+      <button onclick="closeAdminPopup()" class="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600 mr-2">
+        Okay
+      </button>
+      <button onclick="showPasswordField()" class="px-4 py-2 bg-violet-600 text-white rounded hover:bg-violet-700">
+        I am Admin
+      </button>
+    </div>
+
+    <div id="popupStage2" class="mt-4 hidden">
+      <input type="password" id="adminPassword" placeholder="Enter Admin Password"
+        class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 mb-3 text-black" />
+      <button onclick="verifyPassword()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+        Submit
+      </button>
+      <p id="adminError" class="text-red-500 text-sm mt-2 hidden">❌ Wrong password! Access denied.</p>
+    </div>
+  </div>
+</div>
+
+        <input type="file" id="fileInput" accept="application/pdf" class="hidden" />
+      </h2>
+      <ul id="notesList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></ul>
+    </div>
+
+  
+
+  </div>
+
+  <!-- Supabase Upload Logic -->
+  <script>
+    const { createClient } = supabase;
+    const supabaseClient = createClient(
+      'https://ellxxhwuohbezfijkwvt.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
+    );
+
+    const fileInput = document.getElementById("fileInput");
+    const notesList = document.getElementById("notesList");
+
+    fileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file || file.type !== "application/pdf") {
+        alert("Please select a valid PDF.");
+        return;
+      }
+
+      const fileName = `${Date.now()}_${file.name}`;
+      const { data, error } = await supabaseClient.storage.from("finance-literacy").upload(fileName, file);
+
+      if (error) {
+        alert("Upload failed!");
+        console.error("Upload error:", error.message);
+        return;
+      }
+
+      const { data: urlData } = supabaseClient.storage.from("finance-literacy").getPublicUrl(fileName);
+      const fileUrl = urlData.publicUrl;
+
+   
+      await supabaseClient.from("finance-literacy").insert([
+        {
+          file_name: file.name,
+          file_url: fileUrl,
+          subject: "finance-literacy",
+          uploaded_by: "admin@zentechindia.org"
+        }
+      ]);
+
+      // Show uploaded file
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a href="${fileUrl}" target="_blank"
+          class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
+          📄 ${file.name}
+        </a>`;
+      notesList.prepend(li);
+    });
+
+    // Load previously uploaded notes
+    (async () => {
+      const { data, error } = await supabaseClient
+        .from("finance-literacy")
+        .select("*")
+        .order("uploaded_at", { ascending: false });
+
+      if (error) {
+        console.error("Error loading notes:", error.message);
+        return;
+      }
+
+      data.forEach((note) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <a href="${note.file_url}" target="_blank"
+            class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
+            📄 ${note.file_name}
+          </a>`;
+        notesList.appendChild(li);
+      });
+    })();
+  </script>
+
+  <!-- Page Navigation -->
+  <script>
+    function showOnly(idToShow) {
+      ['homeSection', 'subjectSection', 'eventSection'].forEach(id => {
+        document.getElementById(id).classList.toggle('hidden', id !== idToShow);
+      });
+    }
+
+    function showHome() { showOnly('homeSection'); }
+    function showSubjects() { showOnly('subjectSection'); }
+    function showEvents() { showOnly('eventSection'); }
+
+    function logout() {
+      localStorage.removeItem("sessionToken");
+      window.location.href = "https://zen-tech-student-portal.vercel.app/";
+    }
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const spinner = document.getElementById("spinnerOverlay");
+        if (spinner) spinner.style.display = "none";
+      }, 1000);
+    });
+
+
+    
+  </script>
+
+ <script>
+  function logout() {
+    localStorage.removeItem("sessionToken");
+    window.location.href = "https://zen-tech-student-portal.vercel.app/";
+  }
+
+</script>
+
+  <script>
+
+    
+  const ADMIN_PASS = "#8GJGPJYQ2";
+
+  function openAdminPopup() {
+    document.getElementById("adminPopup").classList.remove("hidden");
+    document.getElementById("popupStage1").classList.remove("hidden");
+    document.getElementById("popupStage2").classList.add("hidden");
+    document.getElementById("adminError").classList.add("hidden");
+  }
+
+  function closeAdminPopup() {
+    document.getElementById("adminPopup").classList.add("hidden");
+  }
+
+  function showPasswordField() {
+    document.getElementById("popupStage1").classList.add("hidden");
+    document.getElementById("popupStage2").classList.remove("hidden");
+  }
+
+  function verifyPassword() {
+    const inputPass = document.getElementById("adminPassword").value;
+    if (inputPass === ADMIN_PASS) {
+      closeAdminPopup();
+      document.getElementById("fileInput").click();
+    } else {
+      document.getElementById("adminError").classList.remove("hidden");
+    }
+  }
+</script>
+
+
+</body>
+</html>
