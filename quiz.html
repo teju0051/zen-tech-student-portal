@@ -1,0 +1,20 @@
+<html>
+<body>
+<script>
+const quizId = new URLSearchParams(window.location.search).get("id");
+
+async function loadQuiz() {
+  const { data: questions } = await supabase.from("questions").select("*").eq("quiz_id", quizId);
+  renderQuiz(questions); // render questions dynamically
+}
+
+async function submitQuiz() {
+  const userName = document.getElementById("userName").value;
+  const answers = collectAnswers(); // custom function
+
+  await supabase.from("responses").insert([{ quiz_id: quizId, user_name: userName, answers }]);
+
+  alert("Submitted successfully!");
+}
+</script></body>
+</html>
