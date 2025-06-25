@@ -1,20 +1,87 @@
-<html>
-<body>
-<script>
-const quizId = new URLSearchParams(window.location.search).get("id");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Player</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white min-h-screen">
+  <div class="max-w-3xl mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold text-center text-violet-600 mb-6">Welcome to the Quiz!</h1>
 
-async function loadQuiz() {
-  const { data: questions } = await supabase.from("questions").select("*").eq("quiz_id", quizId);
-  renderQuiz(questions); // render questions dynamically
-}
+    <div id="nameSection" class="mb-6">
+      <input id="userName" type="text" placeholder="Enter your name" class="w-full p-2 border border-violet-400 rounded" />
+      <button onclick="startQuiz()" class="mt-3 px-4 py-2 bg-violet-600 text-white rounded hover:bg-violet-700 transition">Start Quiz</button>
+    </div>
 
-async function submitQuiz() {
-  const userName = document.getElementById("userName").value;
-  const answers = collectAnswers(); // custom function
+    <form id="quizForm" class="space-y-6 hidden"></form>
+    <button id="submitBtn" onclick="submitQuiz()" class="hidden mt-6 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">Submit</button>
 
-  await supabase.from("responses").insert([{ quiz_id: quizId, user_name: userName, answers }]);
+    <div id="thankYou" class="hidden text-center text-xl text-green-600 font-semibold mt-10"></div>
+  </div>
 
-  alert("Submitted successfully!");
-}
-</script></body>
+  <script>
+    const supabase = supabase.createClient('https://your-project.supabase.co', 'public-anon-key'); // replace with your credentials
+    const quizId = new URLSearchParams(window.location.search).get("id");
+
+    let loadedQuestions = [];
+
+    async function startQuiz() {
+      const userName = document.getElementById('userName').value.trim();
+      if (!userName) return alert('Please enter your name.');
+
+      document.getElementById('nameSection').classList.add('hidden');
+      document.getElementById('quizForm').classList.remove('hidden');
+      document.getElementById('submitBtn').classList.remove('hidden');
+
+      const { data: questions, error } = await supabase
+        .from('questions')
+        .select('*')
+        .eq('quiz_id', quizId);
+
+      if (error) return alert('Failed to load questions.');
+
+      loadedQuestions = questions;
+      const quizForm = document.getElementById('quizForm');
+      quizForm.innerHTML = '';
+
+      questions.forEach((q, index) => {
+        const options = JSON.parse(q.options);
+        const questionHTML = `
+          <div>
+            <h2 class="font-semibold text-lg mb-2">Q${index + 1}. ${q.question_text}</h2>
+            ${options.map(opt => `
+              <label class="block">
+                <input type="radio" name="q${index}" value="${opt}" class="mr-2" /> ${opt}
+              </label>
+            `).join('')}
+          </div>
+        `;
+        quizForm.innerHTML += questionHTML;
+      });
+    }
+
+    async function submitQuiz() {
+      const userName = document.getElementById('userName').value;
+      const answers = [];
+
+      loadedQuestions.forEach((q, index) => {
+        const selected = document.querySelector(`input[name='q${index}']:checked`);
+        answers.push({
+          question_id: q.id,
+          selected: selected ? selected.value : null
+        });
+      });
+
+      await supabase.from('responses').insert([{ quiz_id: quizId, user_name: userName, answers }]);
+
+      document.getElementById('quizForm').classList.add('hidden');
+      document.getElementById('submitBtn').classList.add('hidden');
+      document.getElementById('thankYou').classList.remove('hidden');
+      document.getElementById('thankYou').innerText = 'Thank you! Your answers have been submitted.';
+    }
+  </script>
+</body>
 </html>
