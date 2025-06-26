@@ -70,6 +70,9 @@
       <button onclick="showSubjects()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📚 Subjects
       </button>
+        <button onclick="showAi()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
+       🤖  AI
+      </button>
      <!--
       <button onclick="showResults()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📊 Results
@@ -353,6 +356,29 @@
       </li>
     </ul>
   </div>
+
+<!-- AI Announcement Banner -->
+<div id="aiSection" class="hidden bg-blue-100 dark:bg-blue-900 border-l-4 border-blue-500 text-blue-800 dark:text-blue-100 p-4 rounded-lg shadow-md space-y-2">
+  <h3 class="text-2xl font-bold">🤖 Coming Soon: Your AI-Powered Academic Assistant!</h3>
+
+  <p class="text-sm">
+    Get ready for a smarter way to learn! Powered by <strong>OpenAI's GPT</strong>, this tool will help you summarize notes, clarify concepts, create quizzes, and support your assignments—instantly and intuitively.
+  </p>
+
+  <ul class="list-disc list-inside text-sm ml-4 space-y-1">
+    <li>📚 Summarize notes in seconds</li>
+    <li>📝 Get assignment help and content suggestions</li>
+    <li>🔍 Understand tough topics easily</li>
+    <li>🎯 Auto-generate quizzes from your study material</li>
+    <li>🧠 Ask subject questions and get reliable answers</li>
+  </ul>
+
+  <p class="text-sm">
+    Built for students, by Students. <strong>Zen-Tech Educational Team</strong> & <strong>Zen-Tech AI</strong> are proud to bring you this powerful academic companion.
+  </p>
+</div>
+
+
 
 <!-- Leaderboard Section -->
 <div id="leaderboardSection" class="hidden animate-fadeIn px-4 py-8">
@@ -690,6 +716,10 @@
       showOnly('resultSection');
     }
 
+       function showAi() {
+      showOnly('aiSection');
+    }
+
     function showEvents() {
       showOnly('eventSection');
     }
@@ -721,7 +751,7 @@
     }
 
     function showOnly(idToShow) {
-      const sections = ['homeSection', 'subjectSection', 'eventSection', 'resultSection' , 'quizSection' , 'pollSection', 'leaderboardSection', 'submissionSection' ];
+      const sections = ['homeSection', 'subjectSection', 'eventSection', 'resultSection' , 'quizSection' , 'pollSection', 'leaderboardSection', 'submissionSection', 'aiSection' ];
       sections.forEach(id => {
         document.getElementById(id).classList.toggle('hidden', id !== idToShow);
       });
