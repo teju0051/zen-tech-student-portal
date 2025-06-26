@@ -79,10 +79,12 @@
       </button>
        <button   onclick="showPoll()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📊 Poll_Sys (U_D)
-      </button>
+      </button> -->
+
        <button   onclick="showLeaderboard()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
-        📊 Leaderboard (U_D)
+        🎖️ Leaderboard 
       </button>
+    <!--
         <button   onclick="showSubmission()" class="w-full text-left px-4 py-2 bg-gray-800/40 hover:bg-violet-700 hover:text-white text-gray-300 rounded-lg transition-all shadow-md">
         📊 Submission (U_D)
       </button> -->
@@ -352,18 +354,143 @@
     </ul>
   </div>
 
-    <!-- Leaderboard Section -->
-  <div id="leaderboardSection" class="hidden space-y-4 animate-fadeIn">
-    <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400">🎉 Leaderboard</h2>
-    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      <li>
-        <a href="#" class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-          🎬 aa
-        </a>
-      </li>
-    </ul>
-  </div>
+<!-- Leaderboard Section -->
+<div id="leaderboardSection" class="hidden animate-fadeIn px-4 py-8">
+<h2 class="flex justify-center items-center text-4xl font-extrabold text-violet-700 dark:text-violet-300 tracking-wide space-x-3 px-4 py-4">
+  🎖️ FY-IT 2024 - 2025
+  <button onclick="toggleLeaderboardInfo()" class="text-violet-600 dark:text-violet-400 hover:text-violet-800 dark:hover:text-white text-xl focus:outline-none" aria-label="Info">
+    ❓
+  </button>
+</h2>
 
+
+<!-- Leaderboard Info Modal -->
+<div id="leaderboardInfoPanel" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+  <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-3xl p-8 relative">
+    
+    <!-- Close Button -->
+    <button onclick="toggleLeaderboardInfo()" class="absolute top-5 right-5 text-gray-600 dark:text-gray-300 hover:text-red-500 text-3xl font-bold">
+      &times;
+    </button>
+    
+<h3 class="text-3xl font-bold text-violet-700 dark:text-violet-300 mb-4 flex items-center gap-2">
+  <!-- Heroicon: Information Circle -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
+  </svg>
+  Info
+</h3>
+    
+    <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
+      Welcome to the <strong>FY-IT 2024–2027 Leaderboard</strong>! This leaderboard is designed to showcase the outstanding academic and extracurricular performances of our students, updated semester-wise.
+    </p>
+
+    <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
+      Each <strong>season</strong> represents one academic <strong>semester</strong>, and the rankings are based on the internal evaluation data provided by the <strong>Exam Department</strong>. The scores are calculated using a weighted average of unit tests, assignments, attendance, and participation in department-level activities.
+    </p>
+
+ 
+
+    <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
+      🏅 <strong>Bonus Points:</strong> Students can earn bonus points through department-level competitions, workshops, and hackathons. These will be verified and approved by faculty before being added to the leaderboard.
+    </p>
+
+    <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
+      📆 Leaderboard gets refreshed at the end of each semester after final internal data review. Keep checking for updates and new recognitions!
+    </p>
+
+    <div class="border-t border-gray-300 dark:border-gray-700 pt-4 mt-4 text-sm text-gray-600 dark:text-gray-400">
+      <strong>Note:</strong> If you notice any discrepancies or have questions regarding the rankings, please contact the <strong>Exam Department</strong> with your concern and supporting documents.
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  function toggleLeaderboardInfo() {
+    const panel = document.getElementById('leaderboardInfoPanel');
+    panel.classList.toggle('hidden');
+  }
+</script>
+
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <!-- Season 1 -->
+    <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-6 space-y-6">
+      <h3 class="text-2xl font-semibold text-center text-violet-600 dark:text-violet-300 uppercase tracking-wide">Season 1</h3>
+      <div class="space-y-4">
+        <!-- 1st -->
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-green-100 to-green-200 dark:from-green-800 dark:to-green-900 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-green-600 text-white flex items-center justify-center font-semibold text-lg shadow">
+              A
+              <!-- Replace with <img src="URL" class="w-10 h-10 rounded-full object-cover shadow"> for images -->
+            </div>
+            <span class="text-xl font-bold text-green-800 dark:text-green-300">🥇 Abhishek</span>
+          </div>
+          <span class="text-sm font-medium text-green-900 dark:text-green-200 bg-white dark:bg-green-700 px-3 py-1 rounded-full shadow">1st Place</span>
+        </div>
+
+        <!-- 2nd -->
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-yellow-100 to-yellow-200 dark:from-yellow-800 dark:to-yellow-900 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center font-semibold text-lg shadow">
+              H
+            </div>
+            <span class="text-xl font-bold text-yellow-800 dark:text-yellow-300">🥈 Deepali</span>
+          </div>
+          <span class="text-sm font-medium text-yellow-900 dark:text-yellow-100 bg-white dark:bg-yellow-700 px-3 py-1 rounded-full shadow">2nd Place</span>
+        </div>
+
+        <!-- 3rd -->
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold text-lg shadow">
+              T
+            </div>
+            <span class="text-xl font-bold text-blue-800 dark:text-blue-300">🥉 Tejas</span>
+          </div>
+          <span class="text-sm font-medium text-blue-900 dark:text-blue-100 bg-white dark:bg-blue-700 px-3 py-1 rounded-full shadow">3rd Place</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Season 2 -->
+    <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-6 space-y-6">
+      <h3 class="text-2xl font-semibold text-center text-violet-600 dark:text-violet-300 uppercase tracking-wide">Season 2</h3>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center font-semibold text-lg shadow">
+              ?
+            </div>
+            <span class="text-xl font-medium text-gray-700 dark:text-gray-300">🏅 TBA</span>
+          </div>
+          <span class="text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">Coming Soon</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center font-semibold text-lg shadow">
+              ?
+            </div>
+            <span class="text-xl font-medium text-gray-700 dark:text-gray-300">🏅 TBA</span>
+          </div>
+          <span class="text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">Coming Soon</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center font-semibold text-lg shadow">
+              ?
+            </div>
+            <span class="text-xl font-medium text-gray-700 dark:text-gray-300">🏅 TBA</span>
+          </div>
+          <span class="text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
     <!-- Submission  Section -->
