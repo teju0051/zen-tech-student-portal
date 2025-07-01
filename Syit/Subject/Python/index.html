@@ -86,40 +86,7 @@
     <div id="subjectSection" class="hidden space-y-4 animate-fadeIn">
       <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400 flex justify-between items-center">
         📚 Notes
-     <!-- Trigger Button -->
-<button onclick="openAdminPopup()" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-700 transition">
-  Upload PDF
-</button>
-<input type="file" id="fileInput" accept="application/pdf" class="hidden" />
-
-<!-- Admin Popup -->
-<div id="adminPopup" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 hidden">
-<div class="relative bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl max-w-sm w-full text-center">
-<button onclick="closeAdminPopup()" class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold">
-    &times;
-  </button>
-  <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-      🔒 This requires admin privilege to use this option!
-    </h2>
-
-    <div id="popupStage1">
-      <button onclick="closeAdminPopup()" class="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600 mr-2">
-        Okay
-      </button>
-      <button onclick="showPasswordField()" class="px-4 py-2 bg-violet-600 text-white rounded hover:bg-violet-700">
-        I am Admin
-      </button>
-    </div>
-
-    <div id="popupStage2" class="mt-4 hidden">
-      <input type="password" id="adminPassword" placeholder="Enter Admin Password"
-        class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 mb-3 text-black" />
-      <button onclick="verifyPassword()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-        Submit
-      </button>
-      <p id="adminError" class="text-red-500 text-sm mt-2 hidden">❌ Wrong password! Access denied.</p>
-    </div>
-  </div>
+    
 </div>
 
         <input type="file" id="fileInput" accept="application/pdf" class="hidden" />
