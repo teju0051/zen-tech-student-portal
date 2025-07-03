@@ -85,124 +85,61 @@
     <div id="subjectSection" class="hidden space-y-4 animate-fadeIn">
       <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400 flex justify-between items-center">
         📚 Notes
-     <!-- Trigger Button -->
-<button onclick="openAdminPopup()" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-700 transition">
-  Upload PDF
-</button>
+
 <input type="file" id="fileInput" accept="application/pdf" class="hidden" />
 
-<!-- Admin Popup -->
-<div id="adminPopup" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 hidden">
-<div class="relative bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl max-w-sm w-full text-center">
-<button onclick="closeAdminPopup()" class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold">
-    &times;
-  </button>
-  <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-      🔒 This requires admin privilege to use this option!
-    </h2>
 
-    <div id="popupStage1">
-      <button onclick="closeAdminPopup()" class="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600 mr-2">
-        Okay
-      </button>
-      <button onclick="showPasswordField()" class="px-4 py-2 bg-violet-600 text-white rounded hover:bg-violet-700">
-        I am Admin
-      </button>
-    </div>
-
-    <div id="popupStage2" class="mt-4 hidden">
-      <input type="password" id="adminPassword" placeholder="Enter Admin Password"
-        class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 mb-3 text-black" />
-      <button onclick="verifyPassword()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-        Submit
-      </button>
-      <p id="adminError" class="text-red-500 text-sm mt-2 hidden">❌ Wrong password! Access denied.</p>
-    </div>
-  </div>
-</div>
 
         <input type="file" id="fileInput" accept="application/pdf" class="hidden" />
       </h2>
-      <ul id="notesList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></ul>
+<ul id="financeNotesList" class="space-y-2 mb-4"></ul>
     </div>
 
   
 
   </div>
 
-  <!-- Supabase Upload Logic -->
-  <script>
-    const { createClient } = supabase;
-    const supabaseClient = createClient(
-      'https://ellxxhwuohbezfijkwvt.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
-    );
+<!-- Supabase View-Only Logic for Students -->
+<script type="module">
+  const { createClient } = supabase;
+  const supabaseClient = createClient(
+    'https://ellxxhwuohbezfijkwvt.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
+  );
 
-    const fileInput = document.getElementById("fileInput");
-    const notesList = document.getElementById("notesList");
+  async function loadNotes(subjectId, subjectName) {
+    const notesList = document.getElementById(`${subjectId}NotesList`);
 
-    fileInput.addEventListener("change", async (e) => {
-      const file = e.target.files[0];
-      if (!file || file.type !== "application/pdf") {
-        alert("Please select a valid PDF.");
-        return;
-      }
+    const { data, error } = await supabaseClient
+      .from("notes")
+      .select("*")
+      .eq("subject", subjectName)
+      .order("uploaded_at", { ascending: false });
 
-      const fileName = `${Date.now()}_${file.name}`;
-      const { data, error } = await supabaseClient.storage.from("finance-literacy").upload(fileName, file);
+    if (error) {
+      console.error(`Error loading notes for ${subjectName}:`, error.message);
+      return;
+    }
 
-      if (error) {
-        alert("Upload failed!");
-        console.error("Upload error:", error.message);
-        return;
-      }
-
-      const { data: urlData } = supabaseClient.storage.from("finance-literacy").getPublicUrl(fileName);
-      const fileUrl = urlData.publicUrl;
-
-   
-      await supabaseClient.from("finance-literacy").insert([
-        {
-          file_name: file.name,
-          file_url: fileUrl,
-          subject: "finance-literacy",
-          uploaded_by: "admin@zentechindia.org"
-        }
-      ]);
-
-      // Show uploaded file
+    data.forEach((note) => {
       const li = document.createElement("li");
       li.innerHTML = `
-        <a href="${fileUrl}" target="_blank"
+        <a href="${note.file_url}" target="_blank"
           class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-          📄 ${file.name}
+          📄 ${note.file_name}
         </a>`;
-      notesList.prepend(li);
+      notesList.appendChild(li);
     });
+  }
 
-    // Load previously uploaded notes
-    (async () => {
-      const { data, error } = await supabaseClient
-        .from("finance-literacy")
-        .select("*")
-        .order("uploaded_at", { ascending: false });
+  // Load subject-wise notes (view-only mode)
+  loadNotes("python", "Python");
+  loadNotes("os", "Operating System");
+  loadNotes("maths", "Applied Mathematics");
+  loadNotes("ds", "Data Structure");
+  loadNotes("finance", "Finance Literacy");
+</script>
 
-      if (error) {
-        console.error("Error loading notes:", error.message);
-        return;
-      }
-
-      data.forEach((note) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <a href="${note.file_url}" target="_blank"
-            class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-            📄 ${note.file_name}
-          </a>`;
-        notesList.appendChild(li);
-      });
-    })();
-  </script>
 
   <!-- Page Navigation -->
   <script>
