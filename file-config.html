@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fully Functional LMS Header</title>
+  <title>files-configs</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config = { darkMode: 'class' }</script>
   <style>
@@ -15,6 +15,19 @@
   <!-- Font Awesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.42.3/dist/umd/supabase.min.js"></script>
+
+  <script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  // ✅ Create global Supabase client
+  window.supabaseClient = createClient(
+    'https://ellxxhwuohbezfijkwvt.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI' 
+  );
+</script>
+
+
+
 </head>
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 transition-colors duration-500">
 
@@ -362,8 +375,56 @@
   <button onclick="goBack()" class="mb-4 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
     ← Back to Dashboard
   </button>
-  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Study Rhythm</h2>
-  <p class="text-gray-700 dark:text-gray-300">Analyze your study habits and keep a consistent learning rhythm.</p>
+<!-- Marquee Admin Input -->
+<div class="bg-white dark:bg-gray-800 border border-violet-300 dark:border-violet-700 rounded-xl p-6 mt-6 shadow-md space-y-4">
+  <h3 class="text-xl font-bold text-violet-700 dark:text-violet-300">📢 Post Marquee Announcement</h3>
+  
+  <textarea id="marqueeInput" rows="3" placeholder="Type your important alert here..."
+    class="w-full p-3 rounded border dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-gray-900 dark:text-white"></textarea>
+  
+  <label class="flex items-center space-x-2">
+    <input type="checkbox" id="marqueeActive" checked class="w-4 h-4 text-violet-600 focus:ring-violet-500 rounded">
+    <span class="text-sm text-gray-700 dark:text-gray-300">Mark as active</span>
+  </label>
+
+  <button id="submitMarquee" class="bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 py-2 rounded shadow transition">
+    ➕ Add Announcement
+  </button>
+</div>
+<script type="module">
+   const marqueeInput = document.getElementById("marqueeInput");
+  const marqueeActive = document.getElementById("marqueeActive");
+  const submitBtn = document.getElementById("submitMarquee");
+
+  submitBtn.addEventListener("click", async () => {
+    const message = marqueeInput.value.trim();
+    const isActive = marqueeActive.checked;
+
+    if (!message) {
+      alert("Please enter a message.");
+      return;
+    }
+
+    // Optional: Set all existing to inactive
+    await supabaseClient.from("marquee_alerts").update({ active: false }).eq("active", true);
+
+    // Insert new alert
+    const { error } = await supabaseClient.from("marquee_alerts").insert([
+      {
+        message: message,
+        active: isActive
+      }
+    ]);
+
+    if (error) {
+      alert("Failed to save marquee message.");
+      console.error("Insert error:", error.message);
+    } else {
+      alert("Marquee alert added successfully!");
+      marqueeInput.value = "";
+    }
+  });
+</script>
   </section>
 
 </main>
