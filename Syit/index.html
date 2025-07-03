@@ -43,7 +43,7 @@
 </script>
 
 
-<!-- Loading Spinner -->
+<!-- Loading Spinner  -->
 <div id="spinnerOverlay" class="fixed inset-0 bg-gray-950 bg-opacity-70 backdrop-blur-md flex justify-center items-center z-50">
   <div class="w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
 </div>
@@ -222,11 +222,44 @@
       <p class="text-fuchsia-500 mt-2 font-medium">⚠️ Do not share your credentials with other departments.</p>
     </div>
 
-    <div class="bg-violet-100 dark:bg-violet-900 border border-violet-300 dark:border-violet-600 px-4 py-2 rounded shadow-inner overflow-hidden">
-      <marquee behavior="scroll" direction="left" class="text-violet-600 dark:text-violet-200 font-semibold animate-pulse">
-        📢  Syllabus, Time-Table, Subjects will be updated soon. 
-      </marquee>
-    </div>
+   <!-- Marquee container (initially hidden) -->
+<div id="marqueeContainer" class="hidden bg-violet-100 dark:bg-violet-900 border border-violet-300 dark:border-violet-600 px-4 py-2 rounded shadow-inner overflow-hidden">
+  <marquee behavior="scroll" direction="left" id="marqueeText" class="text-violet-600 dark:text-violet-200 font-semibold animate-pulse">
+    📢 Loading...
+  </marquee>
+</div>
+
+<!-- Supabase Script -->
+<script type="module">
+  const { createClient } = supabase;
+  const supabaseClient = createClient(
+    'https://ellxxhwuohbezfijkwvt.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
+  );
+
+  const marqueeContainer = document.getElementById("marqueeContainer");
+  const marqueeText = document.getElementById("marqueeText");
+
+  (async () => {
+    const { data, error } = await supabaseClient
+      .from("marquee_alerts")
+      .select("*")
+      .eq("active", true)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (error) {
+      console.error("Error loading marquee:", error.message);
+      return;
+    }
+
+    if (data?.message) {
+      marqueeText.textContent = `📢 ${data.message}`;
+      marqueeContainer.classList.remove("hidden");
+    }
+  })();
+</script>
 
     <div class="flex justify-between items-center mt-4 text-sm text-gray-700 dark:text-gray-400">
       <a href="#" class="underline hover:text-violet-600 dark:hover:text-violet-400 transition">User Manual</a>
