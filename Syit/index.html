@@ -43,7 +43,7 @@
 </script>
 
 
-<!-- Loading Spinner  -->
+<!-- Loading Spinner -->
 <div id="spinnerOverlay" class="fixed inset-0 bg-gray-950 bg-opacity-70 backdrop-blur-md flex justify-center items-center z-50">
   <div class="w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
 </div>
@@ -223,15 +223,19 @@
     </div>
 
    <!-- Marquee container (initially hidden) -->
-<div id="marqueeContainer" class="hidden bg-violet-100 dark:bg-violet-900 border border-violet-300 dark:border-violet-600 px-4 py-2 rounded shadow-inner overflow-hidden">
+<div id="marqueeContainer" class=" bg-violet-100 dark:bg-violet-900 border border-violet-300 dark:border-violet-600 px-4 py-2 rounded shadow-inner overflow-hidden">
   <marquee behavior="scroll" direction="left" id="marqueeText" class="text-violet-600 dark:text-violet-200 font-semibold animate-pulse">
     📢 Loading...
   </marquee>
 </div>
 
-<!-- Supabase Script -->
+<!-- Load Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<!-- Your custom logic using type="module" -->
 <script type="module">
   const { createClient } = supabase;
+
   const supabaseClient = createClient(
     'https://ellxxhwuohbezfijkwvt.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
@@ -241,6 +245,7 @@
   const marqueeText = document.getElementById("marqueeText");
 
   (async () => {
+    console.log("Fetching marquee...");
     const { data, error } = await supabaseClient
       .from("marquee_alerts")
       .select("*")
@@ -249,6 +254,7 @@
       .limit(1)
       .single();
 
+    console.log("Marquee data:", data);
     if (error) {
       console.error("Error loading marquee:", error.message);
       return;
@@ -260,6 +266,7 @@
     }
   })();
 </script>
+
 
     <div class="flex justify-between items-center mt-4 text-sm text-gray-700 dark:text-gray-400">
       <a href="#" class="underline hover:text-violet-600 dark:hover:text-violet-400 transition">User Manual</a>
