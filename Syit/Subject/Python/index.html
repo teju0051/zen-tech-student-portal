@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +55,6 @@
   }
 
 </script>
-
   <!-- Sidebar -->
   <div class="w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-gray-200 shadow-2xl flex flex-col justify-between min-h-screen border-r border-violet-900">
     <div>
@@ -91,7 +91,7 @@
 
         <input type="file" id="fileInput" accept="application/pdf" class="hidden" />
       </h2>
-      <ul id="notesList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></ul>
+<ul id="pythonNotesList" class="space-y-2 mb-4"></ul>
     </div>
 
     <!-- Code Editor -->
@@ -102,79 +102,47 @@
 
   </div>
 
-  <!-- Supabase Upload Logic -->
-  <script>
-    const { createClient } = supabase;
-    const supabaseClient = createClient(
-      'https://ellxxhwuohbezfijkwvt.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
-    );
+<!-- Supabase View-Only Logic for Students -->
+<script type="module">
+  const { createClient } = supabase;
+  const supabaseClient = createClient(
+    'https://ellxxhwuohbezfijkwvt.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
+  );
 
-    const fileInput = document.getElementById("fileInput");
-    const notesList = document.getElementById("notesList");
+  async function loadNotes(subjectId, subjectName) {
+    const notesList = document.getElementById(`${subjectId}NotesList`);
 
-    fileInput.addEventListener("change", async (e) => {
-      const file = e.target.files[0];
-      if (!file || file.type !== "application/pdf") {
-        alert("Please select a valid PDF.");
-        return;
-      }
+    const { data, error } = await supabaseClient
+      .from("notes")
+      .select("*")
+      .eq("subject", subjectName)
+      .order("uploaded_at", { ascending: false });
 
-      const fileName = `${Date.now()}_${file.name}`;
-      const { data, error } = await supabaseClient.storage.from("notes").upload(fileName, file);
+    if (error) {
+      console.error(`Error loading notes for ${subjectName}:`, error.message);
+      return;
+    }
 
-      if (error) {
-        alert("Upload failed!");
-        console.error("Upload error:", error.message);
-        return;
-      }
-
-      const { data: urlData } = supabaseClient.storage.from("notes").getPublicUrl(fileName);
-      const fileUrl = urlData.publicUrl;
-
-      // Optionally insert into notes table (if you created it)
-      await supabaseClient.from("notes").insert([
-        {
-          file_name: file.name,
-          file_url: fileUrl,
-          subject: "Python",
-          uploaded_by: "admin@zentechindia.org"
-        }
-      ]);
-
-      // Show uploaded file
+    data.forEach((note) => {
       const li = document.createElement("li");
       li.innerHTML = `
-        <a href="${fileUrl}" target="_blank"
+        <a href="${note.file_url}" target="_blank"
           class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-          📄 ${file.name}
+          📄 ${note.file_name}
         </a>`;
-      notesList.prepend(li);
+      notesList.appendChild(li);
     });
+  }
 
-    // Load previously uploaded notes
-    (async () => {
-      const { data, error } = await supabaseClient
-        .from("notes")
-        .select("*")
-        .order("uploaded_at", { ascending: false });
+  // Load subject-wise notes (view-only mode)
+  loadNotes("python", "Python");
+  loadNotes("os", "Operating System");
+  loadNotes("maths", "Applied Mathematics");
+  loadNotes("ds", "Data Structure");
+  loadNotes("finance", "Finance Literacy");
+</script>
 
-      if (error) {
-        console.error("Error loading notes:", error.message);
-        return;
-      }
-
-      data.forEach((note) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <a href="${note.file_url}" target="_blank"
-            class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-            📄 ${note.file_name}
-          </a>`;
-        notesList.appendChild(li);
-      });
-    })();
-  </script>
 
   <!-- Page Navigation -->
   <script>
@@ -212,37 +180,7 @@
 
 </script>
 
-  <script>
 
-    
-  const ADMIN_PASS = "#8GJGPJYQ2";
-
-  function openAdminPopup() {
-    document.getElementById("adminPopup").classList.remove("hidden");
-    document.getElementById("popupStage1").classList.remove("hidden");
-    document.getElementById("popupStage2").classList.add("hidden");
-    document.getElementById("adminError").classList.add("hidden");
-  }
-
-  function closeAdminPopup() {
-    document.getElementById("adminPopup").classList.add("hidden");
-  }
-
-  function showPasswordField() {
-    document.getElementById("popupStage1").classList.add("hidden");
-    document.getElementById("popupStage2").classList.remove("hidden");
-  }
-
-  function verifyPassword() {
-    const inputPass = document.getElementById("adminPassword").value;
-    if (inputPass === ADMIN_PASS) {
-      closeAdminPopup();
-      document.getElementById("fileInput").click();
-    } else {
-      document.getElementById("adminError").classList.remove("hidden");
-    }
-  }
-</script>
 
 
 </body>
