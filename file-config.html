@@ -31,15 +31,15 @@
 </head>
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 transition-colors duration-500">
 
-
+ <!-- Alert banner -->
+  <div class="bg-yellow-100 text-yellow-800 text-xs p-2 text-center">
+    ⚠️ Server is under Maintainance July 3-6.
+  </div>
 
   <header class="fixed top-0 left-0 w-full z-50 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-700 shadow-md">
     <div class="flex items-center justify-between px-4 md:px-8 py-3">
       
-  <!-- Alert banner -->
-  <div class="bg-yellow-100 text-yellow-800 text-xs p-2 text-center">
-    ⚠️ Server is under Maintainance July 3-6.
-  </div>
+ 
       
       <!-- Left: Logo, Breadcrumb, Hamburger -->
       <div class="flex items-center space-x-4">
@@ -48,16 +48,19 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
-        <a href="/" class="flex items-center space-x-2 hover:opacity-90">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="Logo" class="h-8 w-8 rounded-full shadow"/>
-          <span class="font-bold text-lg md:text-xl" id="dashboardTitle">Dashboard</span>
-        </a>
-        <nav aria-label="Breadcrumb" class="hidden md:flex text-sm text-gray-500 dark:text-gray-400">
-          <ol class="flex space-x-2">
-            <li><a href="/" class="hover:underline" id="homeLink">Home</a></li><li>/</li><li class="text-gray-700 dark:text-gray-300 font-medium" id="dashboardBreadcrumb">Dashboard</li>
-          </ol> 
-          
-        </nav>
+  <a href="https://zen-tech.vercel.app/" class="flex items-center space-x-2">
+  <!-- Light Mode Logo -->
+  <img src="https://teju0051.github.io/Assets/zentehc-remove-bg.png" alt="Zen-Tech Logo"
+       class="h-12 w-auto block dark:hidden" />
+
+  <!-- Dark Mode Logo -->
+  <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/logos%2F-service-tras.png?alt=media&token=30dfcfdc-0bbc-4b63-a76f-1cce52b729f7" alt="T-Service Logo"
+       class="h-12 w-auto hidden dark:block" />
+
+  <span class="font-bold text-lg md:text-xl" id="dashboardTitle"></span>
+</a>
+
+       
         
       </div>
 
@@ -363,19 +366,125 @@
   <p class="text-gray-700 dark:text-gray-300">Get personalized AI-driven study paths based on your learning patterns.</p>
   </section>
 
-  <section id="FeedbackSection" class="hidden bg-gradient-to-br from-yellow-100 via-orange-100 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
+  <section id="LeaderboardSection" class="hidden bg-gradient-to-br from-yellow-100 via-orange-100 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
   <button onclick="goBack()" class="mb-4 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
     ← Back to Dashboard
   </button>
-  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Feedback Center</h2>
-  <p class="text-gray-700 dark:text-gray-300">Submit your feedback on courses, teachers, and platform experience.</p>
-  </section>
+  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Leaderboard</h2>
+
+ <form id="leaderboardForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+  <input id="studentName" type="text" required placeholder="Student Name"
+    class="px-4 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white">
+
+  <input id="studentInitial" type="text" required maxlength="1" placeholder="Initial"
+    class="px-4 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white">
+
+  <select id="studentRank" required
+    class="px-4 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white">
+    <option value="">Rank</option>
+    <option value="1">1st Place</option>
+    <option value="2">2nd Place</option>
+    <option value="3">3rd Place</option>
+  </select>
+
+  <select id="seasonNumber" required
+    class="px-4 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white">
+    <option value="">Season</option>
+    <option value="1">Season 1</option>
+    <option value="2">Season 2</option>
+  </select>
+
+  <button type="submit" class="md:col-span-4 bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 py-2 rounded transition mt-2">
+    ➕ Add Student to Leaderboard
+  </button>
+</form>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  // ✅ Supabase credentials
+  const SUPABASE_URL = 'https://ellxxhwuohbezfijkwvt.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI';
+
+  // ✅ Initialize Supabase client
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const form = document.getElementById('leaderboardForm');
+  const tableBody = document.getElementById('leaderboardTableBody');
+
+  // ✅ Load leaderboard on start
+  fetchLeaderboard();
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('studentName').value.trim();
+    const initial = document.getElementById('studentInitial').value.trim().toUpperCase();
+    const rank = parseInt(document.getElementById('studentRank').value);
+    const season = parseInt(document.getElementById('seasonNumber').value);
+
+    // ✅ Insert into Supabase
+    const { error } = await supabase
+      .from('leaderboard')
+      .insert([{ name, initial, rank, season }]);
+
+    if (error) {
+      alert('❌ Failed to add entry');
+      console.error(error);
+    } else {
+      alert('✅ Entry added!');
+      form.reset();
+      fetchLeaderboard();
+    }
+  });
+
+  async function fetchLeaderboard() {
+    const { data, error } = await supabase
+      .from('leaderboard')
+      .select('*')
+      .order('season', { ascending: true })
+      .order('rank', { ascending: true });
+
+    if (error) {
+      console.error('Fetch error:', error);
+      return;
+    }
+
+    tableBody.innerHTML = '';
+    data.forEach((entry) => {
+      tableBody.innerHTML += `
+        <tr class="bg-white dark:bg-gray-900 border-b dark:border-gray-700">
+          <td class="px-4 py-2 font-semibold">${entry.season}</td>
+          <td class="px-4 py-2 flex items-center gap-2">
+            <span class="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white font-bold">${entry.initial}</span>
+            ${entry.name}
+          </td>
+          <td class="px-4 py-2">${getMedal(entry.rank)}</td>
+        </tr>
+      `;
+    });
+  }
+
+  function getMedal(rank) {
+    switch(rank) {
+      case 1: return "🥇 1st";
+      case 2: return "🥈 2nd";
+      case 3: return "🥉 3rd";
+      default: return "🏅";
+    }
+  }
+</script>
+
+</section>
+
+
 
   <section id="RhythmSection" class="hidden bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
   <button onclick="goBack()" class="mb-4 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
     ← Back to Dashboard
   </button>
-<!-- Marquee Admin Input -->
+
+<!-- Marquee Input -->
 <div class="bg-white dark:bg-gray-800 border border-violet-300 dark:border-violet-700 rounded-xl p-6 mt-6 shadow-md space-y-4">
   <h3 class="text-xl font-bold text-violet-700 dark:text-violet-300">📢 Post Marquee Announcement</h3>
   
@@ -634,6 +743,62 @@ initUploader("finance", "Finance Literacy");
 
     </div>
   </div>
-  
+  <section class="bg-white dark:bg-gray-900 py-16 px-6 sm:px-10">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">Legal Framework & Role Distribution: T-Service & Zen-Tech</h2>
+
+    <div class="grid md:grid-cols-2 gap-10">
+      <!-- T-Service -->
+      <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition duration-300">
+        <h3 class="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-4">T-Service (Global Parent Company)</h3>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          T-Service is a legally registered global service provider and the parent organization of Zen-Tech. It holds full ownership and operational oversight of all Zen-Tech activities.
+        </p>
+
+        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Legal Responsibilities:</h4>
+        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+          <li>Registered as an international private limited company.</li>
+          <li>Owns 100% equity and IP rights of Zen-Tech.</li>
+          <li>Responsible for legal contracts, partnership MoUs, and corporate governance.</li>
+          <li>Handles taxation, compliance, and global audits for all subsidiaries.</li>
+          <li>Governs legal liabilities and indemnification policies.</li>
+        </ul>
+
+        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mt-4 mb-2">Primary Functions:</h4>
+        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+          <li>Strategic leadership and funding allocation.</li>
+          <li>Global client onboarding and licensing.</li>
+          <li>Maintains master contracts and data protection policies (GDPR, IT Act).</li>
+        </ul>
+      </div>
+
+      <!-- Zen-Tech -->
+      <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition duration-300">
+        <h3 class="text-2xl font-semibold text-purple-600 dark:text-purple-400 mb-4">Zen-Tech (Subsidiary Organization)</h3>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Zen-Tech is a professional software, web, and app development company, legally registered as a child organization under T-Service. It executes all technology operations as per the parent company's directives.
+        </p>
+
+        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Legal Boundaries & Compliance:</h4>
+        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+          <li>Operates under a Memorandum of Understanding (MoU) with T-Service.</li>
+          <li>Bound by NDAs and IP transfer agreements with T-Service.</li>
+          <li>Complies with local and international IT laws (e.g., IT Act 2000, Data Privacy Laws).</li>
+          <li>Only executes software, web, and mobile development contracts.</li>
+          <li>Cannot enter global agreements without parent consent.</li>
+        </ul>
+
+        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mt-4 mb-2">Operational Focus:</h4>
+        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+          <li>Software development, mobile apps, CMS, LMS, and EdTech solutions.</li>
+          <li>Client-specific execution of T-Service’s licensed services.</li>
+          <li>Project and code management, team deployment, and security compliance.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 </body>
 </html>
