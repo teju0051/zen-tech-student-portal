@@ -422,141 +422,128 @@
 
 <!-- Leaderboard Section -->
 <div id="leaderboardSection" class="hidden animate-fadeIn px-4 py-8">
-<h2 class="flex justify-center items-center text-4xl font-extrabold text-violet-700 dark:text-violet-300 tracking-wide space-x-3 px-4 py-4">
-  🎖️ FY-IT 2024 - 2025
-  <button onclick="toggleLeaderboardInfo()" class="text-violet-600 dark:text-violet-400 hover:text-violet-800 dark:hover:text-white text-xl focus:outline-none" aria-label="Info">
-    ❓
-  </button>
-</h2>
-
-
-<!-- Leaderboard Info Modal -->
-<div id="leaderboardInfoPanel" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
-  <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-3xl p-8 relative">
-    
-    <!-- Close Button -->
-    <button onclick="toggleLeaderboardInfo()" class="absolute top-5 right-5 text-gray-600 dark:text-gray-300 hover:text-red-500 text-3xl font-bold">
-      &times;
+  <h2 class="flex justify-center items-center text-4xl font-extrabold text-violet-700 dark:text-violet-300 tracking-wide space-x-3 px-4 py-4">
+    🎖️ FY-IT 2024 - 2025
+    <button onclick="toggleLeaderboardInfo()" class="text-violet-600 dark:text-violet-400 hover:text-violet-800 dark:hover:text-white text-xl focus:outline-none" aria-label="Info">
+      ❓
     </button>
-    
-<h3 class="text-3xl font-bold text-violet-700 dark:text-violet-300 mb-4 flex items-center gap-2">
-  <!-- Heroicon: Information Circle -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
-  </svg>
-  Info
-</h3>
-    
-    <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
-      Welcome to the <strong>FY-IT 2024–2027 Leaderboard</strong>! This leaderboard is designed to showcase the outstanding academic and extracurricular performances of our students, updated semester-wise.
-    </p>
+  </h2>
 
-    <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
-      Each <strong>season</strong> represents one academic <strong>semester</strong>, and the rankings are based on the internal evaluation data provided by the <strong>Exam Department</strong>. The scores are calculated using a weighted average of unit tests, assignments, attendance, and participation in department-level activities.
-    </p>
-
- 
-
-    <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
-      🏅 <strong>Bonus Points:</strong> Students can earn bonus points through department-level competitions, workshops, and hackathons. These will be verified and approved by faculty before being added to the leaderboard.
-    </p>
-
-    <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
-      📆 Leaderboard gets refreshed at the end of each semester after final internal data review. Keep checking for updates and new recognitions!
-    </p>
-
-    <div class="border-t border-gray-300 dark:border-gray-700 pt-4 mt-4 text-sm text-gray-600 dark:text-gray-400">
-      <strong>Note:</strong> If you notice any discrepancies or have questions regarding the rankings, please contact the <strong>Exam Department</strong> with your concern and supporting documents.
+  <!-- Leaderboard Info Modal -->
+  <div id="leaderboardInfoPanel" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-3xl p-8 relative">
+      <button onclick="toggleLeaderboardInfo()" class="absolute top-5 right-5 text-gray-600 dark:text-gray-300 hover:text-red-500 text-3xl font-bold">
+        &times;
+      </button>
+      <h3 class="text-3xl font-bold text-violet-700 dark:text-violet-300 mb-4 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
+        </svg>
+        Info
+      </h3>
+      <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
+        Welcome to the <strong>FY-IT 2024–2027 Leaderboard</strong>! This leaderboard is designed to showcase the outstanding academic and extracurricular performances of our students, updated semester-wise.
+      </p>
+      <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
+        Each <strong>season</strong> represents one academic <strong>semester</strong>, and the rankings are based on the internal evaluation data provided by the <strong>Exam Department</strong>.
+      </p>
+      <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
+        🏅 <strong>Bonus Points:</strong> Students can earn bonus points through competitions, workshops, and hackathons approved by faculty.
+      </p>
+      <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-4">
+        📆 Leaderboard gets refreshed at the end of each semester. Keep checking for updates!
+      </p>
+      <div class="border-t border-gray-300 dark:border-gray-700 pt-4 mt-4 text-sm text-gray-600 dark:text-gray-400">
+        <strong>Note:</strong> For any discrepancies, contact the <strong>Exam Department</strong> with valid documents.
+      </div>
     </div>
+  </div>
+
+  <!-- Dynamic Leaderboard Container -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10" id="dynamicSeasons">
+    <p class="text-center col-span-2 text-lg text-gray-600 dark:text-gray-300">Loading leaderboard...</p>
   </div>
 </div>
 
-
-
+<!-- Toggle Modal Script -->
 <script>
   function toggleLeaderboardInfo() {
-    const panel = document.getElementById('leaderboardInfoPanel');
-    panel.classList.toggle('hidden');
+    document.getElementById('leaderboardInfoPanel').classList.toggle('hidden');
   }
 </script>
 
+<!-- Supabase + Dynamic Leaderboard Script -->
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-    <!-- Season 1 -->
-    <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-6 space-y-6">
-      <h3 class="text-2xl font-semibold text-center text-violet-600 dark:text-violet-300 uppercase tracking-wide">Season 1</h3>
-      <div class="space-y-4">
-        <!-- 1st -->
-        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-green-100 to-green-200 dark:from-green-800 dark:to-green-900 shadow-sm">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-green-600 text-white flex items-center justify-center font-semibold text-lg shadow">
-              A
-              <!-- Replace with <img src="URL" class="w-10 h-10 rounded-full object-cover shadow"> for images -->
-            </div>
-            <span class="text-xl font-bold text-green-800 dark:text-green-300">🥇 Abhishek</span>
-          </div>
-          <span class="text-sm font-medium text-green-900 dark:text-green-200 bg-white dark:bg-green-700 px-3 py-1 rounded-full shadow">1st Place</span>
-        </div>
+  const supabase = createClient(
+    'https://ellxxhwuohbezfijkwvt.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
+  );
 
-        <!-- 2nd -->
-        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-yellow-100 to-yellow-200 dark:from-yellow-800 dark:to-yellow-900 shadow-sm">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center font-semibold text-lg shadow">
-              H
-            </div>
-            <span class="text-xl font-bold text-yellow-800 dark:text-yellow-300">🥈 Deepali</span>
-          </div>
-          <span class="text-sm font-medium text-yellow-900 dark:text-yellow-100 bg-white dark:bg-yellow-700 px-3 py-1 rounded-full shadow">2nd Place</span>
-        </div>
+  const dynamicSeasons = document.getElementById('dynamicSeasons');
 
-        <!-- 3rd -->
-        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 shadow-sm">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold text-lg shadow">
-              T
-            </div>
-            <span class="text-xl font-bold text-blue-800 dark:text-blue-300">🥉 Tejas</span>
-          </div>
-          <span class="text-sm font-medium text-blue-900 dark:text-blue-100 bg-white dark:bg-blue-700 px-3 py-1 rounded-full shadow">3rd Place</span>
-        </div>
-      </div>
-    </div>
+  async function loadLeaderboard() {
+    const { data, error } = await supabase
+      .from('leaderboard')
+      .select('*')
+      .order('season', { ascending: true })
+      .order('rank', { ascending: true });
 
-    <!-- Season 2 -->
-    <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-6 space-y-6">
-      <h3 class="text-2xl font-semibold text-center text-violet-600 dark:text-violet-300 uppercase tracking-wide">Season 2</h3>
-      <div class="space-y-4">
-        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center font-semibold text-lg shadow">
-              ?
+    if (error) {
+      dynamicSeasons.innerHTML = '<p class="col-span-2 text-red-600 text-center">Failed to load leaderboard.</p>';
+      return;
+    }
+
+    const grouped = data.reduce((acc, curr) => {
+      acc[curr.season] = acc[curr.season] || [];
+      acc[curr.season].push(curr);
+      return acc;
+    }, {});
+
+    dynamicSeasons.innerHTML = '';
+
+    Object.entries(grouped).forEach(([season, students]) => {
+      const card = document.createElement('div');
+      card.className = 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-6 space-y-6';
+
+      const title = `<h3 class="text-2xl font-semibold text-center text-violet-600 dark:text-violet-300 uppercase tracking-wide">Season ${season}</h3>`;
+      const studentList = students.map(entry => {
+        const bg =
+          entry.rank === 1 ? 'from-green-100 to-green-200 dark:from-green-800 dark:to-green-900' :
+          entry.rank === 2 ? 'from-yellow-100 to-yellow-200 dark:from-yellow-800 dark:to-yellow-900' :
+          entry.rank === 3 ? 'from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900' :
+          'from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900';
+
+        const txt =
+          entry.rank === 1 ? 'text-green-800 dark:text-green-300' :
+          entry.rank === 2 ? 'text-yellow-800 dark:text-yellow-300' :
+          entry.rank === 3 ? 'text-blue-800 dark:text-blue-300' :
+          'text-gray-700 dark:text-gray-300';
+
+        const medal = entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : entry.rank === 3 ? '🥉' : '🏅';
+        const label = entry.rank <= 3 ? `${entry.rank}st Place` : `Rank ${entry.rank}`;
+
+        return `
+          <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r ${bg} shadow-sm">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gray-700 text-white flex items-center justify-center font-semibold text-lg shadow">
+                ${entry.initial || entry.name.charAt(0)}
+              </div>
+              <span class="text-xl font-bold ${txt}">${medal} ${entry.name}</span>
             </div>
-            <span class="text-xl font-medium text-gray-700 dark:text-gray-300">🏅 TBA</span>
-          </div>
-          <span class="text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">Coming Soon</span>
-        </div>
-        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center font-semibold text-lg shadow">
-              ?
-            </div>
-            <span class="text-xl font-medium text-gray-700 dark:text-gray-300">🏅 TBA</span>
-          </div>
-          <span class="text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">Coming Soon</span>
-        </div>
-        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center font-semibold text-lg shadow">
-              ?
-            </div>
-            <span class="text-xl font-medium text-gray-700 dark:text-gray-300">🏅 TBA</span>
-          </div>
-          <span class="text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">Coming Soon</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+            <span class="text-sm font-medium ${txt} bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">${label}</span>
+          </div>`;
+      }).join('');
+
+      card.innerHTML = title + `<div class="space-y-4">${studentList}</div>`;
+      dynamicSeasons.appendChild(card);
+    });
+  }
+
+  loadLeaderboard();
+</script>
+
 
 
     <!-- Submission  Section -->
