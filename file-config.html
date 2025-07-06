@@ -188,7 +188,7 @@
       <p class="text-sm text-gray-600 dark:text-gray-400">View assigned managers.</p>
     </div>
 
-    <div onclick="showModule('LoginCredentials')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+    <div onclick="showModule('Credential')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
   <div class="flex items-center mb-3">
     <i class="fas fa-key text-purple-600 dark:text-purple-400 text-xl mr-2"></i>
     <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Login Credentials <strong>CONFEDENTIAL</strong></h2>
@@ -197,7 +197,14 @@
 </div>
 
 
-
+  <div onclick="showModule('Suspend')" class="cursor-pointer bg-red-100 dark:bg-red-700 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+      <div class="flex items-center mb-3">
+        <i class="fas fa-user-slash text-red-800 dark:text-red-200 text-xl mr-2"></i>
+        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Suspend Account</h2>
+      </div>
+      <p class="text-sm text-gray-700 dark:text-red-200">Temporarily suspend department accounts.</p>
+    </div>
+  </div>
     
 
 <!--
@@ -227,14 +234,7 @@
       <p class="text-sm text-gray-700 dark:text-yellow-200">Enable or disable maintenance mode.</p>
     </div>
 
-    <div onclick="showModule('SuspendAccount')" class="cursor-pointer bg-red-100 dark:bg-red-700 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-user-slash text-red-800 dark:text-red-200 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Suspend Account</h2>
-      </div>
-      <p class="text-sm text-gray-700 dark:text-red-200">Temporarily suspend department accounts.</p>
-    </div>
-  </div>
+  
 
   -->
 </section>
@@ -674,6 +674,139 @@
 
 
   </section>
+
+  <section id="CredentialSection" class="hidden bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
+  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+    ← Back to Dashboard
+  </button>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <!-- Student Portal Credentials -->
+    <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg">
+      <h2 class="text-2xl font-bold text-purple-700 dark:text-purple-300 mb-4">🎓 Student Portal Login</h2>
+      
+      <div class="mb-4">
+        <h3 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">IT Department (SY)</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300">Username: <span class="font-mono">mgmsyit</span></p>
+        <p class="text-sm text-gray-700 dark:text-gray-300">Password: <span class="font-mono">Student</span></p>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">CS Department (SY)</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300">Username: <span class="font-mono">mgmsycs</span></p>
+        <p class="text-sm text-gray-700 dark:text-gray-300">Password: <span class="font-mono">Student</span></p>
+      </div>
+    </div>
+
+    <!-- Staff Credentials -->
+    <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg">
+      <h2 class="text-2xl font-bold text-blue-700 dark:text-blue-300 mb-4">👩‍💼 Staff Login Emails</h2>
+      <ul class="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 space-y-2">
+        <li><span class="font-mono">admin@zentech.org</span></li>
+        <li><span class="font-mono">admin@t-service.org</span></li>
+        <li><span class="font-mono">hr@zentech.org</span></li>
+        <li><span class="font-mono">support@zentech.org</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+ <section id="SuspendSection" class="hidden bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
+  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+    ← Back to Dashboard
+  </button>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+  <!-- SYIT Card -->
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col items-start space-y-4">
+    <h3 class="text-xl font-semibold text-purple-800 dark:text-white">SYIT Department</h3>
+    <div class="flex gap-4">
+      <button onclick="toggleSuspend('mgmsyit', this)" 
+              class="suspend-btn px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
+        Suspend
+      </button>
+      <a href="/syit-dashboard.html" 
+         class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+        Visit
+      </a>
+    </div>
+  </div>
+
+  <!-- SYCS Card -->
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col items-start space-y-4">
+    <h3 class="text-xl font-semibold text-purple-800 dark:text-white">SYCS Department</h3>
+    <div class="flex gap-4">
+      <button onclick="toggleSuspend('mgmsycs', this)" 
+              class="suspend-btn px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
+        Suspend
+      </button>
+      <a href="/sycs-dashboard.html" 
+         class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+        Visit
+      </a>
+    </div>
+  </div>
+
+</div>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const supabase = createClient(
+    'https://ellxxhwuohbezfijkwvt.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
+  );
+
+  window.toggleSuspend = async function(username, button) {
+    // Fetch current status
+    const { data, error } = await supabase
+      .from('user_roles')
+      .select('is_suspended')
+      .eq('username', username)
+      .single();
+
+    if (error || !data) {
+      Swal.fire('Error', 'User not found.', 'error');
+      return;
+    }
+
+    const current = data.is_suspended;
+    const action = current ? 'Unsuspend' : 'Suspend';
+    const newStatus = !current;
+
+    Swal.fire({
+      title: `Are you sure you want to ${action} this department?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: action,
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: current ? '#10B981' : '#EF4444', // green/red
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { error: updateError } = await supabase
+          .from('user_roles')
+          .update({ is_suspended: newStatus })
+          .eq('username', username);
+
+        if (updateError) {
+          Swal.fire('Error', 'Could not update status.', 'error');
+          return;
+        }
+
+        button.textContent = newStatus ? 'Unsuspend' : 'Suspend';
+        button.classList.toggle('bg-red-500', !newStatus);
+        button.classList.toggle('bg-green-500', newStatus);
+        button.classList.toggle('hover:bg-red-600', !newStatus);
+        button.classList.toggle('hover:bg-green-600', newStatus);
+
+        Swal.fire('Updated', `Department has been ${action}ed successfully.`, 'success');
+      }
+    });
+  }
+</script>
+
+</section>
 
 </main>
 
