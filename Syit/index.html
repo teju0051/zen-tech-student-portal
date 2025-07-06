@@ -33,13 +33,18 @@
 
 
   <script>
-  const token = localStorage.getItem("sessionToken");
+   const token = localStorage.getItem("sessionToken");
+  const username = localStorage.getItem("username");
+  const role = localStorage.getItem("role");
 
-  if (!token) {
-    // No token found, redirect to login
+  console.log("Token:", token);
+  console.log("Username:", username);
+  console.log("Role:", role);
+
+  if (!token || !username || !role) {
+    console.warn("Missing session data. Redirecting...");
     window.location.href = "https://zen-tech-student-portal.vercel.app/";
-  }
-
+  } 
 </script>
 
 
