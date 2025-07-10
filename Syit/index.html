@@ -8,6 +8,74 @@
 
 
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabaseUrl = 'https://ellxxhwuohbezfijkwvt.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const userId = '71e6ab28-3373-4148-860e-b824b8138c6e'; 
+    let alreadyBanned = false;
+
+    async function checkIsSuspended() {
+      const { data, error } = await supabase
+        .from('user_roles') 
+        .select('is_suspended')
+        .eq('id', userId)  
+        .single();
+
+      if (error) {
+        console.error('❌ Error getting is_suspended:', error.message);
+        return;
+      }
+
+      console.log('🔍 Suspension status:', data?.is_suspended);
+
+      if (data?.is_suspended === true && !alreadyBanned) {
+        alreadyBanned = true;
+        Swal.fire({
+          icon: 'warning',
+          title: 'Information',
+          text: 'System had detected abnormalities with your account, Please relogin.',
+          confirmButtonText: 'OK',
+          allowOutsideClick: false
+        }).then(() => {
+          window.location.href = 'https://zen-tech-student-portal.vercel.app/';
+        });
+      }
+    }
+
+    setInterval(() => {
+      if (!alreadyBanned) checkIsSuspended();
+    }, 1000);
+
+    // ✅ Also use realtime listener
+    supabase
+      .channel('ban-check')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'use_roles',
+          filter: `id=eq.${userId}` 
+        },
+        (payload) => {
+          console.log('📡 Realtime update:', payload);
+          if (payload.new?.is_suspended === true && !alreadyBanned) {
+            checkIsSuspended();
+          }
+        }
+      )
+      .subscribe(status => {
+        console.log('📶 Subscribed to realtime:', status);
+      });
+  </script>
 <script>
   tailwind.config = {
     theme: {
