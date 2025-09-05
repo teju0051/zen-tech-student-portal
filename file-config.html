@@ -16,15 +16,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.42.3/dist/umd/supabase.min.js"></script>
 
-  <script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-  // ✅ Create global Supabase client
-  window.supabaseClient = createClient(
-    'https://ellxxhwuohbezfijkwvt.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI' 
-  );
-</script>
 
 
 
@@ -35,116 +27,106 @@
   <div class="bg-yellow-100 text-yellow-800 text-xs p-2 text-center">
     ⚠️ Server is under Maintainance July 3-6.
   </div>
+<header class="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-gray-950/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 shadow-md transition-all">
+  <div class="flex items-center justify-between px-4 md:px-8 py-3">
 
-  <header class="fixed top-0 left-0 w-full z-50 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-700 shadow-md">
-    <div class="flex items-center justify-between px-4 md:px-8 py-3">
-      
- 
-      
-      <!-- Left: Logo, Breadcrumb, Hamburger -->
-      <div class="flex items-center space-x-4">
-        <button id="hamburger" class="md:hidden focus:outline-none">
-          <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-  <a href="https://zen-tech.vercel.app/" class="flex items-center space-x-2">
-  <!-- Light Mode Logo -->
-  <img src="https://teju0051.github.io/Assets/zentehc-remove-bg.png" alt="Zen-Tech Logo"
-       class="h-12 w-auto block dark:hidden" />
+    <!-- Left: Logo + Hamburger -->
+    <div class="flex items-center space-x-4">
+      <!-- Hamburger -->
+      <button id="hamburger" class="md:hidden focus:outline-none">
+        <svg class="w-7 h-7 text-gray-700 dark:text-gray-300 hover:text-blue-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
 
-  <!-- Dark Mode Logo -->
-  <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/logos%2F-service-tras.png?alt=media&token=30dfcfdc-0bbc-4b63-a76f-1cce52b729f7" alt="T-Service Logo"
-       class="h-12 w-auto hidden dark:block" />
-
-  <span class="font-bold text-lg md:text-xl" id="dashboardTitle"></span>
-</a>
-
-       
-        
-      </div>
-
-      
-
-      <!-- Right: Status, Time/Date, Search, Actions, Toggles -->
-      <div class="flex items-center space-x-4">
-        <div class="flex items-center space-x-1 hidden md:flex">
-          <span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span class="text-xs text-gray-500 dark:text-gray-400" id="statusText">Online</span>
-        </div>
-
-        <div class="text-right hidden md:block">
-          <div id="time" class="text-xs font-semibold"></div>
-          <div id="day" class="text-xs text-gray-500 dark:text-gray-400"></div>
-          <div id="date" class="text-xs text-gray-500 dark:text-gray-400"></div>
-        </div>
-
-        <div class="relative hidden md:block">
-          <input id="searchBox" type="text" placeholder="Search..." class="border border-gray-300 dark:border-gray-600 rounded-full pl-4 pr-10 py-1.5 text-xs bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-          <svg class="w-4 h-4 absolute right-3 top-1.5 text-gray-500 dark:text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z"/>
-          </svg>
-          <div id="searchSuggestions" class="absolute top-full mt-1 w-full bg-white dark:bg-gray-800 shadow rounded hidden text-xs"></div>
-        </div>
-
-        <div class="relative hidden md:block">
-          <button id="quickActions" class="text-xs font-medium border border-gray-300 dark:border-gray-600 rounded px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700">Quick Actions</button>
-          <div id="quickMenu" class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg hidden">
-            <ul class="text-xs text-gray-700 dark:text-gray-300 divide-y dark:divide-gray-600">
-
-              <li><a href="https://zen-tech-student-portal.vercel.app/Syit" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Student Portal</a></li>
-              <li><a href="https://t-service-india.vercel.app/login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Logout</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <button id="contrastToggle" aria-label="High Contrast" class="text-xs border rounded px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700">A11y</button>
-
-
-        <button id="themeToggle" aria-label="Toggle Theme" class="ml-2">
-          <svg id="themeIcon" class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"></svg>
-        </button>
-
-        <!-- Avatar Button -->
-<div class="relative">
-  <button id="adminAvatarBtn" class="rounded-full overflow-hidden w-10 h-10 border-2 border-blue-400 dark:border-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <img src="https://th.bing.com/th/id/R.b46dc67851da91c22947025216cfb36b?rik=fN3OqfXvAriq8A&riu=http%3a%2f%2fajcacollege.in%2fwp-content%2fuploads%2ficon.jpg&ehk=8RZwbIoWWBMgIzEe%2bhzgXUv98WC3w%2fVeP6gEICvVadQ%3d&risl=&pid=ImgRaw&r=0" alt="Admin Avatar" class="w-full h-full object-cover" />
-  </button>
-
-  <!-- Admin Info Popup -->
-  <div id="adminPopup" class="hidden absolute right-0 mt-2 w-72 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-xl p-4 z-50 text-sm text-gray-800 dark:text-gray-200">
-    <h3 class="font-semibold text-lg mb-2 text-blue-600 dark:text-blue-300">T-SERVICE Admin Info</h3>
-    <ul class="space-y-1">
-      <li><strong>Tejas Shinde:</strong> Head Admin</li>
-      <li><strong>Ankita Rajput:</strong> Super Admin</li>
-      <li><strong>Sujal Telore:</strong> Manager</li>
-      <li><strong>Kritika Sonawane:</strong> Assistant Manager</li>
-      <li><strong>Anaya Shirke:</strong> Server Admin (SSA-1,2,3)</li>
-    </ul>
-  </div>
-</div>
-<script>
-  const adminBtn = document.getElementById("adminAvatarBtn");
-  const adminPopup = document.getElementById("adminPopup");
-
-  // Toggle popup on click
-  adminBtn.addEventListener("click", () => {
-    adminPopup.classList.toggle("hidden");
-  });
-
-  // Optional: Close popup when clicking outside
-  document.addEventListener("click", (e) => {
-    if (!adminBtn.contains(e.target) && !adminPopup.contains(e.target)) {
-      adminPopup.classList.add("hidden");
-    }
-  });
-</script>
-
-      </div>
+      <!-- Logo -->
+      <a href="https://zen-tech.vercel.app/" class="flex items-center space-x-2 group">
+        <img src="https://teju0051.github.io/Assets/zentehc-remove-bg.png"
+             alt="Zen-Tech Logo"
+             class="h-10 w-auto block dark:hidden transition-transform group-hover:scale-110"/>
+        <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/logos%2F-service-tras.png?alt=media&token=30dfcfdc-0bbc-4b63-a76f-1cce52b729f7"
+             alt="T-Service Logo"
+             class="h-10 w-auto hidden dark:block transition-transform group-hover:scale-110"/>
+        <span class="font-bold text-lg md:text-xl text-gray-800 dark:text-white tracking-wide" id="dashboardTitle"></span>
+      </a>
     </div>
 
-    <div class="h-1 bg-blue-500" id="progressBar" style="width: 0%; transition: width 2s ease;"></div>
-  </header>
+    <!-- Right Section -->
+    <div class="flex items-center space-x-4">
+
+      <!-- Online Status -->
+      <div class="hidden md:flex items-center space-x-1">
+        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
+        <span class="text-xs text-gray-500 dark:text-gray-400" id="statusText">Online</span>
+      </div>
+
+      <!-- Date & Time -->
+      <div class="hidden md:block text-right leading-tight">
+        <div id="time" class="text-xs font-semibold"></div>
+        <div id="day" class="text-[11px] text-gray-500 dark:text-gray-400"></div>
+        <div id="date" class="text-[11px] text-gray-500 dark:text-gray-400"></div>
+      </div>
+
+      <!-- Search -->
+      <div class="relative hidden md:block">
+        <input id="searchBox" type="text" placeholder="Search..."
+               class="w-40 md:w-56 border border-gray-300 dark:border-gray-600 rounded-full pl-4 pr-10 py-1.5 text-xs bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
+        <svg class="w-4 h-4 absolute right-3 top-2.5 text-gray-400 dark:text-gray-500 pointer-events-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z"/>
+        </svg>
+        <div id="searchSuggestions" class="absolute top-full mt-1 w-full bg-white dark:bg-gray-800 shadow rounded hidden text-xs z-50"></div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="relative hidden md:block">
+        <button id="quickActions"
+                class="text-xs font-medium border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+          Quick Actions
+        </button>
+        <div id="quickMenu" class="absolute right-0 mt-2 w-44 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg hidden overflow-hidden">
+          <ul class="text-xs text-gray-700 dark:text-gray-300 divide-y divide-gray-100 dark:divide-gray-700">
+            <li><a href="https://zen-tech-student-portal.vercel.app/Syit" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Student Portal</a></li>
+            <li><a href="https://t-service-india.vercel.app/login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- A11y -->
+      <button id="contrastToggle"
+              class="text-xs border rounded-lg px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+        A11y
+      </button>
+
+      <!-- Theme Toggle -->
+      <button id="themeToggle" aria-label="Toggle Theme" class="ml-2">
+        <svg id="themeIcon" class="w-6 h-6 text-gray-600 dark:text-gray-300 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"></svg>
+      </button>
+
+      <!-- Avatar -->
+      <div class="relative">
+        <button id="adminAvatarBtn" class="rounded-full overflow-hidden w-10 h-10 border-2 border-blue-500 dark:border-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+          <img src="https://th.bing.com/th/id/R.b46dc67851da91c22947025216cfb36b?rik=fN3OqfXvAriq8A&riu=http%3a%2f%2fajcacollege.in%2fwp-content%2fuploads%2ficon.jpg&ehk=8RZwbIoWWBMgIzEe%2bhzgXUv98WC3w%2fVeP6gEICvVadQ%3d&risl=&pid=ImgRaw&r=0" alt="Admin Avatar" class="w-full h-full object-cover" />
+        </button>
+
+        <!-- Popup -->
+        <div id="adminPopup" class="hidden absolute right-0 mt-2 w-72 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl p-4 z-50 text-sm">
+          <h3 class="font-semibold text-lg mb-2 text-blue-600 dark:text-blue-300">T-SERVICE Admin Info</h3>
+          <ul class="space-y-1 text-gray-700 dark:text-gray-300">
+            <li><strong>Tejas Shinde:</strong> Head Admin</li>
+            <li><strong>Ankita Rajput:</strong> Super Admin</li>
+            <li><strong>Sujal Telore:</strong> Manager</li>
+            <li><strong>Kritika Sonawane:</strong> Assistant Manager</li>
+            <li><strong>Anaya Shirke:</strong> Server Admin (SSA-1,2,3)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="h-1 bg-gradient-to-r from-blue-500 to-indigo-600" id="progressBar" style="width:0%; transition:width 2s ease;"></div>
+</header>
+
 
   
 
@@ -451,81 +433,6 @@
   </button>
 </form>
 
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-  // ✅ Supabase credentials
-  const SUPABASE_URL = 'https://ellxxhwuohbezfijkwvt.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI';
-
-  // ✅ Initialize Supabase client
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  const form = document.getElementById('leaderboardForm');
-  const tableBody = document.getElementById('leaderboardTableBody');
-
-  // ✅ Load leaderboard on start
-  fetchLeaderboard();
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById('studentName').value.trim();
-    const initial = document.getElementById('studentInitial').value.trim().toUpperCase();
-    const rank = parseInt(document.getElementById('studentRank').value);
-    const season = parseInt(document.getElementById('seasonNumber').value);
-
-    // ✅ Insert into Supabase
-    const { error } = await supabase
-      .from('leaderboard')
-      .insert([{ name, initial, rank, season }]);
-
-    if (error) {
-      alert('❌ Failed to add entry');
-      console.error(error);
-    } else {
-      alert('✅ Entry added!');
-      form.reset();
-      fetchLeaderboard();
-    }
-  });
-
-  async function fetchLeaderboard() {
-    const { data, error } = await supabase
-      .from('leaderboard')
-      .select('*')
-      .order('season', { ascending: true })
-      .order('rank', { ascending: true });
-
-    if (error) {
-      console.error('Fetch error:', error);
-      return;
-    }
-
-    tableBody.innerHTML = '';
-    data.forEach((entry) => {
-      tableBody.innerHTML += `
-        <tr class="bg-white dark:bg-gray-900 border-b dark:border-gray-700">
-          <td class="px-4 py-2 font-semibold">${entry.season}</td>
-          <td class="px-4 py-2 flex items-center gap-2">
-            <span class="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white font-bold">${entry.initial}</span>
-            ${entry.name}
-          </td>
-          <td class="px-4 py-2">${getMedal(entry.rank)}</td>
-        </tr>
-      `;
-    });
-  }
-
-  function getMedal(rank) {
-    switch(rank) {
-      case 1: return "🥇 1st";
-      case 2: return "🥈 2nd";
-      case 3: return "🥉 3rd";
-      default: return "🏅";
-    }
-  }
-</script>
 
 </section>
 
@@ -749,62 +656,6 @@
   </div>
 
 </div>
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-  const supabase = createClient(
-    'https://ellxxhwuohbezfijkwvt.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
-  );
-
-  window.toggleSuspend = async function(username, button) {
-    // Fetch current status
-    const { data, error } = await supabase
-      .from('user_roles')
-      .select('is_suspended')
-      .eq('username', username)
-      .single();
-
-    if (error || !data) {
-      Swal.fire('Error', 'User not found.', 'error');
-      return;
-    }
-
-    const current = data.is_suspended;
-    const action = current ? 'Unsuspend' : 'Suspend';
-    const newStatus = !current;
-
-    Swal.fire({
-      title: `Are you sure you want to ${action} this department?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: action,
-      cancelButtonText: 'Cancel',
-      confirmButtonColor: current ? '#10B981' : '#EF4444', // green/red
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const { error: updateError } = await supabase
-          .from('user_roles')
-          .update({ is_suspended: newStatus })
-          .eq('username', username);
-
-        if (updateError) {
-          Swal.fire('Error', 'Could not update status.', 'error');
-          return;
-        }
-
-        button.textContent = newStatus ? 'Unsuspend' : 'Suspend';
-        button.classList.toggle('bg-red-500', !newStatus);
-        button.classList.toggle('bg-green-500', newStatus);
-        button.classList.toggle('hover:bg-red-600', !newStatus);
-        button.classList.toggle('hover:bg-green-600', newStatus);
-
-        Swal.fire('Updated', `Department has been ${action}ed successfully.`, 'success');
-      }
-    });
-  }
-</script>
 
 </section>
 
@@ -875,88 +726,7 @@ function goBack() {
 }
 </script>
 
-     <!-- Supabase Upload Logic -->
-<script type="module">
-  const { createClient } = supabase;
-  const supabaseClient = createClient(
-    'https://ellxxhwuohbezfijkwvt.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
-  );
 
-  function initUploader(subjectId, subjectName) {
-    const fileInput = document.getElementById(`${subjectId}FileInput`);
-    const notesList = document.getElementById(`${subjectId}NotesList`);
-
-    fileInput.addEventListener("change", async (e) => {
-      const file = e.target.files[0];
-      if (!file || file.type !== "application/pdf") {
-        alert("Please select a valid PDF.");
-        return;
-      }
-
-      const fileName = `${Date.now()}_${file.name}`;
-      const { data, error } = await supabaseClient.storage.from("notes").upload(fileName, file);
-
-      if (error) {
-        alert("Upload failed!");
-        console.error("Upload error:", error.message);
-        return;
-      }
-
-      const { data: urlData } = supabaseClient.storage.from("notes").getPublicUrl(fileName);
-      const fileUrl = urlData.publicUrl;
-
-      await supabaseClient.from("notes").insert([
-        {
-          file_name: file.name,
-          file_url: fileUrl,
-          subject: subjectName,
-          uploaded_by: "admin@zentechindia.org"
-        }
-      ]);
-
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <a href="${fileUrl}" target="_blank"
-          class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-          📄 ${file.name}
-        </a>`;
-      notesList.prepend(li);
-    });
-
-    // Load existing files
-    (async () => {
-      const { data, error } = await supabaseClient
-        .from("notes")
-        .select("*")
-        .eq("subject", subjectName)
-        .order("uploaded_at", { ascending: false });
-
-      if (error) {
-        console.error(`Error loading notes for ${subjectName}:`, error.message);
-        return;
-      }
-
-      data.forEach((note) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <a href="${note.file_url}" target="_blank"
-            class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-            📄 ${note.file_name}
-          </a>`;
-        notesList.appendChild(li);
-      });
-    })();
-  }
-
-  // Initialize uploader for Python subject
-  initUploader("python", "Python");
-  initUploader("os", "Operating System");
-initUploader("maths", "Applied Mathematics");
-initUploader("ds", "Data Structure");
-initUploader("finance", "Finance Literacy");
-
-</script>
 
 
  <div class="min-h-screen flex flex-col items-center justify-center px-4 py-10">
@@ -1071,6 +841,236 @@ initUploader("finance", "Finance Literacy");
 
   </div>
 </section>
+
+
+
+<!-- ✅ SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- ✅ Combined Supabase Script -->
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  // 🔑 Supabase credentials
+  const SUPABASE_URL = "https://ellxxhwuohbezfijkwvt.supabase.co";
+  const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI";
+
+  // ✅ Create single global client
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  window.supabaseClient = supabase;
+
+  /***********************
+   * 🏆 Leaderboard Logic
+   ***********************/
+  const form = document.getElementById("leaderboardForm");
+  const tableBody = document.getElementById("leaderboardTableBody");
+
+  if (form && tableBody) {
+    fetchLeaderboard();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("studentName").value.trim();
+      const initial = document
+        .getElementById("studentInitial")
+        .value.trim()
+        .toUpperCase();
+      const rank = parseInt(document.getElementById("studentRank").value);
+      const season = parseInt(document.getElementById("seasonNumber").value);
+
+      const { error } = await supabase
+        .from("leaderboard")
+        .insert([{ name, initial, rank, season }]);
+
+      if (error) {
+        Swal.fire("Error", "❌ Failed to add entry", "error");
+        console.error(error);
+      } else {
+        Swal.fire("Success", "✅ Entry added!", "success");
+        form.reset();
+        fetchLeaderboard();
+      }
+    });
+  }
+
+  async function fetchLeaderboard() {
+    const { data, error } = await supabase
+      .from("leaderboard")
+      .select("*")
+      .order("season", { ascending: true })
+      .order("rank", { ascending: true });
+
+    if (error) {
+      console.error("Fetch error:", error);
+      return;
+    }
+
+    tableBody.innerHTML = "";
+    data.forEach((entry) => {
+      tableBody.innerHTML += `
+        <tr class="bg-white dark:bg-gray-900 border-b dark:border-gray-700">
+          <td class="px-4 py-2 font-semibold">${entry.season}</td>
+          <td class="px-4 py-2 flex items-center gap-2">
+            <span class="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white font-bold">${entry.initial}</span>
+            ${entry.name}
+          </td>
+          <td class="px-4 py-2">${getMedal(entry.rank)}</td>
+        </tr>
+      `;
+    });
+  }
+
+  function getMedal(rank) {
+    switch (rank) {
+      case 1:
+        return "🥇 1st";
+      case 2:
+        return "🥈 2nd";
+      case 3:
+        return "🥉 3rd";
+      default:
+        return "🏅";
+    }
+  }
+
+  /***********************
+   * 🚫 Suspend Toggle
+   ***********************/
+  window.toggleSuspend = async function (username, button) {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("is_suspended")
+      .eq("username", username)
+      .single();
+
+    if (error || !data) {
+      Swal.fire("Error", "User not found.", "error");
+      return;
+    }
+
+    const current = data.is_suspended;
+    const action = current ? "Unsuspend" : "Suspend";
+    const newStatus = !current;
+
+    Swal.fire({
+      title: `Are you sure you want to ${action} this department?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: action,
+      cancelButtonText: "Cancel",
+      confirmButtonColor: current ? "#10B981" : "#EF4444",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { error: updateError } = await supabase
+          .from("user_roles")
+          .update({ is_suspended: newStatus })
+          .eq("username", username);
+
+        if (updateError) {
+          Swal.fire("Error", "Could not update status.", "error");
+          return;
+        }
+
+        button.textContent = newStatus ? "Unsuspend" : "Suspend";
+        button.classList.toggle("bg-red-500", !newStatus);
+        button.classList.toggle("bg-green-500", newStatus);
+        button.classList.toggle("hover:bg-red-600", !newStatus);
+        button.classList.toggle("hover:bg-green-600", newStatus);
+
+        Swal.fire(
+          "Updated",
+          `Department has been ${action}ed successfully.`,
+          "success"
+        );
+      }
+    });
+  };
+
+  /***********************
+   * 📂 Notes Upload Logic
+   ***********************/
+  function initUploader(subjectId, subjectName) {
+    const fileInput = document.getElementById(`${subjectId}FileInput`);
+    const notesList = document.getElementById(`${subjectId}NotesList`);
+
+    if (!fileInput || !notesList) return;
+
+    fileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file || file.type !== "application/pdf") {
+        Swal.fire("Error", "Please select a valid PDF.", "error");
+        return;
+      }
+
+      const fileName = `${Date.now()}_${file.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from("notes")
+        .upload(fileName, file);
+
+      if (uploadError) {
+        Swal.fire("Error", "Upload failed!", "error");
+        console.error("Upload error:", uploadError.message);
+        return;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from("notes")
+        .getPublicUrl(fileName);
+      const fileUrl = urlData.publicUrl;
+
+      await supabase.from("notes").insert([
+        {
+          file_name: file.name,
+          file_url: fileUrl,
+          subject: subjectName,
+          uploaded_by: "admin@zentechindia.org",
+        },
+      ]);
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a href="${fileUrl}" target="_blank"
+          class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
+          📄 ${file.name}
+        </a>`;
+      notesList.prepend(li);
+    });
+
+    // Load existing notes
+    (async () => {
+      const { data, error } = await supabase
+        .from("notes")
+        .select("*")
+        .eq("subject", subjectName)
+        .order("uploaded_at", { ascending: false });
+
+      if (error) {
+        console.error(`Error loading notes for ${subjectName}:`, error.message);
+        return;
+      }
+
+      data.forEach((note) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <a href="${note.file_url}" target="_blank"
+            class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
+            📄 ${note.file_name}
+          </a>`;
+        notesList.appendChild(li);
+      });
+    })();
+  }
+
+  // ✅ Initialize multiple uploaders
+  initUploader("python", "Python");
+  initUploader("os", "Operating System");
+  initUploader("maths", "Applied Mathematics");
+  initUploader("ds", "Data Structure");
+  initUploader("finance", "Finance Literacy");
+</script>
+
 
 </body>
 </html>
