@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,71 +12,7 @@
   
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const supabaseUrl = 'https://ellxxhwuohbezfijkwvt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI';
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
-    const userId = '71e6ab28-3373-4148-860e-b824b8138c6e'; 
-    let alreadyBanned = false;
-
-    async function checkIsSuspended() {
-      const { data, error } = await supabase
-        .from('user_roles') 
-        .select('is_suspended')
-        .eq('id', userId)  
-        .single();
-
-      if (error) {
-        console.error('❌ Error getting is_suspended:', error.message);
-        return;
-      }
-
-      console.log('🔍 Suspension status:', data?.is_suspended);
-
-      if (data?.is_suspended === true && !alreadyBanned) {
-        alreadyBanned = true;
-        Swal.fire({
-          icon: 'warning',
-          title: 'Information',
-          text: 'System had detected abnormalities with your account, Please relogin.',
-          confirmButtonText: 'OK',
-          allowOutsideClick: false
-        }).then(() => {
-          window.location.href = 'https://zen-tech-student-portal.vercel.app/';
-        });
-      }
-    }
-
-    setInterval(() => {
-      if (!alreadyBanned) checkIsSuspended();
-    }, 1000);
-
-    // ✅ Also use realtime listener
-    supabase
-      .channel('ban-check')
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'use_roles',
-          filter: `id=eq.${userId}` 
-        },
-        (payload) => {
-          console.log('📡 Realtime update:', payload);
-          if (payload.new?.is_suspended === true && !alreadyBanned) {
-            checkIsSuspended();
-          }
-        }
-      )
-      .subscribe(status => {
-        console.log('📶 Subscribed to realtime:', status);
-      });
-  </script>
 <script>
   tailwind.config = {
     theme: {
@@ -206,49 +143,32 @@
   <!-- Date & Time Section -->
   <div id="dateTime" class="text-sm font-medium text-violet-700 dark:text-violet-300"></div>
 
-  <!-- Search Section -->
+  <!-- Search & Timetable Section -->
   <div class="relative flex items-center gap-2">
-    <!-- Search Icon -->
-    <button id="searchToggle" class="text-violet-700 dark:text-violet-300 focus:outline-none text-lg">
+  
+
+    <!-- Timetable Icon -->
+    <button id="timetableBtn" class="text-violet-700 dark:text-violet-300 focus:outline-none text-lg">
       <svg xmlns="http://www.w3.org/2000/svg" 
-           fill="none" 
-           viewBox="0 0 24 24" 
+           fill="none" viewBox="0 0 24 24" 
            stroke="currentColor" 
            class="w-6 h-6">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-              d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
       </svg>
     </button>
 
-    <!-- Animated Search Input -->
-    <input 
-      type="text" 
-      id="searchInput" 
-      placeholder="Search..." 
-      class="absolute right-8 origin-right transition-all duration-500 ease-in-out w-0 opacity-0 px-3 py-1 rounded-full border border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-800 dark:text-white dark:border-violet-600 scale-95"
-    />
+
   </div>
 </header>
 
+<!-- SweetAlert Script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 
 <script>
-    const searchToggle = document.getElementById("searchToggle");
-  const searchInput = document.getElementById("searchInput");
-
-  searchToggle.addEventListener("click", () => {
-    const isOpen = searchInput.classList.contains("w-48");
-
-    if (isOpen) {
-      // Hide the input
-      searchInput.classList.remove("w-48", "opacity-100", "scale-100");
-      searchInput.classList.add("w-0", "opacity-0", "scale-95");
-    } else {
-      // Show the input
-      searchInput.classList.remove("w-0", "opacity-0", "scale-95");
-      searchInput.classList.add("w-48", "opacity-100", "scale-100");
-      searchInput.focus();
-    }
-  });
+   
 
   
  function updateDateTime() {
@@ -271,6 +191,17 @@
 
   setInterval(updateDateTime, 1000);
   updateDateTime();
+  const timetableBtn = document.getElementById('timetableBtn');
+
+  timetableBtn.addEventListener('click', () => {
+    Swal.fire({
+      title: '',
+      imageUrl: 'https://media.geeksforgeeks.org/wp-content/uploads/20200815213442/timetableimage-1024x519.JPG', 
+      imageAlt: 'Timetable',
+      showCloseButton: true,
+      confirmButtonText: 'Close'
+    });
+  });
 
  
 
@@ -296,43 +227,7 @@
   </marquee>
 </div>
 
-<!-- Load Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
-<!-- Your custom logic using type="module" -->
-<script type="module">
-  const { createClient } = supabase;
-
-  const supabaseClient = createClient(
-    'https://ellxxhwuohbezfijkwvt.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
-  );
-
-  const marqueeContainer = document.getElementById("marqueeContainer");
-  const marqueeText = document.getElementById("marqueeText");
-
-  (async () => {
-    console.log("Fetching marquee...");
-    const { data, error } = await supabaseClient
-      .from("marquee_alerts")
-      .select("*")
-      .eq("active", true)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
-
-    console.log("Marquee data:", data);
-    if (error) {
-      console.error("Error loading marquee:", error.message);
-      return;
-    }
-
-    if (data?.message) {
-      marqueeText.textContent = `📢 ${data.message}`;
-      marqueeContainer.classList.remove("hidden");
-    }
-  })();
-</script>
 
 
     <div class="flex justify-between items-center mt-4 text-sm text-gray-700 dark:text-gray-400">
@@ -465,7 +360,14 @@
   </div>
 
 <!-- AI Announcement Banner -->
-<div id="aiSection" class="hidden bg-blue-100 dark:bg-blue-900 border-l-4 border-blue-500 text-blue-800 dark:text-blue-100 p-4 rounded-lg shadow-md space-y-2">
+<div id="aiSection" class="hidden bg-blue-100 dark:bg-blue-900 border-l-4 border-blue-500 text-blue-800 dark:text-blue-100 p-4 rounded-lg shadow-md space-y-2 relative">
+
+  <!-- Animated Work in Progress Icon -->
+  <div class="absolute top-2 right-2 flex items-center gap-2 bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-md">
+    <img src="https://cdn-icons-png.flaticon.com/512/2910/2910766.gif" alt="Work in Progress" class="w-6 h-6">
+    <span class="font-bold text-yellow-600 dark:text-yellow-400">Work in Progress</span>
+  </div>
+
   <h3 class="text-2xl font-bold">🤖 Coming Soon: Your AI-Powered Academic Assistant!</h3>
 
   <p class="text-sm">
@@ -484,6 +386,7 @@
     Built for students, by Students. <strong>Zen-Tech Educational Team</strong> & <strong>Zen-Tech AI</strong> are proud to bring you this powerful academic companion.
   </p>
 </div>
+
 
 
 
@@ -539,77 +442,6 @@
   }
 </script>
 
-<!-- Supabase + Dynamic Leaderboard Script -->
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-  const supabase = createClient(
-    'https://ellxxhwuohbezfijkwvt.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'
-  );
-
-  const dynamicSeasons = document.getElementById('dynamicSeasons');
-
-  async function loadLeaderboard() {
-    const { data, error } = await supabase
-      .from('leaderboard')
-      .select('*')
-      .order('season', { ascending: true })
-      .order('rank', { ascending: true });
-
-    if (error) {
-      dynamicSeasons.innerHTML = '<p class="col-span-2 text-red-600 text-center">Failed to load leaderboard.</p>';
-      return;
-    }
-
-    const grouped = data.reduce((acc, curr) => {
-      acc[curr.season] = acc[curr.season] || [];
-      acc[curr.season].push(curr);
-      return acc;
-    }, {});
-
-    dynamicSeasons.innerHTML = '';
-
-    Object.entries(grouped).forEach(([season, students]) => {
-      const card = document.createElement('div');
-      card.className = 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-6 space-y-6';
-
-      const title = `<h3 class="text-2xl font-semibold text-center text-violet-600 dark:text-violet-300 uppercase tracking-wide">Season ${season}</h3>`;
-      const studentList = students.map(entry => {
-        const bg =
-          entry.rank === 1 ? 'from-green-100 to-green-200 dark:from-green-800 dark:to-green-900' :
-          entry.rank === 2 ? 'from-yellow-100 to-yellow-200 dark:from-yellow-800 dark:to-yellow-900' :
-          entry.rank === 3 ? 'from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900' :
-          'from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900';
-
-        const txt =
-          entry.rank === 1 ? 'text-green-800 dark:text-green-300' :
-          entry.rank === 2 ? 'text-yellow-800 dark:text-yellow-300' :
-          entry.rank === 3 ? 'text-blue-800 dark:text-blue-300' :
-          'text-gray-700 dark:text-gray-300';
-
-        const medal = entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : entry.rank === 3 ? '🥉' : '🏅';
-        const label = entry.rank <= 3 ? `${entry.rank}st Place` : `Rank ${entry.rank}`;
-
-        return `
-          <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r ${bg} shadow-sm">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gray-700 text-white flex items-center justify-center font-semibold text-lg shadow">
-                ${entry.initial || entry.name.charAt(0)}
-              </div>
-              <span class="text-xl font-bold ${txt}">${medal} ${entry.name}</span>
-            </div>
-            <span class="text-sm font-medium ${txt} bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">${label}</span>
-          </div>`;
-      }).join('');
-
-      card.innerHTML = title + `<div class="space-y-4">${studentList}</div>`;
-      dynamicSeasons.appendChild(card);
-    });
-  }
-
-  loadLeaderboard();
-</script>
 
 
 
@@ -632,171 +464,7 @@
 
 
 
-  <script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-  const supabaseUrl = "https://ellxxhwuohbezfijkwvt.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI"; // Please keep your keys secure
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  const fileInput = document.getElementById("fileInput");
-  const uploadBtn = document.getElementById("uploadBtn");
-  const fileList = document.getElementById("fileList");
-  const popup = document.getElementById('popup');
-  const popupContent = document.getElementById('popupContent');
-
-  // When "Upload" button is clicked, show the popup instead of uploading immediately
-  uploadBtn.addEventListener('click', () => {
-    if (!fileInput.files[0]) {
-      alert('Please select a file first');
-      return;
-    }
-    popup.style.display = 'flex';
-  });
-
-  // Function to reset popup to initial state
-  function resetPopup() {
-    popupContent.innerHTML = `
-      <h2 class="text-xl font-semibold mb-4">Attention!</h2>
-      <p class="mb-4">You require admin privilege for this action!</p>
-      <div class="flex justify-between">
-        <button id="adminAccessBtn" class="bg-green-600 text-white px-4 py-2 rounded">Admin Access</button>
-        <button id="closeBtn" class="bg-gray-400 text-white px-4 py-2 rounded">Close</button>
-      </div>
-    `;
-    // Rebind buttons in popup
-    document.getElementById('adminAccessBtn').addEventListener('click', showAdminCodeInput);
-    document.getElementById('closeBtn').addEventListener('click', () => {
-      popup.style.display = 'none';
-      resetPopup();
-    });
-  }
-
-  // Show admin code input form
-  function showAdminCodeInput() {
-    popupContent.innerHTML = `
-      <h2 class="text-xl font-semibold mb-4">Enter Admin Code</h2>
-      <input type="password" id="adminCodeInput" placeholder="Enter code here" class="border border-gray-300 rounded px-3 py-2 w-full mb-4" />
-      <div class="flex justify-between">
-        <button id="submitCodeBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
-        <button id="cancelBtn" class="bg-gray-400 text-white px-4 py-2 rounded">Cancel</button>
-      </div>
-      <p id="errorMsg" class="text-red-600 mt-2 hidden">Incorrect code, please try again.</p>
-    `;
-
-    // Bind submit and cancel buttons
-    document.getElementById('submitCodeBtn').addEventListener('click', handleAdminCodeSubmit);
-    document.getElementById('cancelBtn').addEventListener('click', () => {
-      popup.style.display = 'none';
-      resetPopup();
-    });
-  }
-
-  // Handle admin code submission
-  async function handleAdminCodeSubmit() {
-    const input = document.getElementById('adminCodeInput').value.trim();
-    const errorMsg = document.getElementById('errorMsg');
-
-    if (input === '#8gjgpjyq2') {
-      errorMsg.classList.add('hidden');
-      popup.style.display = 'none';
-      resetPopup();
-      // Proceed to upload file after admin access granted
-      await uploadFile();
-    } else {
-      errorMsg.classList.remove('hidden');
-    }
-  }
-
-  // Initialize popup buttons event listeners
-  document.getElementById('adminAccessBtn').addEventListener('click', showAdminCodeInput);
-  document.getElementById('closeBtn').addEventListener('click', () => {
-    popup.style.display = 'none';
-    resetPopup();
-  });
-
-  // Upload file function
-  async function uploadFile() {
-    const file = fileInput.files[0];
-    if (!file) {
-      alert("No file selected.");
-      return;
-    }
-
-    uploadBtn.disabled = true;
-    uploadBtn.textContent = "Uploading...";
-
-    try {
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from("results")
-        .upload(`public/${file.name}`, file, { cacheControl: "3600", upsert: true });
-
-      if (uploadError) throw uploadError;
-
-      const { data } = supabase.storage.from("results").getPublicUrl(`public/${file.name}`);
-      const publicUrl = data.publicUrl;
-
-      const { error: insertError } = await supabase
-        .from("uploaded_files")
-        .insert([{ file_name: file.name, file_url: publicUrl }]);
-
-      if (insertError) throw insertError;
-
-      alert("File uploaded successfully!");
-      fileInput.value = "";
-      fetchFiles();
-
-    } catch (err) {
-      alert("Error uploading file: " + err.message);
-    } finally {
-      uploadBtn.disabled = false;
-      uploadBtn.textContent = "Upload";
-    }
-  }
-
-  // Fetch uploaded files list
-  async function fetchFiles() {
-    const { data, error } = await supabase
-      .from("uploaded_files")
-      .select()
-      .order("uploaded_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching files:", error);
-      return;
-    }
-
-    fileList.innerHTML = ""; // clear list
-
-    data.forEach(file => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <a href="${file.file_url}" target="_blank" class="text-blue-600 underline">${file.file_name}</a>
-      `;
-      fileList.appendChild(li);
-    });
-  }
-
-  fetchFiles();
-
-  // Optional: realtime subscription to update file list dynamically when new file added
-  supabase
-    .channel("public:uploaded_files")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "uploaded_files" },
-      (payload) => {
-        const newFile = payload.new;
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <a href="${newFile.file_url}" target="_blank" class="text-blue-600 underline">${newFile.file_name}</a>
-        `;
-        fileList.insertBefore(li, fileList.firstChild); // newest on top
-      }
-    )
-    .subscribe();
-
-</script>
 
 </div>
 
@@ -907,6 +575,254 @@ function generateQRCodes() {
 
   closePollModal(); 
 }
+</script>
+
+
+
+<!--add_repeted_scripts-errors-->
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+// ------------------ Supabase Setup ------------------
+const supabaseUrl = 'https://ellxxhwuohbezfijkwvt.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbHh4aHd1b2hiZXpmaWprd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjMyNjYsImV4cCI6MjA2NDA5OTI2Nn0.cWuvYFKNV7FnD52B0n94cOFmzCFUIhxHy-sWnOLR6sI'; // Keep secure
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// ------------------ Variables ------------------
+const userId = '71e6ab28-3373-4148-860e-b824b8138c6e';
+let alreadyBanned = false;
+
+const fileInput = document.getElementById("fileInput");
+const uploadBtn = document.getElementById("uploadBtn");
+const fileList = document.getElementById("fileList");
+const popup = document.getElementById('popup');
+const popupContent = document.getElementById('popupContent');
+
+const marqueeContainer = document.getElementById("marqueeContainer");
+const marqueeText = document.getElementById("marqueeText");
+const dynamicSeasons = document.getElementById('dynamicSeasons');
+
+// ------------------ Account Suspension Check ------------------
+async function checkIsSuspended() {
+  const { data, error } = await supabase
+    .from('user_roles')
+    .select('is_suspended')
+    .eq('id', userId)
+    .single();
+
+  if (error) return console.error('❌ Error getting is_suspended:', error.message);
+
+  console.log('🔍 Suspension status:', data?.is_suspended);
+
+  if (data?.is_suspended && !alreadyBanned) {
+    alreadyBanned = true;
+    Swal.fire({
+      icon: 'warning',
+      title: 'Information',
+      text: 'System detected abnormalities with your account. Please relogin.',
+      confirmButtonText: 'OK',
+      allowOutsideClick: false
+    }).then(() => {
+      window.location.href = 'https://zen-tech-student-portal.vercel.app/';
+    });
+  }
+}
+
+// Run every 5 seconds (or rely on realtime)
+setInterval(() => { if (!alreadyBanned) checkIsSuspended(); }, 5000);
+
+// Real-time listener
+supabase
+  .channel('ban-check')
+  .on('postgres_changes', {
+    event: 'UPDATE',
+    schema: 'public',
+    table: 'user_roles',
+    filter: `id=eq.${userId}`
+  }, () => checkIsSuspended())
+  .subscribe();
+
+// ------------------ Admin File Upload ------------------
+function resetPopup() {
+  popupContent.innerHTML = `
+    <h2 class="text-xl font-semibold mb-4">Attention!</h2>
+    <p class="mb-4">You require admin privilege for this action!</p>
+    <div class="flex justify-between">
+      <button id="adminAccessBtn" class="bg-green-600 text-white px-4 py-2 rounded">Admin Access</button>
+      <button id="closeBtn" class="bg-gray-400 text-white px-4 py-2 rounded">Close</button>
+    </div>
+  `;
+  document.getElementById('adminAccessBtn').addEventListener('click', showAdminCodeInput);
+  document.getElementById('closeBtn').addEventListener('click', () => {
+    popup.style.display = 'none';
+    resetPopup();
+  });
+}
+
+function showAdminCodeInput() {
+  popupContent.innerHTML = `
+    <h2 class="text-xl font-semibold mb-4">Enter Admin Code</h2>
+    <input type="password" id="adminCodeInput" placeholder="Enter code here" class="border border-gray-300 rounded px-3 py-2 w-full mb-4" />
+    <div class="flex justify-between">
+      <button id="submitCodeBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+      <button id="cancelBtn" class="bg-gray-400 text-white px-4 py-2 rounded">Cancel</button>
+    </div>
+    <p id="errorMsg" class="text-red-600 mt-2 hidden">Incorrect code, please try again.</p>
+  `;
+  document.getElementById('submitCodeBtn').addEventListener('click', handleAdminCodeSubmit);
+  document.getElementById('cancelBtn').addEventListener('click', () => {
+    popup.style.display = 'none';
+    resetPopup();
+  });
+}
+
+async function handleAdminCodeSubmit() {
+  const input = document.getElementById('adminCodeInput').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+
+  if (input === '#8gjgpjyq2') {
+    errorMsg.classList.add('hidden');
+    popup.style.display = 'none';
+    resetPopup();
+    await uploadFile();
+  } else {
+    errorMsg.classList.remove('hidden');
+  }
+}
+
+uploadBtn.addEventListener('click', () => {
+  if (!fileInput.files[0]) return alert('Please select a file first');
+  popup.style.display = 'flex';
+});
+
+async function uploadFile() {
+  const file = fileInput.files[0];
+  if (!file) return alert("No file selected.");
+
+  uploadBtn.disabled = true;
+  uploadBtn.textContent = "Uploading...";
+
+  try {
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("results")
+      .upload(`public/${file.name}`, file, { cacheControl: "3600", upsert: true });
+
+    if (uploadError) throw uploadError;
+
+    const { data } = supabase.storage.from("results").getPublicUrl(`public/${file.name}`);
+    const publicUrl = data.publicUrl;
+
+    const { error: insertError } = await supabase
+      .from("uploaded_files")
+      .insert([{ file_name: file.name, file_url: publicUrl }]);
+
+    if (insertError) throw insertError;
+
+    alert("File uploaded successfully!");
+    fileInput.value = "";
+    fetchFiles();
+  } catch (err) {
+    alert("Error uploading file: " + err.message);
+  } finally {
+    uploadBtn.disabled = false;
+    uploadBtn.textContent = "Upload";
+  }
+}
+
+async function fetchFiles() {
+  const { data, error } = await supabase.from("uploaded_files").select().order("uploaded_at", { ascending: false });
+  if (error) return console.error("Error fetching files:", error);
+
+  fileList.innerHTML = "";
+  data.forEach(file => {
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="${file.file_url}" target="_blank" class="text-blue-600 underline">${file.file_name}</a>`;
+    fileList.appendChild(li);
+  });
+}
+
+fetchFiles();
+
+// Realtime update for uploaded files
+supabase
+  .channel("public:uploaded_files")
+  .on("postgres_changes", { event: "INSERT", schema: "public", table: "uploaded_files" }, payload => {
+    const file = payload.new;
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="${file.file_url}" target="_blank" class="text-blue-600 underline">${file.file_name}</a>`;
+    fileList.insertBefore(li, fileList.firstChild);
+  })
+  .subscribe();
+
+// ------------------ Marquee Alerts ------------------
+(async () => {
+  const { data, error } = await supabase
+    .from("marquee_alerts")
+    .select("*")
+    .eq("active", true)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (!error && data?.message) {
+    marqueeText.textContent = `📢 ${data.message}`;
+    marqueeContainer.classList.remove("hidden");
+  }
+})();
+
+// ------------------ Dynamic Leaderboard ------------------
+async function loadLeaderboard() {
+  const { data, error } = await supabase.from('leaderboard').select('*').order('season', { ascending: true }).order('rank', { ascending: true });
+  if (error) return dynamicSeasons.innerHTML = '<p class="text-red-600 text-center">Failed to load leaderboard.</p>';
+
+  const grouped = data.reduce((acc, curr) => {
+    acc[curr.season] = acc[curr.season] || [];
+    acc[curr.season].push(curr);
+    return acc;
+  }, {});
+
+  dynamicSeasons.innerHTML = '';
+
+  Object.entries(grouped).forEach(([season, students]) => {
+    const card = document.createElement('div');
+    card.className = 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-6 space-y-6';
+
+    const title = `<h3 class="text-2xl font-semibold text-center text-violet-600 dark:text-violet-300 uppercase tracking-wide">Season ${season}</h3>`;
+    const studentList = students.map(entry => {
+      const bg =
+        entry.rank === 1 ? 'from-green-100 to-green-200 dark:from-green-800 dark:to-green-900' :
+        entry.rank === 2 ? 'from-yellow-100 to-yellow-200 dark:from-yellow-800 dark:to-yellow-900' :
+        entry.rank === 3 ? 'from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900' :
+        'from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900';
+
+      const txt =
+        entry.rank === 1 ? 'text-green-800 dark:text-green-300' :
+        entry.rank === 2 ? 'text-yellow-800 dark:text-yellow-300' :
+        entry.rank === 3 ? 'text-blue-800 dark:text-blue-300' :
+        'text-gray-700 dark:text-gray-300';
+
+      const medal = entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : entry.rank === 3 ? '🥉' : '🏅';
+      const label = entry.rank <= 3 ? `${entry.rank}st Place` : `Rank ${entry.rank}`;
+
+      return `
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r ${bg} shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gray-700 text-white flex items-center justify-center font-semibold text-lg shadow">
+              ${entry.initial || entry.name.charAt(0)}
+            </div>
+            <span class="text-xl font-bold ${txt}">${medal} ${entry.name}</span>
+          </div>
+          <span class="text-sm font-medium ${txt} bg-white dark:bg-gray-700 px-3 py-1 rounded-full shadow">${label}</span>
+        </div>`;
+    }).join('');
+
+    card.innerHTML = title + `<div class="space-y-4">${studentList}</div>`;
+    dynamicSeasons.appendChild(card);
+  });
+}
+
+loadLeaderboard();
 </script>
 
 
