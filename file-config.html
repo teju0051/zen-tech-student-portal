@@ -1,410 +1,238 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-white text-gray-900">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>files-configs</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zentech LMS Admin</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = { darkMode: 'class' }</script>
   <style>
-    body {
-  zoom: 0.75;
-}
-    .high-contrast { filter: contrast(2) saturate(1.5); }
+    .hidden-section { display: none; }
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 6px; }
   </style>
-  <!-- Font Awesome CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.42.3/dist/umd/supabase.min.js"></script>
-
-
-
-
-
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 transition-colors duration-500">
+<body class="bg-gray-50 min-h-screen flex font-sans">
 
- <!-- Alert banner -->
-  <div class="bg-yellow-100 text-yellow-800 text-xs p-2 text-center">
-    ⚠️ Server is under Maintainance July 3-6.
-  </div>
-<header class="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-gray-950/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 shadow-md transition-all">
-  <div class="flex items-center justify-between px-4 md:px-8 py-3">
+<!-- Professional LMS Sidebar - Clean Teal/Blue Theme -->
+<aside class="sidebar w-64 bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 flex flex-col shadow-lg">
 
-    <!-- Left: Logo + Hamburger -->
-    <div class="flex items-center space-x-4">
-      <!-- Hamburger -->
-      <button id="hamburger" class="md:hidden focus:outline-none">
-        <svg class="w-7 h-7 text-gray-700 dark:text-gray-300 hover:text-blue-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-
-      <!-- Logo -->
-      <a href="https://zen-tech.vercel.app/" class="flex items-center space-x-2 group">
-        <img src="https://teju0051.github.io/Assets/zentehc-remove-bg.png"
-             alt="Zen-Tech Logo"
-             class="h-10 w-auto block dark:hidden transition-transform group-hover:scale-110"/>
-        <img src="https://firebasestorage.googleapis.com/v0/b/mgm-students-activites.appspot.com/o/logos%2F-service-tras.png?alt=media&token=30dfcfdc-0bbc-4b63-a76f-1cce52b729f7"
-             alt="T-Service Logo"
-             class="h-10 w-auto hidden dark:block transition-transform group-hover:scale-110"/>
-        <span class="font-bold text-lg md:text-xl text-gray-800 dark:text-white tracking-wide" id="dashboardTitle"></span>
-      </a>
-    </div>
-
-    <!-- Right Section -->
-    <div class="flex items-center space-x-4">
-
-      <!-- Online Status -->
-      <div class="hidden md:flex items-center space-x-1">
-        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
-        <span class="text-xs text-gray-500 dark:text-gray-400" id="statusText">Online</span>
-      </div>
-
-      <!-- Date & Time -->
-      <div class="hidden md:block text-right leading-tight">
-        <div id="time" class="text-xs font-semibold"></div>
-        <div id="day" class="text-[11px] text-gray-500 dark:text-gray-400"></div>
-        <div id="date" class="text-[11px] text-gray-500 dark:text-gray-400"></div>
-      </div>
-
-      <!-- Search -->
-      <div class="relative hidden md:block">
-        <input id="searchBox" type="text" placeholder="Search..."
-               class="w-40 md:w-56 border border-gray-300 dark:border-gray-600 rounded-full pl-4 pr-10 py-1.5 text-xs bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
-        <svg class="w-4 h-4 absolute right-3 top-2.5 text-gray-400 dark:text-gray-500 pointer-events-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z"/>
-        </svg>
-        <div id="searchSuggestions" class="absolute top-full mt-1 w-full bg-white dark:bg-gray-800 shadow rounded hidden text-xs z-50"></div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="relative hidden md:block">
-        <button id="quickActions"
-                class="text-xs font-medium border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-          Quick Actions
-        </button>
-        <div id="quickMenu" class="absolute right-0 mt-2 w-44 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg hidden overflow-hidden">
-          <ul class="text-xs text-gray-700 dark:text-gray-300 divide-y divide-gray-100 dark:divide-gray-700">
-            <li><a href="https://zen-tech-student-portal.vercel.app/Syit" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Student Portal</a></li>
-            <li><a href="https://t-service-india.vercel.app/login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Logout</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- A11y -->
-      <button id="contrastToggle"
-              class="text-xs border rounded-lg px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-        A11y
-      </button>
-
-      <!-- Theme Toggle -->
-      <button id="themeToggle" aria-label="Toggle Theme" class="ml-2">
-        <svg id="themeIcon" class="w-6 h-6 text-gray-600 dark:text-gray-300 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"></svg>
-      </button>
-
-      <!-- Avatar -->
-      <div class="relative">
-        <button id="adminAvatarBtn" class="rounded-full overflow-hidden w-10 h-10 border-2 border-blue-500 dark:border-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-          <img src="https://th.bing.com/th/id/R.b46dc67851da91c22947025216cfb36b?rik=fN3OqfXvAriq8A&riu=http%3a%2f%2fajcacollege.in%2fwp-content%2fuploads%2ficon.jpg&ehk=8RZwbIoWWBMgIzEe%2bhzgXUv98WC3w%2fVeP6gEICvVadQ%3d&risl=&pid=ImgRaw&r=0" alt="Admin Avatar" class="w-full h-full object-cover" />
-        </button>
-
-        <!-- Popup -->
-        <div id="adminPopup" class="hidden absolute right-0 mt-2 w-72 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl p-4 z-50 text-sm">
-          <h3 class="font-semibold text-lg mb-2 text-blue-600 dark:text-blue-300">T-SERVICE Admin Info</h3>
-          <ul class="space-y-1 text-gray-700 dark:text-gray-300">
-            <li><strong>Tejas Shinde:</strong> Head Admin</li>
-            <li><strong>Ankita Rajput:</strong> Super Admin</li>
-            <li><strong>Sujal Telore:</strong> Manager</li>
-            <li><strong>Kritika Sonawane:</strong> Assistant Manager</li>
-            <li><strong>Anaya Shirke:</strong> Server Admin (SSA-1,2,3)</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+  <!-- Logo -->
+  <div class="p-6 flex items-center justify-center border-b border-gray-200">
+    <img src="https://teju0051.github.io/Assets/zentehc-remove-bg.png" 
+         alt="Zentech Logo" class="h-14 w-auto">
+         
   </div>
 
-  <!-- Progress Bar -->
-  <div class="h-1 bg-gradient-to-r from-blue-500 to-indigo-600" id="progressBar" style="width:0%; transition:width 2s ease;"></div>
-</header>
-
-
+  <!-- Navigation -->
+  <nav class="flex-1 overflow-y-auto px-3 py-6 space-y-2">
+    <a href="#" data-section="subject" class="nav-link active flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-gray-800 bg-teal-50 hover:bg-teal-100 text-teal-700 transition duration-200">
+      📘 Subjects
+    </a>
+    <a href="#" data-section="notice" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
+      📢 Notices
+    </a>
+    <a href="#" data-section="staff" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
+      👨‍🏫 Staff Assigned
+    </a>
+    <a href="#" data-section="manual" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
+      📖 User Manual
+    </a>
+    <a href="#" data-section="logins" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
+      🔑 Login Credentials
+    </a>
+    <a href="#" data-section="suspension" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-gray-800 hover:bg-red-50 hover:text-red-600 transition duration-200">
+      ⛔ Account Suspension
+    </a>
+  </nav>
+ Version: 9.11.00
+  <!-- Footer -->
+  <div class="px-4 py-4 border-t border-gray-200 flex items-center justify-between bg-gray-100">
+   
+    <span class="text-sm font-semibold text-gray-700">Admin</span>
+    <button onclick="window.location.href='https://zen-tech-student-portal.vercel.app/';" 
+            class="px-4 py-2 bg-teal-600 text-white rounded-md text-xs font-semibold hover:bg-teal-700 transition duration-200">
+      🚪 Logout
+    </button>
+  </div>
   
-
-<main class="pt-24 px-4 md:px-8 space-y-6">
-<!-- Main Dashboard Section -->
-<section id="dashboardSection" class="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-2xl p-6 shadow-lg animate-fadeIn">
-  <h1 class="text-2xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">Student Portal</h1>
-  <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-6">Access your key modules and insights below.</p>
-
-  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-    <div onclick="showModule('Subjects')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-book text-indigo-600 dark:text-indigo-400 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Subjects</h2>
-      </div>
-      <p class="text-sm text-gray-600 dark:text-gray-400">Add & manage notes.</p>
-    </div>
-
-    <div onclick="showModule('Notification')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-bell text-yellow-600 dark:text-yellow-400 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Notification/Alert</h2>
-      </div>
-      <p class="text-sm text-gray-600 dark:text-gray-400">Submit all notices and alerts.</p>
-    </div>
-
-    <div onclick="showModule('Leaderboard')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-trophy text-green-600 dark:text-green-400 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Leaderboard</h2>
-      </div>
-      <p class="text-sm text-gray-600 dark:text-gray-400">View top performers and rankings.</p>
-    </div>
-
-  
-    <div onclick="showModule('Staff')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-user-tie text-blue-600 dark:text-blue-400 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Staff Info</h2>
-      </div>
-      <p class="text-sm text-gray-600 dark:text-gray-400">View assigned managers.</p>
-    </div>
-
-    <div onclick="showModule('Credential')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-  <div class="flex items-center mb-3">
-    <i class="fas fa-key text-purple-600 dark:text-purple-400 text-xl mr-2"></i>
-    <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Login Credentials <strong>CONFEDENTIAL</strong></h2>
-  </div>
-  <p class="text-sm text-gray-600 dark:text-gray-400">Username and Password.</p>
-</div>
+</aside>
 
 
-  <div onclick="showModule('Suspend')" class="cursor-pointer bg-red-100 dark:bg-red-700 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-user-slash text-red-800 dark:text-red-200 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Suspend Account</h2>
-      </div>
-      <p class="text-sm text-gray-700 dark:text-red-200">Temporarily suspend department accounts.</p>
-    </div>
-  </div>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8">
     
+<section id="section-subject" class=" p-4">
+   <div class="border-2 border-red-700 bg-red-100 rounded-lg p-4 mb-4">
+  <em class="text-red-900 text-sm">
+    Here you can also add more subjects for demo. We have 1 on the bottom; after clicking on it, you will be able to upload the notes.
+  </em>
+</div>
+  <!-- Dashboard -->
+  <h2 class="text-xl md:text-2xl font-bold mb-2">Subjects Overview (Upload_Section_Admin)</h2><br>
+ 
 
-<!--
+<hr><br>
 
-    <div onclick="showModule('PresentationImages')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-images text-pink-600 dark:text-pink-400 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Presentation Images</h2>
-      </div>
-      <p class="text-sm text-gray-600 dark:text-gray-400">Upload activity images.</p>
+<div id="dashboard" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="flex items-center gap-2 mb-2">
+      <i class="fas fa-code text-green-600 text-lg"></i>
+      <button onclick="showModule('python')" class="text-gray-900 font-semibold text-sm hover:text-green-600 transition">
+        Python
+      </button>
     </div>
+</div>
 
 
-    <div onclick="showModule('Ext_links')" class="cursor-pointer bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-user-tie text-blue-600 dark:text-blue-400 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">External Links</h2>
-      </div>
-      <p class="text-sm text-gray-600 dark:text-gray-400">Links which are not connected to LMS Software.</p>
-    </div>
+<!-- Python Subject SECTION - White Themed -->
+<section id="pythonSection" class="hidden bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
 
-    <div onclick="showModule('MaintenanceMode')" class="cursor-pointer bg-yellow-100 dark:bg-yellow-700 p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-      <div class="flex items-center mb-3">
-        <i class="fas fa-tools text-yellow-800 dark:text-yellow-200 text-xl mr-2"></i>
-        <h2 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Maintenance Mode</h2>
-      </div>
-      <p class="text-sm text-gray-700 dark:text-yellow-200">Enable or disable maintenance mode.</p>
-    </div>
-
-  
-
-  -->
-</section>
-
-
-<!-- Module Sections -->
-  <section id="SubjectsSection" class="hidden bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+  <!-- Back Button -->
+  <button onclick="goBack()" 
+          class="mb-4 inline-flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition">
+    <i class="fas fa-arrow-left mr-2"></i> Back
   </button>
 
-  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Subjects Overview</h2>
-  <p class="text-gray-700 dark:text-gray-300 mb-8">Manage your enrolled courses and explore new subjects tailored to your interests.</p>
-  
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-   <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition-transform duration-300">
-  <div class="flex items-center mb-3">
-    <i class="fas fa-desktop text-indigo-600 dark:text-indigo-400 text-xl mr-2"></i>
-    <button onclick="showModule('os')" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-      <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Operating System</h3>
-    </button>
-  </div>
-  <p class="text-sm text-gray-600 dark:text-gray-400">Learn about process management, memory, and system architecture.</p>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition-transform duration-300">
-  <div class="flex items-center mb-3">
-    <i class="fas fa-square-root-variable text-purple-600 dark:text-purple-400 text-xl mr-2"></i>
-    <button onclick="showModule('maths')" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-      <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Applied Mathematics</h3>
-    </button>
-  </div>
-  <p class="text-sm text-gray-600 dark:text-gray-400">Solve real-world problems with linear algebra, calculus, and statistics.</p>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition-transform duration-300">
-  <div class="flex items-center mb-3">
-    <i class="fas fa-code text-green-600 dark:text-green-400 text-xl mr-2"></i>
-    <button onclick="showModule('python')" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-      <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Python</h3>
-    </button>
-  </div>
-  <p class="text-sm text-gray-600 dark:text-gray-400">Start coding with Python – easy syntax, powerful libraries, and automation.</p>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition-transform duration-300">
-  <div class="flex items-center mb-3">
-    <i class="fas fa-database text-yellow-600 dark:text-yellow-400 text-xl mr-2"></i>
-    <button onclick="showModule('ds')" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-      <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Data Structure</h3>
-    </button>
-  </div>
-  <p class="text-sm text-gray-600 dark:text-gray-400">Understand arrays, stacks, queues, trees, and graphs efficiently.</p>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition-transform duration-300">
-  <div class="flex items-center mb-3">
-    <i class="fas fa-rupee-sign text-pink-600 dark:text-pink-400 text-xl mr-2"></i>
-    <button onclick="showModule('finance')" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-      <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Financial Literacy</h3>
-    </button>
-  </div>
-  <p class="text-sm text-gray-600 dark:text-gray-400">Develop money management skills including budgeting, saving, and investing.</p>
-</div>
-
-  </div>
-  </section>
-
-<!-- Python Subject SECTION -->
-  <section id="pythonSection" class="hidden bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
-  </button>
-
-  <div class="flex items-center mb-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
+  <!-- Header -->
+  <div class="flex items-center mb-4 text-xl font-bold text-gray-900">
     📘 Python
   </div>
 
-  <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400 flex justify-between items-center mb-4">
+  <!-- Notes Section -->
+  <h2 class="text-lg font-semibold flex justify-between items-center mb-3 text-gray-800">
     📚 Notes
-    <button onclick="document.getElementById('pythonFileInput').click()" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-700 transition">
-      Upload PDF
-    </button>
-    <input type="file" id="pythonFileInput" accept="application/pdf" class="hidden" />
+    <div>
+      <button onclick="document.getElementById('pythonFileInput').click()" 
+              class="px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition">
+        Upload PDF
+      </button>
+      <input type="file" id="pythonFileInput" accept="application/pdf" class="hidden" />
+    </div>
   </h2>
 
-  <ul id="pythonNotesList" class="space-y-2"></ul>
-  </section>
+  <!-- Notes List -->
+  <ul id="pythonNotesList" class="space-y-2 text-gray-700 text-sm"></ul>
+</section>
 
-<!-- Operating System SECTION -->
-  <section id="osSection" class="hidden bg-gradient-to-br from-green-100 via-yellow-100 to-red-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
-  </button>
 
-  <div class="flex items-center mb-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
-    🖥️ Operating System
+  <script>
+    function showModule(module) {
+      if(module === 'python') {
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('pythonSection').classList.remove('hidden');
+      }
+    }
+
+    function goBack() {
+      document.getElementById('pythonSection').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+    }
+  </script>
+</section>
+
+
+<section id="section-notice" class="hidden-section my-8 w-full">
+
+  <!-- Marquee Input Panel -->
+  <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4 w-full">
+    <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+       Add Announcement
+    </h3>
+
+    <!-- Textarea -->
+    <textarea
+      id="marqueeInput"
+      rows="3"
+      placeholder="Type your important alert here..."
+      class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-violet-400 text-gray-900 placeholder-gray-400 resize-none"
+    ></textarea>
+
+    <!-- Checkbox -->
+    <label class="flex items-center space-x-2">
+      <input
+        type="checkbox"
+        id="marqueeActive"
+        checked
+        class="w-4 h-4 text-violet-600 border-gray-300 rounded focus:ring-violet-500"
+      >
+      <span class="text-sm text-gray-700">Mark as active (will not be updated if the box is not checked!)</span>
+    </label>
+
+    <!-- Submit Button -->
+    <button
+      id="submitMarquee"
+      class="bg-violet-600 hover:bg-violet-700 text-white font-medium px-5 py-2 rounded transition duration-150"
+    >
+      ➕ Add Announcement
+    </button>
   </div>
 
-  <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400 flex justify-between items-center mb-4">
-    📚 Notes
-    <button onclick="document.getElementById('osFileInput').click()" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-700 transition">
-      Upload PDF
-    </button>
-    <input type="file" id="osFileInput" accept="application/pdf" class="hidden" />
-  </h2>
-
-  <ul id="osNotesList" class="space-y-2"></ul>
-  </section>
-
-<!-- Applied Mathematics SECTION -->
-  <section id="mathsSection" class="hidden bg-gradient-to-br from-yellow-100 via-pink-100 to-indigo-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-    <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
-  </button>
-
-  <div class="flex items-center mb-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
-    ➕ Applied Mathematics
+  <!-- Active Notices List -->
+  <div class="mt-6 bg-white border border-gray-200 rounded-lg p-6 space-y-3 w-full">
+    <h4 class="text-md font-semibold text-gray-800 border-b border-gray-200 pb-2 mb-2">
+      Active Announcements
+    </h4>
+    <ul id="marqueeList" class="space-y-2 text-gray-700">
+     
+    </ul>
   </div>
 
-  <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400 flex justify-between items-center mb-4">
-    📚 Notes
-    <button onclick="document.getElementById('mathsFileInput').click()" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-700 transition">
-      Upload PDF
-    </button>
-    <input type="file" id="mathsFileInput" accept="application/pdf" class="hidden" />
-  </h2>
+  <script type="module">
+    const marqueeInput = document.getElementById("marqueeInput");
+    const marqueeActive = document.getElementById("marqueeActive");
+    const submitBtn = document.getElementById("submitMarquee");
+    const marqueeList = document.getElementById("marqueeList");
 
-  <ul id="mathsNotesList" class="space-y-2"></ul>
-  </section>
+    async function loadActiveNotices() {
+      const { data, error } = await supabaseClient
+        .from("marquee_alerts")
+        .select("*")
+        .eq("active", true)
+        .order("id", { ascending: false });
 
-<!-- Data Structure SECTION -->
-  <section id="dsSection" class="hidden bg-gradient-to-br from-blue-100 via-green-100 to-purple-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
-  </button>
+      if (!error) {
+        marqueeList.innerHTML = data.map(item => `<li class="border-b border-gray-100 pb-1">${item.message}</li>`).join("");
+      }
+    }
 
-  <div class="flex items-center mb-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
-    🧵 Data Structure
-  </div>
+    submitBtn.addEventListener("click", async () => {
+      const message = marqueeInput.value.trim();
+      const isActive = marqueeActive.checked;
 
-  <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400 flex justify-between items-center mb-4">
-    📚 Notes
-    <button onclick="document.getElementById('dsFileInput').click()" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-700 transition">
-      Upload PDF
-    </button>
-    <input type="file" id="dsFileInput" accept="application/pdf" class="hidden" />
-  </h2>
+      if (!message) {
+        alert("Please enter a message.");
+        return;
+      }
 
-  <ul id="dsNotesList" class="space-y-2"></ul>
-  </section>
+      // Optional: Set all existing to inactive
+      await supabaseClient.from("marquee_alerts").update({ active: false }).eq("active", true);
 
-<!-- Finance Literacy SECTION -->
-  <section id="financeSection" class="hidden bg-gradient-to-br from-orange-100 via-teal-100 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
-  </button>
+      // Insert new alert
+      const { error } = await supabaseClient.from("marquee_alerts").insert([
+        { message, active: isActive }
+      ]);
 
-  <div class="flex items-center mb-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
-    💰 Finance Literacy
-  </div>
+      if (error) {
+        alert("Failed to save marquee message.");
+        console.error("Insert error:", error.message);
+      } else {
+        alert("Announcement has been added successfully!");
+        marqueeInput.value = "";
+        loadActiveNotices();
+      }
+    });
 
-  <h2 class="text-2xl font-bold text-violet-600 dark:text-violet-400 flex justify-between items-center mb-4">
-    📚 Notes
-    <button onclick="document.getElementById('financeFileInput').click()" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-700 transition">
-      Upload PDF
-    </button>
-    <input type="file" id="financeFileInput" accept="application/pdf" class="hidden" />
-  </h2>
+    // Load notices on page load
+    loadActiveNotices();
+  </script>
+</section>
 
-  <ul id="financeNotesList" class="space-y-2"></ul>
-  </section>
 
-  <section id="AISection" class="hidden bg-gradient-to-br from-green-100 via-teal-100 to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-4 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    ← Back to Dashboard
-  </button>
-  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">AI Recommendations</h2>
-  <p class="text-gray-700 dark:text-gray-300">Get personalized AI-driven study paths based on your learning patterns.</p>
-  </section>
 
-  <section id="LeaderboardSection" class="hidden bg-gradient-to-br from-yellow-100 via-orange-100 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-4 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    ← Back to Dashboard
-  </button>
-  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Leaderboard</h2>
 
+    <section id="section-leaderboard" class="hidden-section">
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">🏆 Leaderboard</h2>
+      
  <form id="leaderboardForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
   <input id="studentName" type="text" required placeholder="Student Name & Surname /Full Name"
     class="px-4 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white">
@@ -433,414 +261,179 @@
   </button>
 </form>
 
+    </section>
+
+  <section id="section-staff" class="hidden-section">
+
+  <!-- Note Box -->
+  <div class="bg-gray-50 text-gray-700 text-center text-sm px-6 py-4 rounded-lg border border-gray-200 shadow-sm">
+    ⚠️ <strong>Note:</strong> This table shows the school/college faculty who will be operating the software. 
+    Both teaching and non-teaching staff are listed here (not visible to students).
+  </div>
+
+  <br><br>
+
+  <!-- Staff Table -->
+  <div class="overflow-x-auto mb-8">
+    <table class="min-w-full bg-white rounded-lg shadow-md border border-gray-200">
+      <thead class="bg-gray-100 text-gray-800 font-semibold">
+        <tr>
+          <th class="py-3 px-6 text-left">Name</th>
+          <th class="py-3 px-6 text-left">Designation</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+          <td class="py-3 px-6">Prajakta Mane</td>
+          <td class="py-3 px-6">Operation Head</td>
+        </tr>
+        <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+          <td class="py-3 px-6">Abdullah Khan</td>
+          <td class="py-3 px-6">Manager</td>
+        </tr>
+        <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+          <td class="py-3 px-6">Ashwini Patil</td>
+          <td class="py-3 px-6">Sr. Web Developer</td>
+        </tr>
+        <tr class="hover:bg-gray-50 transition">
+          <td class="py-3 px-6">Ashok Tendulkar</td>
+          <td class="py-3 px-6">Jr. UI/UX Developer</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </section>
 
 
+    <section id="section-manual" class="hidden-section">
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">User Manual</h2><br><br>
+     <div class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 text-center text-sm px-6 py-4 rounded-xl shadow-inner">
+     <strong>Info</strong>     Here all instructions will be given after this software is ready, because most of our clients prefer customization. So we can only provide this once the software (LMS) is ready for your institute!
+  </em>
 
-  <section id="NotificationSection" class="hidden bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-4 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    ← Back to Dashboard
-  </button>
-
-<!-- Marquee Input -->
-<div class="bg-white dark:bg-gray-800 border border-violet-300 dark:border-violet-700 rounded-xl p-6 mt-6 shadow-md space-y-4">
-  <h3 class="text-xl font-bold text-violet-700 dark:text-violet-300">📢 Post Marquee Announcement</h3>
-  
-  <textarea id="marqueeInput" rows="3" placeholder="Type your important alert here..."
-    class="w-full p-3 rounded border dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-gray-900 dark:text-white"></textarea>
-  
-  <label class="flex items-center space-x-2">
-    <input type="checkbox" id="marqueeActive" checked class="w-4 h-4 text-violet-600 focus:ring-violet-500 rounded">
-    <span class="text-sm text-gray-700 dark:text-gray-300">Mark as active</span>
-  </label>
-
-  <button id="submitMarquee" class="bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 py-2 rounded shadow transition">
-    ➕ Add Announcement
-  </button>
-</div>
-<script type="module">
-   const marqueeInput = document.getElementById("marqueeInput");
-  const marqueeActive = document.getElementById("marqueeActive");
-  const submitBtn = document.getElementById("submitMarquee");
-
-  submitBtn.addEventListener("click", async () => {
-    const message = marqueeInput.value.trim();
-    const isActive = marqueeActive.checked;
-
-    if (!message) {
-      alert("Please enter a message.");
-      return;
-    }
-
-    // Optional: Set all existing to inactive
-    await supabaseClient.from("marquee_alerts").update({ active: false }).eq("active", true);
-
-    // Insert new alert
-    const { error } = await supabaseClient.from("marquee_alerts").insert([
-      {
-        message: message,
-        active: isActive
-      }
-    ]);
-
-    if (error) {
-      alert("Failed to save marquee message.");
-      console.error("Insert error:", error.message);
-    } else {
-      alert("Marquee alert added successfully!");
-      marqueeInput.value = "";
-    }
-  });
-</script>
-  </section>
-
-  
-  <section id="StaffSection" class="hidden bg-gradient-to-br from-green-100 via-teal-100 to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-4 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    ← Back to Dashboard
-  </button>
-
-  <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800 dark:text-white">T-SERVICE HQ TEAM</h2>
-  
-  <div class="overflow-x-auto mb-12">
-    <table class="min-w-full bg-white dark:bg-gray-800 rounded-xl shadow-md">
-      <thead class="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 dark:from-gray-700 dark:to-gray-700 text-gray-800 dark:text-white">
-        <tr>
-          <th class="py-3 px-6 text-left">Name</th>
-          <th class="py-3 px-6 text-left">Designation</th>
-        </tr>
-      </thead>
-      <tbody class="text-gray-700 dark:text-gray-200">
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Tejas Shinde</td>
-          <td class="py-3 px-6">Head Admin</td>
-        </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Ankita Rajput</td>
-          <td class="py-3 px-6">Super Admin</td>
-        </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Sujal Telore</td>
-          <td class="py-3 px-6">Manager</td>
-        </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Kritika Sonawane</td>
-          <td class="py-3 px-6">Assistant Manager</td>
-        </tr>
-        <tr>
-          <td class="py-3 px-6">Anaya Shirke</td>
-          <td class="py-3 px-6">Server Admin (SSA-1,2,3)</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
+    </section>
 
-  <h3 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">↳ Zen-Tech Team (Connected)</h3>
-  
-  <div class="overflow-x-auto mb-8">
-    <table class="min-w-full bg-white dark:bg-gray-800 rounded-xl shadow-md">
-      <thead class="bg-gradient-to-r from-pink-200 via-purple-200 to-indigo-200 dark:from-gray-700 dark:to-gray-700 text-gray-800 dark:text-white">
-        <tr>
-          <th class="py-3 px-6 text-left">Name</th>
-          <th class="py-3 px-6 text-left">Designation</th>
-        </tr>
-      </thead>
-      <tbody class="text-gray-700 dark:text-gray-200">
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Prajakta Mane</td>
-          <td class="py-3 px-6">Operation Head</td>
-        </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Abdullah Khan</td>
-          <td class="py-3 px-6">Manager</td>
-        </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Ashwini Patil</td>
-          <td class="py-3 px-6">Sr. Web Developer</td>
-        </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Ashok Tendulkar</td>
-          <td class="py-3 px-6">Jr. UI/UX Developer</td>
-        </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-700">
-          <td class="py-3 px-6">Vinay Singh</td>
-          <td class="py-3 px-6">Role will be assigned soon</td>
-        </tr>
-        <tr>
-          <td class="py-3 px-6">Anoj Chavan</td>
-          <td class="py-3 px-6">Role will be assigned soon</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 text-center text-sm px-6 py-4 rounded-xl shadow-inner">
-    ⚠️ <strong>Note:</strong> T-SERVICE TEAM will be actively monitoring each and every moment of the Zen-Tech staff members. Please maintain professionalism and follow all protocols strictly.
-  </div>
-
-
-  </section>
-
-  <section id="CredentialSection" class="hidden bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    ← Back to Dashboard
-  </button>
+<section id="section-logins" class="hidden-section">
+  <!-- Notice Box -->
+  <div class="bg-white border border-gray-200 text-gray-800 text-center text-sm px-6 py-4 rounded-xl shadow-sm">
+    📢 All login credentials will be visible here!
+  </div> 
+  <br><br>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
     <!-- Student Portal Credentials -->
-    <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg">
-      <h2 class="text-2xl font-bold text-purple-700 dark:text-purple-300 mb-4">🎓 Student Portal Login</h2>
-      
+    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">
+        🎓 Student Portal Login (DEMO_LOGINS)
+      </h2>
+
       <div class="mb-4">
-        <h3 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">IT Department (SY)</h3>
-        <p class="text-sm text-gray-700 dark:text-gray-300">Username: <span class="font-mono">mgmsyit</span></p>
-        <p class="text-sm text-gray-700 dark:text-gray-300">Password: <span class="font-mono">Student</span></p>
+        <h3 class="font-semibold text-gray-800 mb-1">IT Department (SY)</h3>
+        <p class="text-sm text-gray-600">
+          Username: <span class="font-mono text-gray-900">mgmsyit</span>
+        </p>
+        <p class="text-sm text-gray-600">
+          Password: <span class="font-mono text-gray-900">Student</span>
+        </p>
       </div>
 
       <div>
-        <h3 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">CS Department (SY)</h3>
-        <p class="text-sm text-gray-700 dark:text-gray-300">Username: <span class="font-mono">mgmsycs</span></p>
-        <p class="text-sm text-gray-700 dark:text-gray-300">Password: <span class="font-mono">Student</span></p>
+        <h3 class="font-semibold text-gray-800 mb-1">CS Department (SY)</h3>
+        <p class="text-sm text-gray-600">
+          Username: <span class="font-mono text-gray-900">mgmsycs</span>
+        </p>
+        <p class="text-sm text-gray-600">
+          Password: <span class="font-mono text-gray-900">Student</span>
+        </p>
       </div>
     </div>
 
     <!-- Staff Credentials -->
-    <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg">
-      <h2 class="text-2xl font-bold text-blue-700 dark:text-blue-300 mb-4">👩‍💼 Staff Login Emails</h2>
-      <ul class="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 space-y-2">
-        <li><span class="font-mono">admin@zentech.org</span></li>
-        <li><span class="font-mono">admin@t-service.org</span></li>
-        <li><span class="font-mono">hr@zentech.org</span></li>
-        <li><span class="font-mono">support@zentech.org</span></li>
+    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">👩‍💼 Staff Login Emails</h2>
+      <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
+        <li><span class="font-mono text-gray-900">admin@zentech.org</span></li>
+        <li><span class="font-mono text-gray-900">admin@t-service.org</span></li>
+        <li><span class="font-mono text-gray-900">hr@zentech.org</span></li>
+        <li><span class="font-mono text-gray-900">support@zentech.org</span></li>
       </ul>
     </div>
   </div>
 </section>
 
- <section id="SuspendSection" class="hidden bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
-  <button onclick="goBack()" class="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-    ← Back to Dashboard
-  </button>
+<section id="section-suspension" class="hidden-section">
+  <!-- Notice Box -->
+  <div class="bg-white border border-gray-200 text-gray-800 text-center text-sm px-6 py-4 rounded-xl shadow-sm">
+    ⚠️ Here you can suspend accounts who don't follow rules.  
+    Our team might have access to this due to security reasons.  
+    If staff is unable to do it, our team will handle it from our side!
+  </div> 
+  <br><br>
+      
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- SYIT Card -->
+    <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200 flex flex-col items-start space-y-4">
+      <h3 class="text-xl font-semibold text-gray-900">SYIT Department</h3>
+      <div class="flex gap-4">
+        <button onclick="toggleSuspend('mgmsyit', this)" 
+                class="suspend-btn px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
+          Suspend
+        </button>
+        <a href="https://zen-tech-student-portal.vercel.app/Syit" 
+           class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition">
+          Visit
+        </a>
+      </div>
+    </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-  <!-- SYIT Card -->
-  <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col items-start space-y-4">
-    <h3 class="text-xl font-semibold text-purple-800 dark:text-white">SYIT Department</h3>
-    <div class="flex gap-4">
-      <button onclick="toggleSuspend('mgmsyit', this)" 
-              class="suspend-btn px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
-        Suspend
-      </button>
-      <a href="/syit-dashboard.html" 
-         class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
-        Visit
-      </a>
+    <!-- SYCS Card -->
+    <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200 flex flex-col items-start space-y-4">
+      <h3 class="text-xl font-semibold text-gray-900">SYCS Department</h3>
+      <div class="flex gap-4">
+        <button onclick="toggleSuspend('mgmsycs', this)" 
+                class="suspend-btn px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
+          Suspend
+        </button>
+        <a href="https://zen-tech-student-portal.vercel.app/Sycs" 
+           class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition">
+          Visit
+        </a>
+      </div>
     </div>
   </div>
-
-  <!-- SYCS Card -->
-  <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col items-start space-y-4">
-    <h3 class="text-xl font-semibold text-purple-800 dark:text-white">SYCS Department</h3>
-    <div class="flex gap-4">
-      <button onclick="toggleSuspend('mgmsycs', this)" 
-              class="suspend-btn px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
-        Suspend
-      </button>
-      <a href="/sycs-dashboard.html" 
-         class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
-        Visit
-      </a>
-    </div>
-  </div>
-
-</div>
-
 </section>
 
-</main>
-
-
-<!--Header Logic-->
-  <script>
-    function updateDateTime() {
-      const now = new Date();
-      document.getElementById('time').textContent = now.toLocaleTimeString();
-      document.getElementById('day').textContent = now.toLocaleDateString(undefined, { weekday: 'long' });
-      document.getElementById('date').textContent = now.toLocaleDateString();
-    }
-    setInterval(updateDateTime, 1000); updateDateTime();
-
-    const html = document.documentElement, icon = document.getElementById('themeIcon');
-    document.getElementById('themeToggle').addEventListener('click', () => { html.classList.toggle('dark'); setThemeIcon(); });
-    function setThemeIcon() { icon.innerHTML = html.classList.contains('dark') ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.293 17.293A8 8 0 0112 20a8 8 0 010-16 8 8 0 015.293 13.293z"/>' : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.485-8.485l-.707.707M4.222 4.222l.707.707M21 12h-1M4 12H3m16.485 4.485l-.707-.707M4.222 19.778l.707-.707"/>'; }
-    setThemeIcon();
-
-    document.getElementById('quickActions').addEventListener('click', () => {
-      document.getElementById('quickMenu').classList.toggle('hidden');
-    });
-
-    document.getElementById('contrastToggle').addEventListener('click', () => {
-      document.body.classList.toggle('high-contrast');
-    });
 
 
 
-    const searchBox = document.getElementById('searchBox'), suggestions = document.getElementById('searchSuggestions');
-    searchBox.addEventListener('input', e => {
-      const value = e.target.value.trim();
-      if (!value) return suggestions.classList.add('hidden');
-      suggestions.innerHTML = `<div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">Result for "${value}"</div>`;
-      suggestions.classList.remove('hidden');
-    });
-
-    document.addEventListener('keydown', e => { if (e.ctrlKey && e.key.toLowerCase() === 'k') { e.preventDefault(); searchBox.focus(); } });
-    document.getElementById('hamburger').addEventListener('click', () => { alert('Hamburger clicked: add sidebar toggle logic here.'); });
-
-    setTimeout(() => { document.getElementById('progressBar').style.width = '100%'; }, 500);
-  </script>
-
-<!--Section Hiding Logic-->
-<script>
-function showModule(module) {
-  // Hide all sections inside <main>
-  document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
-
-  const targetSectionId = module + 'Section';
-  const target = document.getElementById(targetSectionId);
-
-  if (target) {
-    target.classList.remove('hidden');
-  } else {
-    console.warn(`Section with ID "${targetSectionId}" not found. Showing dashboard instead.`);
-    const dashboard = document.getElementById('dashboardSection');
-    if (dashboard) dashboard.classList.remove('hidden');
-  }
-}
-
-function goBack() {
-  document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
-  const dashboard = document.getElementById('dashboardSection');
-  if (dashboard) dashboard.classList.remove('hidden');
-}
-</script>
-
-
-
-
- <div class="min-h-screen flex flex-col items-center justify-center px-4 py-10">
-    <h1 class="text-4xl font-bold text-center mb-10 text-indigo-700 dark:text-indigo-300">
-      <i class="fas fa-user-shield mr-2"></i> Rules & Regulations
-    </h1>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl">
-      
-
-
-       <!-- Left Column: Super Admin Rules -->
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border-l-4 border-purple-600">
-        <h2 class="text-2xl font-semibold mb-4 text-purple-700 dark:text-purple-300">
-          <i class="fas fa-crown mr-2"></i>Super Admin Duties
-        </h2>
-        <ul class="space-y-3 text-sm leading-6">
-          <li><i class="fas fa-eye text-indigo-500 mr-2"></i>Monitor all user roles and permissions</li>
-          <li><i class="fas fa-tools text-indigo-500 mr-2"></i>Manage system-level changes & database logs</li>
-          <li><i class="fas fa-bell text-indigo-500 mr-2"></i>Send legal or emergency notices</li>
-          <li><i class="fas fa-user-lock text-red-500 mr-2"></i>Temporarily suspend users for violations</li>
-          <li><i class="fas fa-file-alt text-indigo-500 mr-2"></i>Maintain documentation of changes</li>
-        </ul>
-      </div>
-
-
-      <!-- Center Column: Admin Rules -->
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border-l-4 border-blue-500">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-600 dark:text-blue-300">
-          <i class="fas fa-user-cog mr-2"></i>Admin Rules
-        </h2>
-        <ul class="space-y-3 text-sm leading-6">
-          <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Ensure faculty-only access to upload sections</li>
-          <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Review all student complaints weekly</li>
-          <li><i class="fas fa-times-circle text-red-500 mr-2"></i>Do not share admin credentials</li>
-          <li><i class="fas fa-ban text-red-500 mr-2"></i>No edits without super admin approval</li>
-          <li><i class="fas fa-shield-alt text-yellow-500 mr-2"></i>Maintain ethical digital behavior</li>
-        </ul>
-      </div>
 
     
+  </main>
 
-      <!-- Right Column: Security & Uploads -->
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border-l-4 border-green-600">
-        <h2 class="text-2xl font-semibold mb-4 text-green-700 dark:text-green-300">
-          <i class="fas fa-lock mr-2"></i>Security & Upload Guidelines
-        </h2>
-        <ul class="space-y-3 text-sm leading-6">
-          <li><i class="fas fa-bug text-red-500 mr-2"></i>Report bugs with screenshots/logs</li>
-          <li><i class="fas fa-upload text-green-500 mr-2"></i>Use compressed & optimized files only</li>
-          <li><i class="fas fa-shield-virus text-yellow-500 mr-2"></i>Run antivirus scans before upload</li>
-          <li><i class="fas fa-database text-blue-500 mr-2"></i>No direct database access without approval</li>
-          <li><i class="fas fa-lock text-red-500 mr-2"></i>Never disable security checks in testing</li>
-        </ul>
-      </div>
+  <script>
+    function logoutUser() {
+      alert("Logging out...");
+    }
 
-    </div>
-  </div>
-  <section class="bg-white dark:bg-gray-900 py-16 px-6 sm:px-10">
-  <div class="max-w-7xl mx-auto">
-    <h2 class="text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">Legal Framework & Role Distribution: T-Service & Zen-Tech</h2>
+    // Section switching
+    const links = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll("main section");
 
-    <div class="grid md:grid-cols-2 gap-10">
-      <!-- T-Service -->
-      <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition duration-300">
-        <h3 class="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-4">T-Service (Global Parent Company)</h3>
-        <p class="text-gray-700 dark:text-gray-300 mb-4">
-          T-Service is a legally registered global service provider and the parent organization of Zen-Tech. It holds full ownership and operational oversight of all Zen-Tech activities.
-        </p>
+    links.forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const target = link.getAttribute("data-section");
 
-        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Legal Responsibilities:</h4>
-        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
-          <li>Registered as an international private limited company.</li>
-          <li>Owns 100% equity and IP rights of Zen-Tech.</li>
-          <li>Responsible for legal contracts, partnership MoUs, and corporate governance.</li>
-          <li>Handles taxation, compliance, and global audits for all subsidiaries.</li>
-          <li>Governs legal liabilities and indemnification policies.</li>
-        </ul>
+        sections.forEach(sec => sec.classList.add("hidden-section"));
+        document.getElementById(`section-${target}`).classList.remove("hidden-section");
 
-        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mt-4 mb-2">Primary Functions:</h4>
-        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
-          <li>Strategic leadership and funding allocation.</li>
-          <li>Global client onboarding and licensing.</li>
-          <li>Maintains master contracts and data protection policies (GDPR, IT Act).</li>
-        </ul>
-      </div>
-
-      <!-- Zen-Tech -->
-      <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition duration-300">
-        <h3 class="text-2xl font-semibold text-purple-600 dark:text-purple-400 mb-4">Zen-Tech (Subsidiary Organization)</h3>
-        <p class="text-gray-700 dark:text-gray-300 mb-4">
-          Zen-Tech is a professional software, web, and app development company, legally registered as a child organization under T-Service. It executes all technology operations as per the parent company's directives.
-        </p>
-
-        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Legal Boundaries & Compliance:</h4>
-        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
-          <li>Operates under a Memorandum of Understanding (MoU) with T-Service.</li>
-          <li>Bound by NDAs and IP transfer agreements with T-Service.</li>
-          <li>Complies with local and international IT laws (e.g., IT Act 2000, Data Privacy Laws).</li>
-          <li>Only executes software, web, and mobile development contracts.</li>
-          <li>Cannot enter global agreements without parent consent.</li>
-        </ul>
-
-        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mt-4 mb-2">Operational Focus:</h4>
-        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
-          <li>Software development, mobile apps, CMS, LMS, and EdTech solutions.</li>
-          <li>Client-specific execution of T-Service’s licensed services.</li>
-          <li>Project and code management, team deployment, and security compliance.</li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-</section>
+        links.forEach(l => l.classList.remove("bg-indigo-50","text-indigo-600","font-semibold"));
+        link.classList.add("bg-indigo-50","text-indigo-600","font-semibold");
+      });
+    });
+  </script>
 
 
 
@@ -1033,7 +626,7 @@ function goBack() {
       li.innerHTML = `
         <a href="${fileUrl}" target="_blank"
           class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-          📄 ${file.name}
+           ${file.name}
         </a>`;
       notesList.prepend(li);
     });
@@ -1055,8 +648,9 @@ function goBack() {
         const li = document.createElement("li");
         li.innerHTML = `
           <a href="${note.file_url}" target="_blank"
-            class="block bg-gray-200 dark:bg-gray-900 px-4 py-2 rounded shadow hover:bg-violet-200 dark:hover:bg-violet-800 transition">
-            📄 ${note.file_name}
+class="block bg-white border border-gray-200 px-4 py-2 rounded-md shadow-sm 
+       text-gray-700 font-medium hover:bg-gray-100 transition">
+             ${note.file_name}
           </a>`;
         notesList.appendChild(li);
       });
@@ -1065,12 +659,8 @@ function goBack() {
 
   // ✅ Initialize multiple uploaders
   initUploader("python", "Python");
-  initUploader("os", "Operating System");
-  initUploader("maths", "Applied Mathematics");
-  initUploader("ds", "Data Structure");
-  initUploader("finance", "Finance Literacy");
+ 
 </script>
-
-
+  
 </body>
 </html>
