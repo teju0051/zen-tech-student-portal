@@ -1,316 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Master</title>
-    <!-- Tailwind CSS CDN -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Exam Master - C++ Quiz (Lightning Spinner)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800,900&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-user-select: none; /* Safari */
-            -ms-user-select: none; /* IE 10+ */
-            user-select: none; /* Standard syntax */
+        body { font-family: 'Inter', sans-serif; -webkit-user-select: none; -ms-user-select: none; user-select: none; overflow-x: hidden; overflow-y: hidden; }
+        /* Force consistent box sizing and prevent horizontal scroll */
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { width: 100%; }
+        /* Container: centered with side gaps on wide screens, fits small screens */
+        .container { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+        /* Ensure media scale properly and do not create horizontal scroll */
+        img, svg, video { max-width: 100%; height: auto; display: block; }
+        /* Make key sections stretch to viewport height and avoid overflow */
+        .min-h-screen { min-height: 100vh; }
+        /* Utility to ensure main content fits vertically while keeping gaps on large screens */
+        .fit-viewport { min-height: 100vh; display: flex; flex-direction: column; }
+        /* Hide any accidental horizontal scrollbar on webkit browsers */
+        body::-webkit-scrollbar { height: 8px; }
+        body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 9999px; }
+        @media (min-width: 1400px) {
+            .container { max-width: 1400px; padding-left: 48px; padding-right: 48px; }
         }
-        .body-gradient {
-            background-attachment: fixed;
+        @media (max-width: 640px) {
+            .container { padding-left: 12px; padding-right: 12px; }
+        }
+        .glass-card { background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(240,240,240,0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-radius: .75rem; }
+        .glass-header { background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid rgba(220,220,220,0.7); }
+        #palette-container::-webkit-scrollbar, #review-grid-container::-webkit-scrollbar, #instructions-content::-webkit-scrollbar { width: 6px; }
+        #palette-container::-webkit-scrollbar-thumb, #review-grid-container::-webkit-scrollbar-thumb, #instructions-content::-webkit-scrollbar-thumb { background: #a8a8a8; border-radius: 10px; }
+        .palette-btn-active { border-color: #4f46e5 !important; border-width: 2px !important; transform: scale(1.06) !important; box-shadow: 0 0 20px rgba(79,70,229,0.12) !important; }
+        .section-tab { padding: 8px 16px; cursor: pointer; border-bottom: 3px solid transparent; font-weight: 500; color: #6b7280; transition: color .2s, border-bottom-color .2s; }
+        .section-tab-active { border-bottom-color: #4f46e5; color: #4f46e5; }
+        .palette-btn-answered-marked { position: relative; background-color: #3b82f6; color: white; border-color: #2563eb; border-radius: .75rem; box-shadow: 0 4px 6px rgba(0,0,0,0.06); }
+
+        /* Spinner overlay using your shard / lightning logo */
+        .spinner-overlay { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; background: rgba(2,6,23,0.6); z-index: 9999; backdrop-filter: blur(3px); }
+        .logo-spinner { width: 110px; height: 110px; object-fit: contain; filter: drop-shadow(0 8px 24px rgba(99,102,241,0.25)); animation: spin-swish 1.2s linear infinite, pulse 1.6s ease-in-out infinite; }
+        .spinner-text { color: white; font-weight:700; margin-top: 12px; letter-spacing: .6px; }
+
+        /* subtle rotate + skew animation for a dynamic shard feel */
+        @keyframes spin-swish {
+            0% { transform: rotate(-6deg) translateY(0) scale(1); }
+            50% { transform: rotate(8deg) translateY(-6px) scale(1.02); }
+            100% { transform: rotate(-6deg) translateY(0) scale(1); }
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.18); }
+            70% { box-shadow: 0 0 30px 12px rgba(99,102,241,0.02); }
+            100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
         }
 
-        /* Enhanced Glass Card for a cleaner, professional look */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
-            border: 1px solid rgba(240, 240, 240, 0.8) !important;
-            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.08) !important;
-            border-radius: 0.75rem; /* rounded-xl */
-        }
-
-        .glass-header {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
-            border-bottom: 1px solid rgba(220, 220, 220, 0.7) !important;
-        }
-
-        /* Custom scrollbar */
-        #palette-container::-webkit-scrollbar,
-        #review-grid-container::-webkit-scrollbar,
-        #instructions-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        #palette-container::-webkit-scrollbar-track,
-        #review-grid-container::-webkit-scrollbar-track,
-        #instructions-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        #palette-container::-webkit-scrollbar-thumb,
-        #review-grid-container::-webkit-scrollbar-thumb,
-        #instructions-content::-webkit-scrollbar-thumb {
-            background: #a8a8a8;
-            border-radius: 10px;
-        }
-        #palette-container::-webkit-scrollbar-thumb:hover,
-        #review-grid-container::-webkit-scrollbar-thumb:hover,
-        #instructions-content::-webkit-scrollbar-thumb:hover {
-            background: #888;
-        }
-        
-        /* Active question in palette */
-        .palette-btn-active {
-            border-color: #4f46e5 !important; /* Indigo */
-            border-width: 2px !important;
-            transform: scale(1.1) !important;
-            box-shadow: 0 0 15px rgba(79, 70, 229, 0.5) !important;
-        }
-        
-        /* Section tab styling */
-        .section-tab {
-            padding: 8px 16px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            font-weight: 500;
-            color: #6b7280;
-            transition: color 0.2s, border-bottom-color 0.2s;
-        }
-        .section-tab-active {
-            border-bottom-color: #4f46e5; /* Indigo */
-            color: #4f46e5; /* Indigo */
-        }
-        
-        /* Language toggle switch */
-        .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #4f46e5; } /* Indigo */
-        input:checked + .slider:before { transform: translateX(26px); }
-        .slider-label { margin: 0 8px; font-weight: 600; }
-
-        /* Answered & Marked for Review palette button - NOW BLUE */
-        .palette-btn-answered-marked {
-            position: relative;
-            background-color: #3b82f6; /* Blue */
-            color: white;
-            border-color: #2563eb;
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .palette-btn-answered-marked::after {
+        /* small shimmering line across the logo for polish */
+        .logo-wrapper { position: relative; display:inline-block; }
+        .logo-wrapper::after {
             content: '';
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 10px;
-            height: 10px;
-            background-color: #22c55e; /* Green */
-            border-radius: 50%;
-            border: 1px solid white;
+            position: absolute; left: -30%; top: 0; width: 60%; height: 100%; transform: skewX(-20deg) translateX(-120%);
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%);
+            opacity: 0.6; pointer-events:none; mix-blend-mode: overlay; animation: shimmer 1.6s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { transform: skewX(-20deg) translateX(-120%); } 100% { transform: skewX(-20deg) translateX(220%); } }
+
+        /* tiny accessibility improvement for hidden state */
+        .hidden { display: none !important; }
+
+        /* --- Custom Timer UI Start --- */
+        #timer {
+            background-color: #ef4444; /* red-500 */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 9999px; /* full rounded */
+            font-size: 1.125rem; /* lg */
+            font-weight: 700; /* bold */
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
-        /* Calculator Styles */
-        #calculator {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 100;
-            cursor: move;
+        #timer::before {
+            content: '⏰';
+            display: inline-block;
+            font-size: 1.25rem;
         }
-        #calculator-display {
-            -webkit-user-select: text; /* Allow selecting text in calculator */
-            -ms-user-select: text;
-            user-select: text;
+
+        @keyframes pulse-red {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
         }
+        /* --- Custom Timer UI End --- */
     </style>
 </head>
-<body class="bg-slate-100"> <!-- NEW THEME: Slate Background -->
+<body class="bg-slate-100">
 
-    <!-- 
-      SECTION 1: LOGIN SCREEN (TWO-COLUMN REDESIGN)
-    -->
-  <!-- Login Screen Container -->
-    <div id="login-screen" class="flex min-h-screen items-center justify-center p-4"> 
-        
-        <!-- Two-Column Container Card -->
+    <div id="global-spinner" class="spinner-overlay hidden" aria-hidden="true">
+        <div class="flex flex-col items-center justify-center">
+            <div class="logo-wrapper">
+                <div class="w-16 h-16 border-4 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            <p class="spinner-text">Loading Exam...</p>
+        </div>
+    </div>
+
+    <div id="login-screen" class="flex min-h-screen items-center justify-center p-4">
         <div class="w-full max-w-5xl md:h-[600px] flex flex-col md:flex-row rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:shadow-3xl">
-            
-            <!-- Left Side: Branding and Logo (White Panel) -->
-            <!-- Background changed from indigo-600 to white, text changed from white to indigo-700 -->
             <div class="md:w-1/2 flex flex-col justify-between p-8 md:p-12 bg-white text-indigo-700 min-h-[250px] md:min-h-full">
                 <div class="text-center md:pt-16">
-                    <!-- Zen-Tech Logo (Prominent) -->
-                    <!-- Replaced SVG with the provided image URL -->
-                    <img src="https://teju0051.github.io/Assets/zentehc-remove-bg.png" 
-                         alt="Zen-Tech Solutions Logo" 
-                         class="h-24 mx-auto w-auto object-contain" 
-                         onerror="this.onerror=null; this.src='https://placehold.co/120x96/FFFFFF/6366f1?text=ZEN';"
-                    />
+                    <img src="https://teju0051.github.io/Assets/zentehc-remove-bg.png" alt="Zen-Tech Solutions Logo" class="h-24 mx-auto w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x96/FFFFFF/6366f1?text=ZEN';" />
                     <h1 class="text-4xl font-extrabold mt-4 tracking-tight text-indigo-800">Exam Master</h1>
-                    <!-- Text color adjusted for white background -->
-                    <p class="text-indigo-500 mt-2 text-xl font-medium">Secure Online Examination Platform</p>
+                    <p class="text-indigo-500 mt-2 text-xl font-medium">C++ Multiple Choice Test</p>
                 </div>
-                
-                <!-- Footer Branding -->
                 <div class="text-center text-sm text-gray-500 mt-12 md:mt-0">
                     <p>Designed and Developed by</p>
-                    <!-- Text color adjusted for white background -->
                     <p class="font-semibold text-indigo-700">Zen-Tech Solutions</p>
                 </div>
             </div>
-            
-            <!-- Right Side: Login Form (Light Indigo Panel) -->
-            <!-- Background changed from white to light indigo-50 -->
+
             <div class="md:w-1/2 p-8 md:p-12 bg-indigo-50 flex flex-col justify-center">
-                <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome Back!</h2>
-                <p class="text-gray-600 mb-8">Please enter your credentials to access the test platform.</p>
-                
-                <form id="login-form">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome!</h2>
+                <p class="text-gray-600 mb-8">Enter your college username and roll number to begin the C++ quiz.</p>
+                <form id="login-form" autocomplete="off">
                     <div class="mb-5">
-                        <label for="student-name" class="block text-sm font-medium text-gray-700 mb-1">Student Name</label>
-                        <!-- Focus ring color updated to darker indigo -->
-                        <input type="text" id="student-name" required class="w-full px-4 py-3 border border-indigo-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:border-indigo-700 shadow-sm transition duration-150" placeholder="Full Name">
+                        <label for="student-name" class="block text-sm font-medium text-gray-700 mb-1">Student Username</label>
+                        <input type="text" id="student-name" required class="w-full px-4 py-3 border border-indigo-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-700 shadow-sm transition" placeholder="Username (e.g., JaneDoe123)">
                     </div>
-                    <div class="mb-7">
+                    <div class="mb-5 relative">
                         <label for="roll-number" class="block text-sm font-medium text-gray-700 mb-1">Roll Number</label>
-                        <!-- Focus ring color updated to darker indigo -->
-                        <input type="text" id="roll-number" required class="w-full px-4 py-3 border border-indigo-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:border-indigo-700 shadow-sm transition duration-150" placeholder="Registration ID">
+                        <input id="roll-number" type="text" required class="w-full px-4 py-3 border border-indigo-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-700 shadow-sm transition" placeholder="Your College Roll Number" />
                     </div>
-                    <!-- Button color updated to darker indigo -->
-                    <button type="submit" id="login-button" class="w-full bg-indigo-700 text-white py-3 rounded-xl font-semibold tracking-wide hover:bg-indigo-800 shadow-lg transition-all duration-300 transform hover:shadow-xl active:scale-[.99]">
-                        Proceed to Instructions
-                    </button>
-                    <!-- Simple placeholder for error/info messages, replacing 'alert()' -->
+                    <div class="mb-4 flex items-center justify-between">
+                        <label class="inline-flex items-center text-sm">
+                            <input id="remember" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                            <span class="ml-2 text-gray-700">Remember me</span>
+                        </label>
+                        <a href="#" id="forgot-password" class="text-sm text-indigo-600 hover:underline">Need help?</a>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="text-xs text-gray-500">Note: A single username may start an exam only once every 1 hour 30 minutes. If you try to start again within that window, you'll be prevented from logging in.</p>
+                    </div>
+
+                    <button type="submit" id="login-button" class="w-full bg-indigo-700 text-white py-3 rounded-xl font-semibold tracking-wide hover:bg-indigo-800 shadow-lg transition-all duration-300">Proceed to Instructions</button>
                     <div id="message-box" class="mt-4 p-3 bg-indigo-100 text-indigo-800 border border-indigo-200 rounded-lg hidden"></div>
                 </form>
             </div>
         </div>
     </div>
-    
-    <!-- 
-      SECTION 1.5: INSTRUCTIONS SCREEN (Initially Hidden)
-    -->
-     <div id="instructions-screen" class="hidden flex min-h-screen items-center justify-center p-4">
-        <!-- Card uses the same light indigo background as the login form -->
-        <div class="w-full max-w-3xl p-8 bg-indigo-50 rounded-2xl shadow-2xl"> 
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
-                General Instructions
-            </h2>
-            <!-- Content box uses the white background from the branding panel -->
+
+    <div id="instructions-screen" class="hidden flex min-h-screen items-center justify-center p-4">
+        <div class="w-full max-w-3xl p-8 bg-indigo-50 rounded-2xl shadow-2xl">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">General Instructions</h2>
             <div id="instructions-content" class="max-h-[70vh] md:max-h-96 overflow-y-auto p-6 bg-white border border-indigo-200 rounded-xl text-gray-700 space-y-4 shadow-inner">
-                <p class="font-semibold text-lg text-indigo-700 border-b pb-2 mb-3">Please read the following instructions carefully:</p>
+                <p class="font-semibold text-lg text-indigo-700 border-b pb-2 mb-3">Please read carefully:</p>
                 <ul class="list-disc list-inside space-y-2 pl-4">
-                    <li>This is a timed exam. The timer will start as soon as you click "Begin Exam".</li>
-                    <li>The exam consists of <strong>10 questions</strong> divided into <strong>2 sections</strong>.</li>
+                    <li>This is a timed exam. The timer will start when you click "Begin Exam".</li>
+                    <li>The exam consists of <strong>30 questions</strong> divided into <strong>3 sections</strong>: Easy, Medium and Hard.</li>
                     <li>The clock in the top-right corner shows the remaining time. The exam will submit automatically when time runs out.</li>
-                    <li>You can navigate between questions and sections using the palette and tabs.</li>
-                    <li>Answer status is indicated by the colors in the question palette (Answered, Not Answered, Marked, etc.).</li>
-                    <li>Use the <strong class="text-indigo-600">Rough Work Pad</strong> (pencil icon) for any notes or calculations.</li>
+                    <li>Navigate between questions using the palette and tabs.</li>
+                    <li>Answer status is indicated by colors in the question palette (Answered, Not Answered, Marked, etc.).</li>
                     <li class="font-bold text-red-600 mt-4">This is a strictly proctored exam. Any attempt to cheat will result in immediate termination.</li>
                     <li class="font-bold text-red-600">Do NOT switch tabs, minimize the window, or use other applications.</li>
                     <li class="font-bold text-red-600">Do NOT press Print Screen, Ctrl+C, Ctrl+V, or attempt to right-click.</li>
-                    <li class="font-bold text-red-600">Leaving the fullscreen mode or exam window 3 times will automatically terminate the exam.</li>
+                    <li class="font-bold text-red-600">Leaving fullscreen or exam window 3 times will automatically terminate the exam.</li>
                 </ul>
                 <p class="mt-4 pt-2 border-t font-semibold">Click "Begin Exam" to start. Good luck!</p>
             </div>
-            
+
             <label class="flex items-center justify-center mt-6 mb-6 cursor-pointer">
-                <!-- Checkbox styling matched to the dark indigo accent color -->
-                <input type="checkbox" id="agree-terms" class="h-5 w-5 text-indigo-700 focus:ring-indigo-700 border-indigo-300 rounded-lg"> 
+                <input type="checkbox" id="agree-terms" class="h-5 w-5 text-indigo-700 focus:ring-indigo-700 border-indigo-300 rounded-lg">
                 <span class="ml-2 text-gray-700 font-medium select-none">I have read and understood all the instructions.</span>
             </label>
-            
-            <!-- Button is green for "Start" action -->
-            <button type="button" id="start-exam-btn" class="w-full bg-green-600 text-white py-3 rounded-xl font-semibold tracking-wide hover:bg-green-700 shadow-lg hover:shadow-xl transition-all duration-300 active:scale-[.99]" disabled>
-                Begin Exam
-            </button>
+            <button type="button" id="start-exam-btn" class="w-full bg-green-600 text-white py-3 rounded-xl font-semibold tracking-wide hover:bg-green-700 shadow-lg" disabled>Begin Exam</button>
         </div>
     </div>
 
-
-    <!-- 
-      SECTION 2: TEST SCREEN (Initially Hidden)
-    -->
     <div id="test-screen" class="hidden flex-col min-h-screen">
-        <!-- Header -->
         <header class="w-full glass-header sticky top-0 z-10">
             <div class="container mx-auto flex flex-col md:flex-row justify-between items-center p-4">
-                <div id="student-info" class="text-sm font-medium text-gray-700 mb-2 md:mb-0">
-                    <!-- Student Name | Roll Number -->
-                </div>
-                
+                <div id="student-info" class="text-base font-semibold text-gray-700 mb-2 md:mb-0"></div>
                 <div class="flex items-center space-x-4">
-                    <!-- Language Toggle -->
-                    <div class="flex items-center">
-                        <span class="slider-label text-gray-700">EN</span>
-                        <label class="switch">
-                            <input type="checkbox" id="language-toggle">
-                            <span class="slider"></span>
-                        </label>
-                        <span class="slider-label text-gray-700">HI</span>
-                    </div>
-                    
-                    <!-- Scratchpad Toggle (NEW) -->
-                    <button id="scratchpad-toggle-btn" class="text-gray-600 hover:text-indigo-600 transition" title="Rough Work Pad"> <!-- NEW THEME -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </button>
-                    
-                    <!-- Calculator Toggle -->
-                    <button id="calculator-toggle" class="text-gray-600 hover:text-indigo-600 transition" title="Show Calculator"> <!-- NEW THEME -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-6m-3 3h3m-3 0h-1m3 0v-1m-6 3a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 009.121 3H4a2 2 0 00-2 2v10a2 2 0 002 2h3m6 0a2 2 0 01-2-2V7a2 2 0 012-2h1.586a1 1 0 00.707-.293l1.121-1.121A2 2 0 0114.879 3H20a2 2 0 012 2v10a2 2 0 01-2 2h-3" />
-                        </svg>
-                    </button>
-
-                    <div id="timer" class="text-lg font-bold text-red-600">
-                        Time Left: 60:00
-                    </div>
+                    <div id="timer">Time Left: 60:00</div>
                 </div>
             </div>
         </header>
 
-        <!-- Main Content (Palette + Question) -->
         <main class="flex-1 flex flex-col md:flex-row container mx-auto p-4 gap-6">
-            
-            <!-- Left: Question Palette -->
             <div class="w-full md:w-1/3 lg:w-1/4 glass-card p-4 flex flex-col" style="max-height: 85vh;">
-                <!-- Section Tabs -->
-                <div class="flex border-b border-gray-200 mb-4" id="section-tabs">
-                    <!-- Section tabs will be injected here -->
-                </div>
-                
-                <!-- Section Status Detail (NEW) -->
-                <div id="section-status-detail" class="text-sm p-2 bg-indigo-50 border border-indigo-200 rounded-lg mb-4 hidden"> <!-- NEW THEME -->
-                    <!-- Detailed status for the current section will be injected here -->
-                </div>
-
+                <div class="flex border-b border-gray-200 mb-4" id="section-tabs"></div>
+                <div id="section-status-detail" class="text-sm p-2 bg-indigo-50 border border-indigo-200 rounded-lg mb-4 hidden"></div>
                 <h3 class="text-lg font-semibold mb-4 text-center">Question Palette</h3>
                 <div id="palette-container" class="flex-1 overflow-y-auto">
-                    <div id="question-palette" class="grid grid-cols-5 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-4">
-                        <!-- Palette buttons will be injected here -->
-                    </div>
+                    <div id="question-palette" class="grid grid-cols-5 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-4"></div>
                 </div>
-                
                 <hr class="my-4">
                 <h4 class="font-semibold mb-2">Legend:</h4>
                 <div class="space-y-2 text-sm">
                     <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-green-500 mr-2 border border-gray-400"></span> Answered</div>
                     <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-red-500 mr-2 border border-gray-400"></span> Not Answered</div>
-                    <div class="flex items-center">
-                        <span class="w-4 h-4 rounded-full bg-blue-500 mr-2 border border-gray-400 relative"> <!-- Blue -->
-                            <span class="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-green-400 rounded-full border border-white"></span>
-                        </span> Answered & Marked
-                    </div>
-                    <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-blue-500 mr-2 border border-gray-400"></span> Marked for Review</div> <!-- Blue -->
+                    <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-blue-500 mr-2 border border-gray-400"></span> Marked for Review</div>
                     <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-gray-200 mr-2 border border-gray-400"></span> Not Visited</div>
                 </div>
                 <hr class="my-4">
@@ -322,96 +215,54 @@
                 </div>
             </div>
 
-            <!-- Right: Question Display -->
             <div class="w-full md:w-2/3 lg:w-3/4 glass-card p-6 md:p-8">
                 <h2 class="text-xl font-semibold mb-4">Question <span id="q-num">1</span></h2>
-                
-                <!-- Question Content Container (Text + Image - NEW STRUCTURE) -->
-                <div class="flex flex-col lg:flex-row gap-6 mb-6">
-                    <p id="q-text" class="text-gray-800 text-lg flex-1 min-h-[100px]">
-                        <!-- Question text will be injected here -->
-                    </p>
-                    <!-- Question Image Container (NEW) -->
-                    <div id="q-image-container" class="lg:w-1/3 flex-shrink-0 flex items-center justify-center border border-gray-300 rounded-lg p-2 bg-gray-50/50 hidden">
-                        <img id="q-image" src="" alt="Question Image" class="max-w-full max-h-40 object-contain rounded transition duration-300 hover:shadow-xl cursor-zoom-in" onclick="zoomImage(this.src)" onerror="this.onerror=null; this.src='https://placehold.co/400x200/FCA5A5/B91C1C?text=Image+Load+Failed';" title="Click to zoom">
-                    </div>
+                <div class="flex flex-col gap-6 mb-6">
+                    <p id="q-text" class="text-gray-800 text-lg flex-1 min-h-[100px]"></p>
                 </div>
-                <!-- END Question Content Container -->
 
-                <div id="q-options" class="space-y-4">
-                    <!-- Options will be injected here -->
-                </div>
+                <div id="q-options" class="space-y-4"></div>
                 <hr class="my-8">
                 <div class="flex flex-wrap gap-4">
-                    <button id="save-next-btn" class="bg-green-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">Save & Next</button>
-                    <button id="mark-review-btn" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">Mark for Review & Next</button> <!-- Blue -->
-                    <button id="clear-btn" class="bg-yellow-500 text-white px-5 py-2 rounded-lg font-medium hover:bg-yellow-600 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">Clear Response</button>
+                    <button id="save-next-btn" class="bg-green-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-green-700">Save & Next</button>
+                    <button id="mark-review-btn" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700">Mark for Review & Next</button>
+                    <button id="clear-btn" class="bg-yellow-500 text-white px-5 py-2 rounded-lg font-medium hover:bg-yellow-600">Clear Response</button>
                 </div>
             </div>
-
         </main>
 
-        <!-- Footer -->
         <footer class="w-full bg-gray-900/80 text-gray-300 p-4 mt-6 shadow-inner backdrop-blur-sm">
             <div class="container mx-auto flex justify-between items-center text-sm">
-                <p>Designed by <a id="zen-tech-link" class="font-semibold text-indigo-400 hover:text-indigo-300 cursor-pointer">Zen-Tech</a></p> <!-- NEW THEME -->
-                <button id="review-submit-btn" class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">Review & Submit</button> <!-- NEW THEME -->
+                <p>Designed by <a id="zen-tech-link" class="font-semibold text-indigo-400 hover:text-indigo-300 cursor-pointer">Zen-Tech</a></p>
+                <button id="review-submit-btn" class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700">Review & Submit</button>
             </div>
         </footer>
     </div>
 
-    <!-- 
-      SECTION 3: REVIEW SCREEN (Initially Hidden)
-    -->
     <div id="review-screen" class="hidden flex-col min-h-screen p-4">
-        <h2 class="text-3xl font-bold text-center text-gray-800 my-6">
-            Exam Review
-        </h2>
+        <h2 class="text-3xl font-bold text-center text-gray-800 my-6">Exam Review</h2>
         <div class="w-full max-w-4xl mx-auto p-8 glass-card">
             <h3 class="text-lg font-semibold mb-4 text-center">Summary</h3>
-            <div id="review-summary" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center">
-                <!-- Summary items will be injected here -->
-            </div>
-            
+            <div id="review-summary" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center"></div>
             <h3 class="text-lg font-semibold mb-4 text-center">Question Status</h3>
             <div id="review-grid-container" class="max-h-64 overflow-y-auto border rounded-lg p-4">
-                <div id="review-grid" class="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2">
-                    <!-- Review grid buttons will be injected here -->
-                </div>
+                <div id="review-grid" class="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2"></div>
             </div>
-            
             <div class="flex flex-col md:flex-row gap-4 justify-center mt-8">
-                <button id="go-back-btn" class="bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
-                    Go Back to Test
-                </button>
-                <button id="final-submit-btn" class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
-                    Final Submit
-                </button>
+                <button id="go-back-btn" class="bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-700">Go Back to Test</button>
+                <button id="final-submit-btn" class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700">Final Submit</button>
             </div>
         </div>
     </div>
 
-    <!-- 
-      SECTION 4: RESULTS SCREEN (Initially Hidden)
-    -->
     <div id="results-screen" class="hidden flex min-h-screen items-center justify-center p-4">
         <div class="w-full max-w-2xl p-8 glass-card">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
-                Exam Results
-            </h2>
-            <div id="result-student-info" class="text-center text-lg text-gray-700 mb-4">
-                <!-- Name: John Doe | Roll: 12345 -->
-            </div>
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Exam Results</h2>
+            <div id="result-student-info" class="text-center text-lg text-gray-700 mb-4"></div>
             <div class="bg-gray-50 p-6 rounded-lg border">
                 <div class="grid grid-cols-2 gap-4 text-center mb-6">
-                    <div>
-                        <p class="text-sm text-gray-600">SCORE</p>
-                        <p id="result-score" class="text-4xl font-bold text-green-600">-- / --</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-600">ACCURACY</p>
-                        <p id="result-accuracy" class="text-4xl font-bold text-indigo-600">--%</p> <!-- NEW THEME -->
-                    </div>
+                    <div><p class="text-sm text-gray-600">SCORE</p><p id="result-score" class="text-4xl font-bold text-green-600">-- / --</p></div>
+                    <div><p class="text-sm text-gray-600">ACCURACY</p><p id="result-accuracy" class="text-4xl font-bold text-indigo-600">--%</p></div>
                 </div>
                 <div class="space-y-2 mb-6">
                     <p>Total Questions: <span id="summary-total" class="font-bold">--</span></p>
@@ -422,272 +273,85 @@
                 <hr>
                 <div class="mt-6">
                     <h3 class="font-semibold text-lg mb-2">Remarks</h3>
-                    <p id="result-remarks" class="text-gray-700 italic">
-                        <!-- Remarks will be injected here -->
-                    </p>
+                    <p id="result-remarks" class="text-gray-700 italic"></p>
                 </div>
             </div>
-            <button id="close-results-btn" class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 mt-6"> <!-- NEW THEME -->
-                Close
-            </button>
+            <button id="close-results-btn" class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 mt-6">Close</button>
         </div>
     </div>
 
-    <!-- 
-      SECTION 5: CALCULATOR MODAL (Initially Hidden)
-    -->
-    <div id="calculator" class="hidden w-64 glass-card shadow-2xl">
-        <div id="calculator-header" class="bg-gray-200/50 p-2 rounded-t-lg flex justify-between items-center cursor-move">
-            <span class="font-semibold text-sm text-gray-700">Calculator</span>
-            <button id="calculator-close-btn" class="text-gray-500 hover:text-red-600 text-2xl font-bold">&times;</button>
-        </div>
-        <div class="p-4">
-            <input type="text" id="calculator-display" class="w-full bg-gray-100/70 border border-gray-300 rounded-lg p-2 text-right text-2xl font-mono mb-4" readonly value="0">
-            <div class="grid grid-cols-4 gap-2">
-                <button class="calc-btn bg-red-500/80 hover:bg-red-600 text-white p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-op="clear">C</button>
-                <button class="calc-btn bg-gray-200/70 hover:bg-gray-300/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-op="sign">+/-</button>
-                <button class="calc-btn bg-gray-200/70 hover:bg-gray-300/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-op="percent">%</button>
-                <button class="calc-btn bg-indigo-500/80 hover:bg-indigo-600 text-white p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-op="divide">/</button> <!-- NEW THEME -->
-
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="7">7</button>
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="8">8</button>
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="9">9</button>
-                <button class="calc-btn bg-indigo-500/80 hover:bg-indigo-600 text-white p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-op="multiply">*</button> <!-- NEW THEME -->
-
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="4">4</button>
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="5">5</button>
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="6">6</button>
-                <button class="calc-btn bg-indigo-500/80 hover:bg-indigo-600 text-white p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-op="subtract">-</button> <!-- NEW THEME -->
-
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="1">1</button>
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="2">2</button>
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="3">3</button>
-                <button class="calc-btn bg-indigo-500/80 hover:bg-indigo-600 text-white p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-op="add">+</button> <!-- NEW THEME -->
-
-                <button class="calc-btn col-span-2 bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num="0">0</button>
-                <button class="calc-btn bg-gray-100/70 hover:bg-gray-200/90 p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-num=".">.</button>
-                <button class="calc-btn bg-green-500/80 hover:bg-green-600 text-white p-3 rounded-lg font-bold transition-all duration-200 hover:scale-110" data-op="equals">=</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 
-      SECTION 6: SCRATCHPAD MODAL (NEW)
-    -->
-    <div id="scratchpad-modal" class="hidden fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="glass-card w-full max-w-lg shadow-2xl overflow-hidden">
-            <div class="bg-indigo-600 p-3 flex justify-between items-center"> <!-- NEW THEME -->
-                <h3 class="text-white font-semibold">Rough Work / Scratchpad</h3>
-                <button id="scratchpad-close-btn" class="text-white hover:text-red-300 transition text-xl leading-none">&times;</button>
-            </div>
-            <textarea id="scratchpad-area" class="w-full h-80 p-4 border-0 resize-none focus:ring-0 text-gray-800 bg-white/70" placeholder="Use this space for calculations and rough work. Your notes are saved automatically for this session."></textarea>
-        </div>
-    </div>
-
-
-    <!-- 
-      SECTION 7: JAVASCRIPT LOGIC
-    -->
     <script>
-        // --- MOCK DATA ---
-        // Updated with sections, Hindi translations, and image URLs for testing
-        const examQuestions = [
-            // Section A: General Knowledge
-            {
-                section: "General Knowledge",
-                question: "What does HTML stand for?",
-                question_hi: "HTML का फुल फॉर्म क्या है?",
-                options: [
-                    "Hyper Text Markup Language",
-                    "High Tech Multi Language",
-                    "Hyper Transfer Markup Language",
-                    "Hyperlink and Text Markup Language"
-                ],
-                options_hi: [
-                    "हाइपर टेक्स्ट मार्कअप लैंग्वेज",
-                    "हाई टेक मल्टी लैंग्वेज",
-                    "हाइपर ट्रांसफर मार्कअप लैंग्वेज",
-                    "हाइपरलिंक एंड टेक्स्ट मार्कअप लैंग्वेज"
-                ],
-                correct: 0,
-                // NEW: Image URL added
-                imageUrl: "https://placehold.co/400x200/4F46E5/white?text=HTML+Structure+Diagram" 
-            },
-            {
-                section: "General Knowledge",
-                question: "What does 'SaaS' stand for?",
-                question_hi: "'SaaS' का फुल फॉर्म क्या है?",
-                options: [
-                    "Software as a Server",
-                    "Security as a Service",
-                    "Software as a Service",
-                    "System as a Service"
-                ],
-                options_hi: [
-                    "सॉफ्टवेयर एज अ सर्वर",
-                    "सिक्योरिटी एज अ सर्विस",
-                    "सॉफ्टवेयर एज अ सर्विस",
-                    "सिस्टम एज अ सर्विस"
-                ],
-                correct: 2,
-                imageUrl: null // No image for this question
-            },
-            {
-                section: "General Knowledge",
-                question: "What is the DOM?",
-                question_hi: "DOM क्या है?",
-                options: ["Data Object Model", "Document Object Model", "Dynamic Object Model", "Document Oriented Model"],
-                options_hi: ["डाटा ऑब्जेक्ट मॉडल", "डॉक्यूमेंट ऑब्जेक्ट मॉडल", "डायनामिक ऑब्जेक्ट मॉडल", "डॉक्यूमेंट ओरिएंटेड मॉडल"],
-                correct: 1,
-                imageUrl: "https://placehold.co/400x200/F97316/white?text=DOM+Tree+Visual" // Mock Image
-            },
-            {
-                section: "General Knowledge",
-                question: "Which company developed JavaScript?",
-                question_hi: "जावास्क्रिप्ट किस कंपनी ने विकसित की?",
-                options: ["Microsoft", "Apple", "Netscape", "Sun Microsystems"],
-                options_hi: ["माइक्रोसॉफ्ट", "एप्पल", "नेटस्केप", "सन माइक्रोसिस्टम्स"],
-                correct: 2,
-                imageUrl: null
-            },
-            {
-                section: "General Knowledge",
-                question: "What is `JSON`?",
-                question_hi: "`JSON` क्या है?",
-                options: ["JavaScript Object Notation", "Java Standard Object Notation", "JavaScript Online Notation", "JavaScript Object Naming"],
-                options_hi: ["जावास्क्रिप्ट ऑब्जेक्ट नोटेशन", "जावा स्टैंडर्ड ऑब्जेक्ट नोटेशन", "जावास्क्रिप्ट ऑनलाइन नोटेशन", "जावास्क्रिप्ट ऑब्जेक्ट नेमिंग"],
-                correct: 0,
-                imageUrl: null
-            },
-            // Section B: Technical
-            {
-                section: "Technical",
-                question: "Which Tailwind CSS class is used to set the background color to blue?",
-                question_hi: "टेलविंड CSS में बैकग्राउंड कलर नीला करने के लिए किस क्लास का उपयोग किया जाता है?",
-                options: [
-                    "bg-blue",
-                    "background-blue-500",
-                    "bg-blue-500",
-                    "color-bg-blue"
-                ],
-                options_hi: [
-                    "bg-blue",
-                    "background-blue-500",
-                    "bg-blue-500",
-                    "color-bg-blue"
-                ],
-                correct: 2,
-                imageUrl: null
-            },
-            {
-                section: "Technical",
-                question: "What is the correct syntax for a JavaScript 'for' loop?",
-                question_hi: "जावास्क्रिप्ट 'for' लूप का सही सिंटैक्स क्या है?",
-                options: [
-                    "for (i = 0; i < 5; i++)",
-                    "for (i = 0; i < 5)",
-                    "for (i < 5; i++)",
-                    "for i = 1 to 5"
-                ],
-                options_hi: [
-                    "for (i = 0; i < 5; i++)",
-                    "for (i = 0; i < 5)",
-                    "for (i < 5; i++)",
-                    "for i = 1 to 5"
-                ],
-                correct: 0,
-                imageUrl: null
-            },
-            {
-                section: "Technical",
-                question: "Which function is used to show a popup in SweetAlert2?",
-                question_hi: "SweetAlert2 में पॉपअप दिखाने के लिए किस फ़ंक्शन का उपयोग किया जाता है?",
-                options: [
-                    "alert()",
-                    "Swal.popup()",
-                    "Swal.fire()",
-                    "sweetalert.show()"
-                ],
-                options_hi: [
-                    "alert()",
-                    "Swal.popup()",
-                    "Swal.fire()",
-                    "sweetalert.show()"
-                ],
-                correct: 2,
-                imageUrl: "https://placehold.co/400x200/10B981/white?text=Popup+Example+Flow" // Mock Image
-            },
-            {
-                section: "Technical",
-                question: "How do you add a comment in HTML?",
-                question_hi: "HTML में कमेंट कैसे जोड़ा जाता है?",
-                options: ["<!-- This is a comment -->", "// This is a comment", "/* This is a comment */", "# This is a comment"],
-                options_hi: ["<!-- This is a comment -->", "// This is a comment", "/* This is a comment */", "# This is a comment"],
-                correct: 0,
-                imageUrl: null
-            },
-            {
-                section: "Technical",
-                question: "Which CSS property controls text size?",
-                question_hi: "कौन सी CSS प्रॉपर्टी टेक्स्ट साइज को नियंत्रित करती है?",
-                options: ["font-style", "text-size", "font-size", "text-style"],
-                options_hi: ["font-style", "text-size", "font-size", "text-style"],
-                correct: 2,
-                imageUrl: null
-            }
+        // --- C++ QUESTIONS (10 easy, 10 medium, 10 hard) ---
+        const examQuestions = [ /* same array as original (omitted here for brevity in the canvas file) */
+            { section: "Easy", question: "Which header file is required to use std::cout?", options: ["<iostream>", "<stdio.h>", "<cout>", "<ostream>"], correct: 0 },
+            { section: "Easy", question: "Which operator is used to access members of a pointer to a structure?", options: ["->", ".", "*", "&"], correct: 0 },
+            { section: "Easy", question: "What is the file extension for C++ source files?", options: [".cpp", ".c", ".java", ".py"], correct: 0 },
+            { section: "Easy", question: "Which keyword is used to define a constant in C++?", options: ["const", "define", "constant", "immutable"], correct: 0 },
+            { section: "Easy", question: "What does '++' operator do?", options: ["Decrements value", "Increments value", "Negates value", "Divides value"], correct: 1 },
+            { section: "Easy", question: "Which of the following is correct way to start main function?", options: ["int main()", "main()", "void main", "start main()"], correct: 0 },
+            { section: "Easy", question: "Which statement is used to end a loop prematurely?", options: ["break", "stop", "exit", "return 0"], correct: 0 },
+            { section: "Easy", question: "Which container stores elements in key-value pairs?", options: ["map", "vector", "list", "stack"], correct: 0 },
+            { section: "Easy", question: "Which operator is used for equality comparison?", options: ["=", "==", "===", ":="], correct: 1 },
+            { section: "Easy", question: "Which loop will execute at least once?", options: ["for", "while", "do-while", "none"], correct: 2 },
+            { section: "Medium", question: "What does STL stand for?", options: ["Standard Template Library", "Standard Type Library", "Simple Template List", "Standard Tools Library"], correct: 0 },
+            { section: "Medium", question: "Which container provides random access and contiguous storage?", options: ["vector", "list", "deque", "map"], correct: 0 },
+            { section: "Medium", question: "Which keyword is used to create a class in C++?", options: ["class", "struct", "object", "type"], correct: 0 },
+            { section: "Medium", question: "What is function overloading?", options: ["Using same function name with different parameters", "Defining same function twice", "Changing return type only", "Using same name in different namespaces"], correct: 0 },
+            { section: "Medium", question: "Which of the following is used for dynamic memory allocation?", options: ["new", "malloc", "alloc", "create"], correct: 0 },
+            { section: "Medium", question: "What is a reference in C++?", options: ["An alias for another variable", "A pointer type", "A function return type", "A memory address"], correct: 0 },
+            { section: "Medium", question: "Which operator is overloaded by default for user-defined types?", options: ["Assignment operator (=)", "Addition operator (+)", "Comparison operator (==)", "No operators"], correct: 0 },
+            { section: "Medium", question: "Which of these is correct way to declare a template function?", options: ["template<typename T> T func(T a);", "template<T> func(T a);", "template function<T> func(T a);", "func<T>()"], correct: 0 },
+            { section: "Medium", question: "What is RAII?", options: ["Resource Acquisition Is Initialization", "Random Access In Initialization", "Resource Allocation Is Immediate", "Runtime Acquisition Is Initialization"], correct: 0 },
+            { section: "Medium", question: "Which C++11 feature allows range-based loops?", options: ["auto", "nullptr", "range-for", "lambda"], correct: 2 },
+            { section: "Hard", question: "What does 'constexpr' specify?", options: ["A compile-time constant expression", "A runtime variable", "A deprecated feature", "A constant pointer"], correct: 0 },
+            { section: "Hard", question: "Which smart pointer deletes the owned object when it goes out of scope and cannot be copied?", options: ["std::unique_ptr", "std::shared_ptr", "std::weak_ptr", "std::auto_ptr"], correct: 0 },
+            { section: "Hard", question: "What is the complexity of accessing an element by index in std::vector?", options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"], correct: 0 },
+            { section: "Hard", question: "Which feature avoids slicing when copying polymorphic objects?", options: ["Virtual clone (deep copy via virtual function)", "Copy constructor", "Assignment operator", "Default copy"], correct: 0 },
+            { section: "Hard", question: "What does 'move semantics' primarily enable?", options: ["Efficient transfer of resources", "Automatic garbage collection", "Reference counting", "Compile-time reflection"], correct: 0 },
+            { section: "Hard", question: "Which header provides std::thread?", options: ["<thread>", "<pthread.h>", "<threads>", "<concurrency>"], correct: 0 },
+            { section: "Hard", question: "Which cast should be used to convert void* to typed pointer safely in C++?", options: ["static_cast", "reinterpret_cast", "const_cast", "dynamic_cast"], correct: 0 },
+            { section: "Hard", question: "What is SFINAE used for?", options: ["Substitution Failure Is Not An Error (template overloading selection)", "Binary search optimization", "Memory allocation strategy", "Exception handling"], correct: 0 },
+            { section: "Hard", question: "Which C++ standard introduced move semantics and rvalue references?", options: ["C++11", "C++98", "C++14", "C++17"], correct: 0 },
+            { section: "Hard", question: "Which of the following ensures thread-safe lazy initialization in C++11 local statics?", options: ["Guaranteed initialization (thread-safe) of function local static variables", "Manual locks", "volatile keyword", "std::atomic_flag only"], correct: 0 }
         ];
-        // Create a distinct list of sections
-        const examSections = [...new Set(examQuestions.map(q => q.section))];
 
-        // --- STATE VARIABLES ---
+        // --- State ---
+        const examSections = [...new Set(examQuestions.map(q => q.section))];
         let studentName = "";
         let rollNumber = "";
         let currentQuestionIndex = 0;
         let currentSection = examSections[0];
-        let currentLanguage = 'en'; // 'en' or 'hi'
-        let timeLeft = 3600; // 60 minutes in seconds
+        let timeLeft = 3600; // seconds
         let timerInterval = null;
         let cheatAttempts = 0;
         let examTerminated = false;
-        // Status: 'not-visited', 'not-answered', 'answered', 'marked', 'answered-marked'
         let questionStates = [];
-        // NEW STATE: Scratchpad Content (in-memory persistence for the session)
-        let scratchpadContent = ""; 
 
-        // --- DOM ELEMENTS ---
+        // DOM
         const loginScreen = document.getElementById('login-screen');
         const instructionsScreen = document.getElementById('instructions-screen');
         const testScreen = document.getElementById('test-screen');
         const reviewScreen = document.getElementById('review-screen');
         const resultsScreen = document.getElementById('results-screen');
-        
+        const globalSpinner = document.getElementById('global-spinner');
+
         const loginForm = document.getElementById('login-form');
         const studentNameInput = document.getElementById('student-name');
-        const rollNumberInput = document.getElementById('roll-number');
-        
+        const rollNumberInput = document.getElementById('roll-number'); // NEW: Roll Number Input
+
         const agreeTerms = document.getElementById('agree-terms');
         const startExamBtn = document.getElementById('start-exam-btn');
 
         const studentInfo = document.getElementById('student-info');
         const timerElement = document.getElementById('timer');
-        const languageToggle = document.getElementById('language-toggle');
-        const calculatorToggle = document.getElementById('calculator-toggle');
-        // NEW: Scratchpad elements
-        const scratchpadToggleBtn = document.getElementById('scratchpad-toggle-btn');
-        const scratchpadModal = document.getElementById('scratchpad-modal');
-        const scratchpadCloseBtn = document.getElementById('scratchpad-close-btn');
-        const scratchpadArea = document.getElementById('scratchpad-area');
-        // END NEW
+
         const sectionTabsContainer = document.getElementById('section-tabs');
-        const sectionStatusDetail = document.getElementById('section-status-detail'); // NEW
+        const sectionStatusDetail = document.getElementById('section-status-detail');
         const questionPalette = document.getElementById('question-palette');
         const qNum = document.getElementById('q-num');
         const qText = document.getElementById('q-text');
         const qOptions = document.getElementById('q-options');
-        // NEW: Question Image elements
-        const qImageContainer = document.getElementById('q-image-container');
-        const qImage = document.getElementById('q-image');
-        // END NEW
+
         const saveNextBtn = document.getElementById('save-next-btn');
         const markReviewBtn = document.getElementById('mark-review-btn');
         const clearBtn = document.getElementById('clear-btn');
@@ -698,96 +362,42 @@
         const reviewGrid = document.getElementById('review-grid');
         const goBackBtn = document.getElementById('go-back-btn');
         const finalSubmitBtn = document.getElementById('final-submit-btn');
-        
-        const closeResultsBtn = document.getElementById('close-results-btn');
-        
-        const calculator = document.getElementById('calculator');
-        const calculatorCloseBtn = document.getElementById('calculator-close-btn');
-        const calculatorDisplay = document.getElementById('calculator-display');
-        const calculatorBtns = document.querySelectorAll('.calc-btn');
 
-        // --- INITIALIZATION ---
+        const closeResultsBtn = document.getElementById('close-results-btn');
+
+        // --- Helpers: spinner ---
+        function showSpinnerFor(ms) {
+            return new Promise(resolve => {
+                globalSpinner.classList.remove('hidden');
+                globalSpinner.setAttribute('aria-hidden', 'false');
+                setTimeout(() => {
+                    globalSpinner.classList.add('hidden');
+                    globalSpinner.setAttribute('aria-hidden', 'true');
+                    resolve();
+                }, ms);
+            });
+        }
+
+        // --- Init ---
         function initExam() {
-            // 1. Initialize question states
-            questionStates = examQuestions.map((q, index) => ({
-                status: 'not-visited',
-                answer: null, // Store the index of the selected option
-                section: q.section
-            }));
-            
-            // 2. Set first question of the current section as 'not-answered'
+            questionStates = examQuestions.map((q, index) => ({ status: 'not-visited', answer: null, section: q.section }));
             const firstQuestionOfSection = examQuestions.findIndex(q => q.section === currentSection);
-            if(firstQuestionOfSection !== -1) {
+            if (firstQuestionOfSection !== -1) {
                 questionStates[firstQuestionOfSection].status = 'not-answered';
                 currentQuestionIndex = firstQuestionOfSection;
             } else {
                 questionStates[0].status = 'not-answered';
                 currentQuestionIndex = 0;
             }
-
-            // 3. Populate section tabs
             populateSectionTabs();
-            
-            // 4. Populate question palette for the current section
             populatePalette();
-
-            // 5. Load first question
+            // loadQuestion now WITHOUT spinner — spinner is reserved for login/initial loads only
             loadQuestion(currentQuestionIndex);
-
-            // 6. Start timer
             startTimer();
-
-            // 7. Update summary and NEW: sectional status
             updateSummary();
             updateSectionStatus();
-            
-            // 8. Init anti-cheat listeners
             initAntiCheat();
         }
-
-        // --- CORE FUNCTIONS ---
-        
-        // NEW: Function to display detailed sectional status
-        function updateSectionStatus() {
-            const sectionCounts = {};
-            
-            questionStates.forEach((state, index) => {
-                const section = examQuestions[index].section;
-                if (!sectionCounts[section]) {
-                    sectionCounts[section] = { answered: 0, notAnswered: 0, marked: 0 };
-                }
-                
-                const status = state.status;
-                if (status === 'answered' || status === 'answered-marked') {
-                    sectionCounts[section].answered++;
-                } else if (status === 'not-answered' || status === 'not-visited') {
-                    sectionCounts[section].notAnswered++;
-                }
-                if (status === 'marked' || status === 'answered-marked') {
-                    sectionCounts[section].marked++;
-                }
-            });
-
-            // Display status for the current section
-            if (sectionCounts[currentSection]) {
-                const counts = sectionCounts[currentSection];
-                const total = examQuestions.filter(q => q.section === currentSection).length;
-                
-                sectionStatusDetail.classList.remove('hidden');
-                sectionStatusDetail.innerHTML = `
-                    <p class="font-medium text-indigo-800">${currentSection} Status:</p> <!-- NEW THEME -->
-                    <div class="flex justify-between text-xs mt-1 font-semibold">
-                        <span class="text-green-600">Ans: <b>${counts.answered}</b></span>
-                        <span class="text-red-600">Not Ans: <b>${total - counts.answered}</b></span>
-                        <span class="text-blue-600">Marked: <b>${counts.marked}</b></span> <!-- Blue -->
-                        <span class="text-gray-600">Total: <b>${total}</b></span>
-                    </div>
-                `;
-            } else {
-                sectionStatusDetail.classList.add('hidden');
-            }
-        }
-        // END NEW
 
         function populateSectionTabs() {
             sectionTabsContainer.innerHTML = "";
@@ -800,45 +410,31 @@
                 sectionTabsContainer.appendChild(tab);
             });
         }
-        
+
         function switchSection(sectionName) {
             currentSection = sectionName;
-            populateSectionTabs(); // Re-render tabs to show active state
-            populatePalette(); // Re-render palette for the new section
-            
-            // Load the first question of this section that hasn't been visited,
-            // or the very first question of the section if all have been visited.
+            populateSectionTabs();
+            populatePalette();
             let firstQuestionIndex = -1;
-            for(let i = 0; i < examQuestions.length; i++) {
+            for (let i = 0; i < examQuestions.length; i++) {
                 if (examQuestions[i].section === sectionName) {
-                    if (firstQuestionIndex === -1) { // Found the first question of the section
-                        firstQuestionIndex = i;
-                    }
-                    if (questionStates[i].status === 'not-visited' || questionStates[i].status === 'not-answered') {
-                        firstQuestionIndex = i; // Found a better starting point
-                        break;
-                    }
+                    if (firstQuestionIndex === -1) firstQuestionIndex = i;
+                    if (questionStates[i].status === 'not-visited' || questionStates[i].status === 'not-answered') { firstQuestionIndex = i; break; }
                 }
             }
-            
-            if (firstQuestionIndex !== -1) {
-                loadQuestion(firstQuestionIndex);
-            }
-            updateSectionStatus(); // NEW: Update status when section switches
+            if (firstQuestionIndex !== -1) loadQuestion(firstQuestionIndex);
+            updateSectionStatus();
         }
 
         function populatePalette() {
-            questionPalette.innerHTML = ""; // Clear existing
+            questionPalette.innerHTML = "";
             examQuestions.forEach((q, index) => {
-                if (q.section !== currentSection) return; // Only show questions for current section
-                
+                if (q.section !== currentSection) return;
                 const btn = document.createElement('button');
                 btn.innerText = `Q.${index + 1}`;
                 btn.dataset.index = index;
                 btn.className = `palette-btn w-12 h-12 rounded-lg font-medium border transition-all duration-200 ${getPaletteColor(questionStates[index].status)}`;
-                if (index === currentQuestionIndex) {
-                    btn.classList.add('palette-btn-active');
-                }
+                if (index === currentQuestionIndex) btn.classList.add('palette-btn-active');
                 btn.addEventListener('click', () => handlePaletteClick(index));
                 questionPalette.appendChild(btn);
             });
@@ -848,109 +444,56 @@
             switch (status) {
                 case 'answered': return 'bg-green-500 text-white border-green-600 shadow-md rounded-xl';
                 case 'not-answered': return 'bg-red-500 text-white border-red-600 shadow-md rounded-xl';
-                case 'answered-marked': return 'palette-btn-answered-marked'; // Custom class handles styling
-                case 'marked': return 'bg-blue-500 text-white border-blue-600 shadow-md rounded-xl'; // Blue
+                case 'answered-marked': return 'palette-btn-answered-marked';
+                case 'marked': return 'bg-blue-500 text-white border-blue-600 shadow-md rounded-xl';
                 case 'not-visited':
-                default:
-                    return 'bg-gray-200/70 text-gray-800 border-gray-300 rounded-xl';
+                default: return 'bg-gray-200/70 text-gray-800 border-gray-300 rounded-xl';
             }
         }
 
-        function loadQuestion(index) {
+        async function loadQuestion(index) {
             if (index < 0 || index >= examQuestions.length) return;
-
-            // Save state of current question before switching
-            saveAnswer(); 
-
+            saveAnswer();
+            // NOTE: Spinner intentionally NOT shown here — spinner is reserved for login/initial loading flow.
             currentQuestionIndex = index;
             const question = examQuestions[index];
             const state = questionStates[index];
-
-            // Update status if 'not-visited'
-            if (state.status === 'not-visited') {
-                state.status = 'not-answered';
-            }
-            
-            // Switch section if necessary
+            if (state.status === 'not-visited') state.status = 'not-answered';
             if (question.section !== currentSection) {
                 currentSection = question.section;
                 populateSectionTabs();
                 populatePalette();
             }
-
-            // Update UI
             qNum.innerText = index + 1;
-            
-            const questionText = currentLanguage === 'hi' ? question.question_hi : question.question;
-            const options = currentLanguage === 'hi' ? question.options_hi : question.options;
-            
-            qText.innerText = questionText;
-            
-            // NEW: Image Display Logic
-            qImageContainer.classList.add('hidden');
-            if (question.imageUrl) {
-                qImage.src = question.imageUrl;
-                qImageContainer.classList.remove('hidden');
-            } else {
-                qImage.src = '';
-            }
-            // END NEW
-            
+            qText.innerText = question.question;
             qOptions.innerHTML = "";
-            options.forEach((option, i) => {
+            question.options.forEach((option, i) => {
                 qOptions.innerHTML += `
-                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50/50 transition bg-white/30 border-gray-200/50">
-                        <input type="radio" name="option" value="${i}" class="mr-3 h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300"> <!-- NEW THEME -->
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition bg-white/30 border-gray-200/50">
+                        <input type="radio" name="option" value="${i}" class="mr-3 h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300">
                         <span class="text-gray-700">${option}</span>
                     </label>
                 `;
             });
-
-            // Restore saved answer
             const savedAnswer = state.answer;
             if (savedAnswer !== null) {
-                document.querySelector(`input[name="option"][value="${savedAnswer}"]`).checked = true;
+                const el = document.querySelector(`input[name="option"][value="${savedAnswer}"]`);
+                if (el) el.checked = true;
             }
-
             updatePalette();
             updateSummary();
-            updateSectionStatus(); // NEW: Update sectional status on load
+            updateSectionStatus();
         }
-        
-        // NEW: Image zoom function
-        window.zoomImage = (src) => {
-            Swal.fire({
-                imageUrl: src,
-                imageAlt: 'Question Image',
-                title: 'Question Diagram/Image',
-                showCloseButton: true,
-                showConfirmButton: false,
-                padding: '0.5rem',
-                customClass: {
-                    image: 'max-h-[80vh] w-auto'
-                }
-            });
-        }
-        // END NEW
 
         function saveAnswer() {
             if (currentQuestionIndex < 0 || currentQuestionIndex >= examQuestions.length) return;
-            
             const selectedOption = document.querySelector('input[name="option"]:checked');
             const state = questionStates[currentQuestionIndex];
-            
             if (selectedOption) {
                 state.answer = parseInt(selectedOption.value);
-                // Don't change status if it's 'marked' or 'answered-marked'
-                if (state.status !== 'marked' && state.status !== 'answered-marked') {
-                    state.status = 'answered';
-                }
+                if (state.status !== 'marked' && state.status !== 'answered-marked') state.status = 'answered';
             } else {
-                // No answer selected
-                if (state.status === 'answered') {
-                   state.status = 'not-answered';
-                   state.answer = null; // Ensure answer is cleared
-                }
+                if (state.status === 'answered') { state.status = 'not-answered'; state.answer = null; }
             }
         }
 
@@ -959,24 +502,14 @@
             buttons.forEach(btn => {
                 const index = parseInt(btn.dataset.index);
                 if (isNaN(index)) return;
-                
-                // Remove all custom classes first
                 btn.className = `palette-btn w-12 h-12 rounded-lg font-medium border transition-all duration-200 ${getPaletteColor(questionStates[index].status)}`;
-                
-                if (index === currentQuestionIndex) {
-                    btn.classList.add('palette-btn-active');
-                }
+                if (index === currentQuestionIndex) btn.classList.add('palette-btn-active');
             });
-            updateSectionStatus(); // NEW: Re-check status whenever palette updates
+            updateSectionStatus();
         }
-        
-        function getSummaryCounts() {
-            let answered = 0;
-            let notAnswered = 0;
-            let marked = 0;
-            let answeredMarked = 0;
-            let notVisited = 0;
 
+        function getSummaryCounts() {
+            let answered=0, notAnswered=0, marked=0, answeredMarked=0, notVisited=0;
             questionStates.forEach(state => {
                 switch(state.status) {
                     case 'answered': answered++; break;
@@ -991,7 +524,6 @@
 
         function updateSummary() {
             const counts = getSummaryCounts();
-            
             document.getElementById('answered-count').innerText = counts.answered + counts.answeredMarked;
             document.getElementById('not-answered-count').innerText = counts.notAnswered;
             document.getElementById('marked-count').innerText = counts.marked + counts.answeredMarked;
@@ -1000,68 +532,39 @@
 
         function startTimer() {
             timerInterval = setInterval(() => {
-                if (examTerminated) {
-                    clearInterval(timerInterval);
-                    return;
-                }
-
+                if (examTerminated) { clearInterval(timerInterval); return; }
                 timeLeft--;
-                const minutes = Math.floor(timeLeft / 60);
+                const minutes = Math.floor(timeLeft/60);
                 const seconds = timeLeft % 60;
-                timerElement.innerText = `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
+                // Updated Timer UI text for better visibility
+                timerElement.innerText = `Time Left: ${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Time\'s Up!',
-                        text: 'Your exam will be submitted automatically.',
-                        showConfirmButton: false,
-                        timer: 3000
-                    });
+                    Swal.fire({ icon:'warning', title:"Time's Up!", text:'Your exam will be submitted automatically.', showConfirmButton:false, timer:3000 });
                     setTimeout(() => submitExam(false), 3000);
                 }
             }, 1000);
         }
-        
+
         function showReviewScreen() {
-            saveAnswer(); // Save the very last question
+            saveAnswer();
             testScreen.classList.add('hidden');
             reviewScreen.classList.remove('hidden');
             reviewScreen.classList.add('flex');
-            
             const counts = getSummaryCounts();
             reviewSummary.innerHTML = `
-                <div class="p-4 bg-green-100 rounded-lg">
-                    <p class="text-sm text-green-700">Answered</p>
-                    <p class="text-2xl font-bold text-green-800">${counts.answered + counts.answeredMarked}</p>
-                </div>
-                <div class="p-4 bg-red-100 rounded-lg">
-                    <p class="text-sm text-red-700">Not Answered</p>
-                    <p class="text-2xl font-bold text-red-800">${counts.notAnswered}</p>
-                </div>
-                <div class="p-4 bg-blue-100 rounded-lg"> <!-- Blue -->
-                    <p class="text-sm text-blue-700">Marked</p>
-                    <p class="text-2xl font-bold text-blue-800">${counts.marked + counts.answeredMarked}</p>
-                </div>
-                <div class="p-4 bg-gray-100 rounded-lg">
-                    <p class="text-sm text-gray-700">Not Visited</p>
-                    <p class="text-2xl font-bold text-gray-800">${counts.notVisited}</p>
-                </div>
+                <div class="p-4 bg-green-100 rounded-lg"><p class="text-sm text-green-700">Answered</p><p class="text-2xl font-bold text-green-800">${counts.answered + counts.answeredMarked}</p></div>
+                <div class="p-4 bg-red-100 rounded-lg"><p class="text-sm text-red-700">Not Answered</p><p class="text-2xl font-bold text-red-800">${counts.notAnswered}</p></div>
+                <div class="p-4 bg-blue-100 rounded-lg"><p class="text-sm text-blue-700">Marked</p><p class="text-2xl font-bold text-blue-800">${counts.marked + counts.answeredMarked}</p></div>
+                <div class="p-4 bg-gray-100 rounded-lg"><p class="text-sm text-gray-700">Not Visited</p><p class="text-2xl font-bold text-gray-800">${counts.notVisited}</p></div>
             `;
-            
             reviewGrid.innerHTML = "";
             examQuestions.forEach((_, index) => {
                 const btn = document.createElement('button');
                 btn.innerText = index + 1;
                 btn.dataset.index = index;
                 btn.className = `w-12 h-12 rounded-lg font-medium border transition-all duration-200 ${getPaletteColor(questionStates[index].status)}`;
-                btn.addEventListener('click', () => {
-                    reviewScreen.classList.add('hidden');
-                    testScreen.classList.remove('hidden');
-                    testScreen.classList.add('flex');
-                    loadQuestion(index);
-                });
+                btn.addEventListener('click', () => { reviewScreen.classList.add('hidden'); testScreen.classList.remove('hidden'); testScreen.classList.add('flex'); loadQuestion(index); });
                 reviewGrid.appendChild(btn);
             });
         }
@@ -1070,15 +573,12 @@
             examTerminated = true;
             clearInterval(timerInterval);
             exitFullscreen();
-
             testScreen.classList.add('hidden');
             reviewScreen.classList.add('hidden');
             resultsScreen.classList.remove('hidden');
             resultsScreen.classList.add('flex');
-
-            // Populate results
-            document.getElementById('result-student-info').innerText = `Name: ${studentName} | Roll: ${rollNumber}`;
-            
+            // Updated student info display on results screen
+            document.getElementById('result-student-info').innerText = `Name: ${studentName} | Roll Number: ${rollNumber}`;
             if (isCheating) {
                 document.getElementById('result-score').innerText = "N/A";
                 document.getElementById('result-accuracy').innerText = "N/A";
@@ -1089,493 +589,331 @@
                 document.getElementById('result-remarks').innerText = "Exam terminated due to cheating. No score will be recorded.";
                 return;
             }
-
-            // Calculate results
-            let correctAnswers = 0;
-            let wrongAnswers = 0;
-            let unanswered = 0;
-            // Recalculate counts including marked/answered-marked
-            let totalAnswered = 0;
-
+            let correctAnswers=0, wrongAnswers=0, unanswered=0, totalAnswered=0;
             questionStates.forEach((state, index) => {
                 if (state.status === 'not-visited' || state.status === 'not-answered' || state.status === 'marked') {
                     unanswered++;
                 } else if (state.status === 'answered' || state.status === 'answered-marked') {
                     totalAnswered++;
-                    if (state.answer === examQuestions[index].correct) {
-                        correctAnswers++;
-                    } else {
-                        wrongAnswers++;
-                    }
+                    if (state.answer === examQuestions[index].correct) correctAnswers++; else wrongAnswers++;
                 }
             });
-
             const totalAttempted = correctAnswers + wrongAnswers;
-            const accuracy = totalAttempted === 0 ? 0 : ((correctAnswers / totalAttempted) * 100).toFixed(2);
-            
+            const accuracy = totalAttempted === 0 ? 0 : ((correctAnswers/totalAttempted)*100).toFixed(2);
             document.getElementById('result-score').innerText = `${correctAnswers} / ${examQuestions.length}`;
             document.getElementById('result-accuracy').innerText = `${accuracy}%`;
             document.getElementById('summary-total').innerText = examQuestions.length;
             document.getElementById('summary-correct').innerText = correctAnswers;
             document.getElementById('summary-wrong').innerText = wrongAnswers;
             document.getElementById('summary-unanswered').innerText = unanswered;
-
-            // Generate remarks
             let remarks = "";
             const percentage = (correctAnswers / examQuestions.length) * 100;
-            if (percentage >= 90) remarks = "Excellent performance! You have a strong grasp of the concepts. Keep up the great work!";
-            else if (percentage >= 75) remarks = "Good job! You performed well. Review the incorrect answers to solidify your knowledge.";
-            else if (percentage >= 50) remarks = "Fair result. There's room for improvement. Focus on the areas where you made mistakes.";
-            else remarks = "You need to review the material more thoroughly. Don't be discouraged, use this as a learning opportunity.";
-            
+            if (percentage >= 90) remarks = "Excellent performance!"; else if (percentage >= 75) remarks = "Good job!"; else if (percentage >= 50) remarks = "Fair result."; else remarks = "You need to review the material more thoroughly.";
             document.getElementById('result-remarks').innerText = remarks;
         }
 
-        // --- EVENT HANDLERS ---
-        
+        // Event handlers
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            studentName = studentNameInput.value.trim();
-            rollNumber = rollNumberInput.value.trim();
-            
-            if (studentName && rollNumber) {
-                studentInfo.innerText = `${studentName} | ${rollNumber}`;
+            const username = studentNameInput.value.trim();
+            const roll = rollNumberInput.value.trim(); // NEW: Get roll number
+            if (!username || !roll) {
+                Swal.fire({ icon:'error', title:'Missing fields', text:'Please enter both username and roll number.' });
+                return;
+            }
+
+            // Throttle: allow same username to login only once every 90 minutes (client-side enforcement)
+            const key = `lastLogin_${username.toLowerCase()}`;
+            const last = localStorage.getItem(key);
+            const now = Date.now();
+            const ninetyMinutes = 90 * 60 * 1000;
+            if (last) {
+                const lastTs = parseInt(last, 10);
+                if (!isNaN(lastTs) && (now - lastTs) < ninetyMinutes) {
+                    const minsLeft = Math.ceil((ninetyMinutes - (now - lastTs)) / 60000);
+                    Swal.fire({ icon:'warning', title:'Login blocked', html: `This username started an exam recently. Please wait <b>${minsLeft} minute(s)</b> before trying again.` });
+                    return;
+                }
+            }
+
+            // Save last login timestamp (client-side). For strict enforcement across devices, implement server-side check.
+            localStorage.setItem(key, String(now));
+
+            // Minimal "loading" on initial login — show the custom lightning spinner here only
+            showSpinnerFor(1200).then(() => {
+                studentName = username;
+                rollNumber = roll; // Store roll number
+                // NEW: Updated student info display on test screen
+                studentInfo.innerText = `Student: ${studentName} | Roll No: ${rollNumber}`; 
                 loginScreen.classList.add('hidden');
                 instructionsScreen.classList.remove('hidden');
                 instructionsScreen.classList.add('flex');
-            }
+            });
         });
-        
-        agreeTerms.addEventListener('change', () => {
-            startExamBtn.disabled = !agreeTerms.checked;
-        });
+
+        // The old toggle-password button is now removed as the password field is gone.
+
+        agreeTerms.addEventListener('change', () => startExamBtn.disabled = !agreeTerms.checked);
 
         startExamBtn.addEventListener('click', () => {
             instructionsScreen.classList.add('hidden');
             testScreen.classList.remove('hidden');
             testScreen.classList.add('flex');
-            
             requestFullscreen();
             initExam();
         });
-        
-        languageToggle.addEventListener('change', () => {
-            currentLanguage = languageToggle.checked ? 'hi' : 'en';
-            // Reload the current question in the new language
-            loadQuestion(currentQuestionIndex);
-        });
-        
-        // NEW: Scratchpad Toggle Logic
-        scratchpadToggleBtn.addEventListener('click', () => {
-            scratchpadModal.classList.remove('hidden');
-            scratchpadArea.value = scratchpadContent; // Load in-memory content
-            scratchpadArea.focus();
-        });
 
-        scratchpadCloseBtn.addEventListener('click', () => {
-            scratchpadModal.classList.add('hidden');
-            scratchpadContent = scratchpadArea.value; // Save content on close
-        });
-
-        scratchpadArea.addEventListener('input', (e) => {
-            scratchpadContent = e.target.value; // Real-time in-memory update
-        });
-        // END NEW
-
-        function handlePaletteClick(index) {
-            loadQuestion(index);
-        }
+        function handlePaletteClick(index) { loadQuestion(index); }
 
         saveNextBtn.addEventListener('click', () => {
-            saveAnswer(); // Saves current answer
-            
-            // Logic to find next question in the same section
+            saveAnswer();
             let nextIndex = -1;
             for (let i = currentQuestionIndex + 1; i < examQuestions.length; i++) {
-                if (examQuestions[i].section === currentSection) {
-                    nextIndex = i;
-                    break;
-                }
+                if (examQuestions[i].section === currentSection) { nextIndex = i; break; }
             }
-
-            if (nextIndex !== -1) {
-                loadQuestion(nextIndex);
-            } else {
-                // At the end of the section, go to the first question of the *next* section
+            if (nextIndex !== -1) { loadQuestion(nextIndex); } else {
                 const currentSectionIndex = examSections.indexOf(currentSection);
                 const nextSection = examSections[currentSectionIndex + 1];
-                
-                if (nextSection) {
-                    switchSection(nextSection); // This will load the first question
-                    Swal.fire({ icon: 'info', title: `Moving to ${nextSection}`, toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
-                } else {
-                    // At the end of the last section, loop to first question of first section
-                    loadQuestion(0);
-                    Swal.fire({ icon: 'info', title: 'You are at the last question', text: 'Cycling back to the first question.', toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
-                }
+                if (nextSection) switchSection(nextSection);
+                else { loadQuestion(0); Swal.fire({ icon:'info', title:'You are at the last question', text:'Cycling back to the first question.', toast:true, position:'top-end', showConfirmButton:false, timer:2000 }); }
             }
             updateSectionStatus();
         });
 
         markReviewBtn.addEventListener('click', () => {
-            saveAnswer(); // Save answer if one is selected
+            saveAnswer();
             const state = questionStates[currentQuestionIndex];
-            
-            if (state.answer !== null) {
-                state.status = 'answered-marked';
-            } else {
-                state.status = 'marked';
-            }
-            
-            // Move to next question (same logic as saveNextBtn)
+            if (state.answer !== null) state.status = 'answered-marked'; else state.status = 'marked';
             let nextIndex = -1;
             for (let i = currentQuestionIndex + 1; i < examQuestions.length; i++) {
-                if (examQuestions[i].section === currentSection) {
-                    nextIndex = i;
-                    break;
-                }
+                if (examQuestions[i].section === currentSection) { nextIndex = i; break; }
             }
-            if (nextIndex !== -1) {
-                loadQuestion(nextIndex);
-            } else {
+            if (nextIndex !== -1) loadQuestion(nextIndex); else {
                 const currentSectionIndex = examSections.indexOf(currentSection);
                 const nextSection = examSections[currentSectionIndex + 1];
-                if (nextSection) {
-                    switchSection(nextSection);
-                } else {
-                    loadQuestion(0);
-                }
+                if (nextSection) switchSection(nextSection); else loadQuestion(0);
             }
             updateSectionStatus();
         });
 
         clearBtn.addEventListener('click', () => {
             const selectedOption = document.querySelector('input[name="option"]:checked');
-            if (selectedOption) {
-                selectedOption.checked = false;
-            }
+            if (selectedOption) selectedOption.checked = false;
             questionStates[currentQuestionIndex].answer = null;
             questionStates[currentQuestionIndex].status = 'not-answered';
-            updatePalette();
-            updateSummary();
-            updateSectionStatus();
+            updatePalette(); updateSummary(); updateSectionStatus();
         });
 
         zenTechLink.addEventListener('click', () => {
             Swal.fire({
                 title: 'External Link Warning',
                 text: "This is an external link. Clicking 'OK' will immediately terminate your exam. Are you sure you want to proceed?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'OK, End Exam',
-                cancelButtonText: 'Cancel'
+                icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#3085d6', confirmButtonText: 'OK, End Exam', cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    examTerminated = true;
-                    clearInterval(timerInterval);
-                    Swal.fire({
-                        title: 'Exam Terminated',
-                        text: 'Your exam has been terminated due to redirection. You will be redirected in 5 seconds!',
-                        icon: 'error',
-                        timer: 5000,
-                        timerProgressBar: true,
-                        showConfirmButton: false
-                    }).then(() => {
-                        console.log("Redirecting...");
-                        submitExam(true);
-                    });
+                    examTerminated = true; clearInterval(timerInterval);
+                    Swal.fire({ title: 'Exam Terminated', text: 'Your exam has been terminated due to redirection.', icon: 'error', timer: 3000, showConfirmButton:false }).then(() => submitExam(true));
                 }
             });
         });
 
-        reviewSubmitBtn.addEventListener('click', () => {
-            showReviewScreen();
-        });
-        
-        goBackBtn.addEventListener('click', () => {
-            reviewScreen.classList.add('hidden');
-            testScreen.classList.remove('hidden');
-            testScreen.classList.add('flex');
-        });
-        
+        reviewSubmitBtn.addEventListener('click', () => showReviewScreen());
+        goBackBtn.addEventListener('click', () => { reviewScreen.classList.add('hidden'); testScreen.classList.remove('hidden'); testScreen.classList.add('flex'); });
         finalSubmitBtn.addEventListener('click', () => {
-            Swal.fire({
-                title: 'Final Submit?',
-                text: "Are you sure you want to end the exam? You cannot make any more changes.",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, submit!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    submitExam(false);
-                }
-            });
+            Swal.fire({ title:'Final Submit?', text:"Are you sure you want to end the exam? You cannot make any more changes.", icon:'question', showCancelButton:true, confirmButtonColor:'#3085d6', cancelButtonColor:'#d33', confirmButtonText:'Yes, submit!' })
+            .then((result) => { if (result.isConfirmed) submitExam(false); });
         });
 
-        closeResultsBtn.addEventListener('click', () => {
-            window.location.reload();
-        });
-        
-        // --- CALCULATOR LOGIC ---
-        let calcDisplayValue = '0';
-        let calcFirstValue = null;
-        let calcOperator = null;
-        let calcWaitingForSecondValue = false;
-        
-        function updateCalcDisplay() {
-            calculatorDisplay.value = calcDisplayValue;
+        closeResultsBtn.addEventListener('click', () => window.location.reload());
+
+       // --- Fullscreen API Helpers ---
+        function requestFullscreen() {
+            if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+            else if (document.documentElement.mozRequestFullScreen) document.documentElement.mozRequestFullScreen();
+            else if (document.documentElement.webkitRequestFullscreen) document.documentElement.webkitRequestFullscreen();
+            else if (document.documentElement.msRequestFullscreen) document.documentElement.msRequestFullscreen();
         }
-        
-        calculatorBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const { num } = e.target.dataset;
-                const { op } = e.target.dataset;
-                
-                if (num) {
-                    if (calcWaitingForSecondValue) {
-                        calcDisplayValue = num;
-                        calcWaitingForSecondValue = false;
-                    } else {
-                        calcDisplayValue = calcDisplayValue === '0' ? num : calcDisplayValue + num;
-                    }
-                }
-                
-                if (num === '.') {
-                    if (!calcDisplayValue.includes('.')) {
-                        calcDisplayValue += '.';
-                    }
-                }
-                
-                if (op) {
-                    handleCalcOperator(op);
-                }
-                
-                updateCalcDisplay();
-            });
-        });
-        
-        function handleCalcOperator(op) {
-            const value = parseFloat(calcDisplayValue);
+        function exitFullscreen() {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.documentElement.msExitFullscreen) document.documentElement.msExitFullscreen();
+        }
+
+    // New function for immediate termination (for source code access attempts)
+        function terminateExamImmediately(reason) {
+            if (examTerminated) return;
+            examTerminated = true;
+            clearInterval(timerInterval);
+            exitFullscreen();
             
-            if (calcOperator && calcWaitingForSecondValue) {
-                calcOperator = op;
+            // Log the severe violation (SERVER REPORTING PLACEHOLDER)
+            console.error(`[CRITICAL CHEAT DETECTED] Student: ${studentName} | Reason: ${reason}`);
+
+            // Immediately show a severe, non-dismissible warning before submitting the result
+            Swal.fire({ 
+                icon: 'error', 
+                title: 'EXAM TERMINATED IMMEDIATELY', 
+                html: `<p>A critical security violation was detected: <b>${reason}</b>. </p><p>Your exam has been terminated without warning. No score will be recorded.</p>`, 
+                showConfirmButton: false, 
+                allowOutsideClick: false, 
+                timer: 4000 // Display for 4 seconds
+            }).then(() => {
+                submitExam(true); // submit with cheating flag set
+            });
+        }
+
+        // --- Developer Tools Detection ---
+        function checkDevTools() {
+            if (examTerminated) return;
+            // Check for large discrepancies between inner and outer window size, common when DevTools is open.
+            // This is the most reliable client-side check.
+            const threshold = 160; 
+            const isDevToolsOpen = 
+                window.outerWidth - window.innerWidth > threshold ||
+                window.outerHeight - window.innerHeight > threshold;
+
+            if (isDevToolsOpen) {
+                // Critical violation detected: Terminate immediately
+                terminateExamImmediately('Developer Tools Detected (Window Size Check)');
                 return;
             }
-            
-            if (calcFirstValue === null) {
-                calcFirstValue = value;
-            } else if (calcOperator) {
-                const result = performCalculation(calcFirstValue, value, calcOperator);
-                calcDisplayValue = String(result);
-                calcFirstValue = result;
-            }
-            
-            calcWaitingForSecondValue = true;
-            calcOperator = op;
-            
-            if (op === 'clear') {
-                calcDisplayValue = '0';
-                calcFirstValue = null;
-                calcOperator = null;
-                calcWaitingForSecondValue = false;
-            } else if (op === 'sign') {
-                calcDisplayValue = String(value * -1);
-            } else if (op === 'percent') {
-                calcDisplayValue = String(value / 100);
-            } else if (op === 'equals') {
-                calcWaitingForSecondValue = false;
-                calcOperator = null;
-            }
-        }
-        
-        function performCalculation(first, second, operator) {
-            if (operator === 'add') return first + second;
-            if (operator === 'subtract') return first - second;
-            if (operator === 'multiply') return first * second;
-            if (operator === 'divide') return first / second;
-            return second;
+            // Repeat check every 500ms
+            setTimeout(checkDevTools, 500); 
         }
 
-        calculatorToggle.addEventListener('click', () => {
-            calculator.classList.toggle('hidden');
-        });
-        
-        calculatorCloseBtn.addEventListener('click', () => {
-            calculator.classList.add('hidden');
-        });
-        
-        // Make calculator draggable
-        function makeDraggable(el, header) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            header.onmousedown = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                el.style.top = (el.offsetTop - pos2) + "px";
-                el.style.left = (el.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-        }
-        makeDraggable(calculator, document.getElementById('calculator-header'));
-        updateCalcDisplay();
-
-        // --- ANTI-CHEAT ---
-
-        function requestFullscreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
-                document.documentElement.msRequestFullscreen();
-            }
-        }
-
-        function exitFullscreen() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) { /* Firefox */
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { /* IE/Edge */
-                document.msExitFullscreen();
-            }
-        }
-        
         let lastCheatTime = 0;
         function handleCheatAttempt(reason) {
             if (examTerminated) return;
-            
-            // Do not trigger if a SweetAlert is open (e.g., Zen-Tech link)
-            if (Swal.isVisible()) {
-                return;
-            }
-            
-            // Throttle cheat attempts to prevent multiple triggers for one action
+            if (Swal.isVisible()) return;
             const now = Date.now();
-            if (now - lastCheatTime < 1000) {
-                return;
-            }
+            // Throttle attempts to prevent spamming from rapid events (e.g., multiple keypresses)
+            if (now - lastCheatTime < 1000) return;
             lastCheatTime = now;
             
-            console.warn("Cheat attempt detected:", reason);
+            // --- SERVER REPORTING PLACEHOLDER (CRITICAL) ---
+            console.warn(`[CHEAT DETECTED] Student: ${studentName} | Reason: ${reason} | Attempt: ${cheatAttempts + 1}`);
+            // (Keep server reporting logic here)
+            // -----------------------------------------------------
 
             cheatAttempts++;
             if (cheatAttempts >= 3) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Cheating Detected!',
-                    text: 'You have left the exam window multiple times. Your exam has been terminated.',
-                    showConfirmButton: false,
-                    allowOutsideClick: false,
-                    timer: 4000
-                });
-                setTimeout(() => submitExam(true), 4000);
+                Swal.fire({ icon:'error', title:'Cheating Detected!', text:'You have left the exam window multiple times. Your exam has been terminated.', showConfirmButton:false, allowOutsideClick:false, timer:4000 });
+                setTimeout(() => submitExam(true), 4000); // Submits exam with cheating flag
             } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Warning!',
-                    text: `Do not leave the exam window. This is attempt ${cheatAttempts} of 3.`,
-                    timer: 3000,
-                    timerProgressBar: true
-                });
-                // Force back to fullscreen
+                Swal.fire({ icon:'warning', title:'Warning!', text:`Do not leave the exam window. This is attempt ${cheatAttempts} of 3.`, timer:3000, timerProgressBar:true });
                 requestFullscreen();
             }
         }
-        
+
         function initAntiCheat() {
-            // Detect tab switching
-            document.addEventListener('visibilitychange', () => {
-                 if (document.hidden) {
-                    handleCheatAttempt('Tab switch');
-                 }
-            });
-
-            // Detect leaving fullscreen
-            document.addEventListener('fullscreenchange', () => {
-                if (!document.fullscreenElement) {
-                    handleCheatAttempt('Fullscreen exit');
-                }
+            // 1. 3-Warning Cheats (Visibility, Fullscreen Exit, Window Blur, Right-Click)
+            document.addEventListener('visibilitychange', () => { if (document.hidden) handleCheatAttempt('Tab switch'); });
+            // This handles F11 Exit, tied to the 3-warning system.
+            document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) handleCheatAttempt('Fullscreen exit (e.g. F11 press)'); });
+            window.addEventListener('blur', () => handleCheatAttempt('Window blur (e.g. Alt+Tab, click outside)'));
+            document.addEventListener('contextmenu', (e) => e.preventDefault()); // Disables right-click menu
+            
+            // Prevent text selection (copying text)
+            document.addEventListener('selectstart', (e) => {
+                e.preventDefault();
+                return false;
             });
             
-            // Detect window losing focus
-            window.addEventListener('blur', () => {
-                handleCheatAttempt('Window blur');
-            });
-
-            // Disable right-click
-            document.addEventListener('contextmenu', (e) => e.preventDefault());
+            // Start the periodic DevTools window size check
+            checkDevTools();
             
-            // Disable pasting
-            document.addEventListener('paste', (e) => e.preventDefault());
-
-            // Disable developer tools and other shortcuts
+            // 2. Immediate Termination Cheats (Source Code Access & Critical Shortcuts)
             document.addEventListener('keydown', (e) => {
-                // F12
-                if (e.key === 'F12' || e.keyCode === 123) {
+                if (examTerminated) return;
+                
+                // --- Critical Security Violations (Immediate Termination) ---
+                
+                // ESCAPE KEY (Exit fullscreen, often used to bypass F11 detection) - keyCode 27
+                if (e.keyCode === 27) {
                     e.preventDefault();
-                    handleCheatAttempt('F12');
+                    terminateExamImmediately('Escape Key Pressed (Attempt to Exit Fullscreen)');
+                    return;
                 }
                 
-                // Print Screen
-                if (e.key === 'PrintScreen' || e.keyCode === 44) {
+                // F12 key (Developer Tools) - keyCode 123
+                if (e.keyCode === 123) {
                     e.preventDefault();
-                    handleCheatAttempt('Print Screen');
+                    terminateExamImmediately('F12 (Developer Tools Key)');
+                    return;
                 }
                 
-                // Ctrl/Cmd + Shift + I
-                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.keyCode === 73)) {
+                // Ctrl+Shift+I (Inspect Element) - keyCode 73
+                // Ctrl+Shift+J (Console) - keyCode 74
+                // Ctrl+Shift+C (Inspect) - keyCode 67
+                if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
                     e.preventDefault();
-                    handleCheatAttempt('DevTools');
+                    let key = (e.keyCode === 73) ? 'I' : (e.keyCode === 74) ? 'J' : 'C';
+                    terminateExamImmediately(`Ctrl+Shift+${key} (Developer Tools Shortcut)`);
+                    return;
                 }
-                // Ctrl/Cmd + Shift + J
-                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'J' || e.keyCode === 74)) {
+                
+                // Ctrl+U (View Source) - keyCode 85
+                if (e.ctrlKey && e.keyCode === 85) {
                     e.preventDefault();
-                    handleCheatAttempt('DevTools');
+                    terminateExamImmediately('Ctrl+U (View Source)');
+                    return;
                 }
-                // Ctrl/Cmd + U
-                if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.keyCode === 85)) {
+
+                // --- Less Critical Cheats (Prevent action & trigger 3-warning system) ---
+
+                // Prevent common copy (C), paste (V), cut (X), select all (A), print (P) hotkeys
+                if ((e.ctrlKey || e.metaKey) && ['c', 'v', 'x', 'a', 'p'].includes(e.key.toLowerCase())) {
+                    e.preventDefault(); 
+                    handleCheatAttempt(`Disallowed Hotkey: ${e.key}`);
+                }
+
+                // Prevent Print Screen key (PrtScn)
+                if (e.key === 'PrintScreen' || e.key === 'Snapshot' || e.keyCode === 44) {
                     e.preventDefault();
-                    handleCheatAttempt('View Source');
+                    handleCheatAttempt('Print Screen Attempt');
                 }
-                // Ctrl/Cmd + C, X
-                if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.keyCode === 67 || e.key === 'x' || e.keyCode === 88)) {
-                    e.preventDefault();
-                    handleCheatAttempt('Copy/Cut');
-                }
-            });
+            }, false);
         }
-        
-        // Note: We call initAntiCheat() from within initExam()
-        // but some basic protections can be active immediately.
-        document.addEventListener('contextmenu', (e) => e.preventDefault());
-        document.addEventListener('paste', (e) => e.preventDefault());
 
+        // Section status
+        function updateSectionStatus() {
+            const sectionCounts = {};
+            questionStates.forEach((state, index) => {
+                const section = examQuestions[index].section;
+                if (!sectionCounts[section]) sectionCounts[section] = { answered:0, notAnswered:0, marked:0 };
+                const status = state.status;
+                if (status === 'answered' || status === 'answered-marked') sectionCounts[section].answered++;
+                else if (status === 'not-answered' || status === 'not-visited') sectionCounts[section].notAnswered++;
+                if (status === 'marked' || status === 'answered-marked') sectionCounts[section].marked++;
+            });
+            if (sectionCounts[currentSection]) {
+                const counts = sectionCounts[currentSection];
+                const total = examQuestions.filter(q => q.section === currentSection).length;
+                sectionStatusDetail.classList.remove('hidden');
+                sectionStatusDetail.innerHTML = `
+                    <p class="font-medium text-indigo-800">${currentSection} Status:</p>
+                    <div class="flex justify-between text-xs mt-1 font-semibold">
+                        <span class="text-green-600">Ans: <b>${counts.answered}</b></span>
+                        <span class="text-red-600">Not Ans: <b>${total - counts.answered}</b></span>
+                        <span class="text-blue-600">Marked: <b>${counts.marked}</b></span>
+                        <span class="text-gray-600">Total: <b>${total}</b></span>
+                    </div>
+                `;
+            } else sectionStatusDetail.classList.add('hidden');
+        }
 
+        // Helpers
+        function performSubmitFromTimeout() { submitExam(false); }
+
+        // Show initial loader on full page load for a short moment for polish
+        document.addEventListener('DOMContentLoaded', async () => {
+            // show spinner briefly then reveal login screen (helps mask asset loads)
+            await showSpinnerFor(900);
+            // ensure login screen visible (it already is)
+        });
+
+        // Start (no auto-init; waits for user)
     </script>
 </body>
 </html>
