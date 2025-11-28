@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        /* Hide scrollbar for cleaner UI */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col" 
+      style="background-image: url('https://cdn.wallpapersafari.com/71/3/oNUCsY.jpg'); background-attachment: fixed; background-size: cover;">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <header id="app-header" class="w-full bg-white shadow-md p-4 flex justify-between items-center hidden sticky top-0 z-20 border-b border-gray-200">
+        <div class="text-xl font-bold text-indigo-700 flex items-center gap-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18s-3.332.477-4.5 1.253"></path></svg>
+            Student Portal
+        </div>
+        <div id="user-info-area" class="flex items-center gap-4">
+            <button id="logout-btn-header" class="bg-red-50 text-red-600 px-4 py-1.5 rounded-lg hover:bg-red-100 transition-colors text-sm font-semibold border border-red-200">Sign Out</button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex justify-center p-0 z-10">
+        <div id="auth-container" class="w-full max-w-5xl self-center p-4 transition-all duration-300"></div>
+        
+        <div id="dashboard-container" class="w-full max-w-7xl mx-auto my-8 p-0 bg-white/95 backdrop-blur-sm shadow-2xl rounded-2xl hidden transition-all duration-300">
+            </div>
+    </main>
+
+    <footer class="text-center text-xs text-white/80 py-4 bg-black/20 mt-auto">
+        A Platform of <span class="font-semibold text-white">T-Service</span> || Server: India-1
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+<script>
+    // === SUPABASE INITIALIZATION ===
+    const SUPABASE_URL = 'https://onzlaxxzhbehjxlvicid.supabase.co'; 
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uemxheHh6aGJlaGp4bHZpY2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNzM4NTEsImV4cCI6MjA3OTc0OTg1MX0.i1D7QAczNV_gofZB7JYnCDZlxu8ZbVEOx0LUee9qRNE'; 
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // === AUTHENTICATION LOGIC ===
+    let isSigningUp = false;
+
+    const getAuthTemplate = () => `
+        <div class="rounded-2xl overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2 bg-white/90 backdrop-blur-md">
+            <div class="hidden md:flex flex-col justify-center items-center bg-indigo-900 text-white p-10 space-y-6">
+                <img src="https://zen-tech-student-portal.vercel.app/Student's%20Portal!.png" class="w-48 drop-shadow-lg" alt="Portal Icon" />
+                <h2 class="text-3xl font-bold tracking-wide">Welcome Back</h2>
+                <p class="text-lg text-indigo-200 text-center">Powering Smart Institutions with Beautiful Simplicity</p>
+            </div>
+
+            <div class="p-8 sm:p-12 text-gray-800">
+                <h3 class="text-3xl font-bold mb-6 text-center text-indigo-900">${isSigningUp ? 'Create Account' : 'Student Login'}</h3>
+                
+                <form id="login-form" class="space-y-5" novalidate>
+                    <div id="auth-message" class="text-sm text-red-600 font-medium text-center"></div>
+                    
+                    <div id="full-name-group" style="display: ${isSigningUp ? 'block' : 'none'};">
+                        <label class="block font-medium mb-1 text-gray-700">Full Name</label>
+                        <input type="text" id="full-name" name="full_name" placeholder="John Doe" 
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" 
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
+                    </div>
+                    
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" 
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
+                    </div>
+
+                    <button id="auth-submit-btn" type="submit"
+                        class="w-full py-3 rounded-lg font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2">
+                        <span id="loginText">${isSigningUp ? 'Sign Up' : 'Login'}</span>
+                        <svg id="spinner" class="hidden animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"></path>
+                        </svg>
+                    </button>
+                </form>
+
+                <p class="text-center text-sm text-gray-600 mt-6">
+                    <a href="#" id="toggle-auth" class="text-indigo-600 font-semibold hover:underline">
+                        ${isSigningUp ? 'Already have an account? Login' : 'Need an account? Sign Up'}
+                    </a>
+                </p>
+            </div>
+        </div>
+    `;
+
+    function renderAuthForm() {
+        const authContainer = document.getElementById('auth-container');
+        authContainer.innerHTML = getAuthTemplate();
+        document.getElementById('toggle-auth').addEventListener('click', toggleAuthMode);
+        document.getElementById('login-form').addEventListener('submit', handleAuthSubmit);
+    }
+
+    function toggleAuthMode(e) {
+        e.preventDefault();
+        isSigningUp = !isSigningUp;
+        renderAuthForm(); 
+    }
+
+    async function handleAuthSubmit(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const fullName = document.getElementById('full-name').value;
+        const submitBtn = document.getElementById('auth-submit-btn');
+        const spinner = document.getElementById('spinner');
+        const loginText = document.getElementById('loginText');
+
+        if (!email || !password || (isSigningUp && !fullName)) {
+             Swal.fire({ icon: 'warning', title: 'Missing Fields', text: 'Please fill out all required fields.' });
+            return;
+        }
+        
+        submitBtn.disabled = true;
+        spinner.classList.remove("hidden");
+        loginText.textContent = 'Processing...';
+
+        let error = null;
+
+       if (isSigningUp) {
+            const { error: signUpError } = await supabase.auth.signUp({ 
+                email, password, options: { data: { full_name: fullName, role: 'student' } }
+            });
+            error = signUpError;
+            if (!error) {
+                Swal.fire({ icon: 'success', title: 'Account Created', text: 'Please check your email to confirm your account.' });
+                isSigningUp = false; 
+                renderAuthForm(); 
+                return; 
+            }
+        } else {
+            const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+            error = signInError;
+        }
+
+        if (error) {
+             Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+        }
+        
+        spinner.classList.add("hidden");
+        loginText.textContent = isSigningUp ? 'Sign Up' : 'Login';
+        submitBtn.disabled = false;
+    }
+
+
+    // === TEACHER: CLASS MANAGEMENT FUNCTIONS ===
+
+    // Function to load main class content (Assignment list, tools, etc.)
+    async function loadTeacherClassDetails(classId, className, classCode) {
+        const detailsContainer = document.getElementById('class-details-container');
+        detailsContainer.innerHTML = `
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">${className} - Submissions</h3>
+                <p class="text-sm text-gray-500 mb-6">Class Code: <span class="font-mono font-bold text-indigo-600">${classCode}</span></p>
+                
+                <div id="submissions-list-for-class" class="space-y-4">
+                    <p class="text-center py-8 text-gray-500">Loading submissions...</p>
+                </div>
+            </div>
+        `;
+
+        // Highlight the active link in the sidebar
+        document.querySelectorAll('.class-nav-link').forEach(link => {
+            link.classList.remove('bg-indigo-100', 'text-indigo-800', 'font-bold');
+            if (link.dataset.classId === classId) {
+                link.classList.add('bg-indigo-100', 'text-indigo-800', 'font-bold');
+            }
+        });
+        
+        // The viewSubmissions function will render into this container
+        await viewSubmissions(classId, className, 'submissions-list-for-class'); 
+    }
+
+    async function loadClasses(teacherId) {
+        const classListDiv = document.getElementById('class-list');
+        classListDiv.innerHTML = '<p class="text-gray-400 text-sm py-2">Loading classes...</p>';
+
+        const { data: classes, error } = await supabase
+            .from('classes')
+            .select('*')
+            .eq('teacher_id', teacherId)
+            .order('created_at', { ascending: false });
+
+        if (error || classes.length === 0) {
+            classListDiv.innerHTML = '<p class="text-gray-500 text-sm py-2">No classes created yet.</p>';
+            
+            // If no classes, show the Create Class form by default
+            if (document.getElementById('show-create-class-form-btn')) {
+                document.getElementById('show-create-class-form-btn').click();
+            }
+            return;
+        }
+
+        // RENDER AS NAVIGATION LINKS
+        classListDiv.innerHTML = classes.map(cls => `
+            <a href="#" onclick="loadTeacherClassDetails('${cls.id}', '${cls.name}', '${cls.class_code}')" 
+               class="class-nav-link block px-3 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg transition-colors duration-150 text-sm"
+               data-class-id="${cls.id}">
+                <span class="font-medium">${cls.name}</span>
+                <span class="text-xs font-mono text-gray-400 ml-2">#${cls.class_code}</span>
+            </a>
+        `).join('');
+
+        // Automatically load the details for the first class in the list
+        if (classes.length > 0) {
+            loadTeacherClassDetails(classes[0].id, classes[0].name, classes[0].class_code);
+        }
+    }
+
+    async function handleCreateClass(e) {
+        e.preventDefault();
+        const className = document.getElementById('class-name').value;
+        const classDescription = document.getElementById('class-description').value;
+        const submitBtn = document.getElementById('create-class-btn');
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Creating...';
+
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        const { error } = await supabase.from('classes').insert([
+            { name: className, description: classDescription, teacher_id: session.user.id }
+        ]);
+
+        if (error) {
+            Swal.fire('Error', error.message, 'error');
+        } else {
+            Swal.fire('Success!', `Class "${className}" created!`, 'success');
+            // The form inside the dashboard needs reset
+            const form = document.getElementById('create-class-form');
+            if (form) form.reset(); 
+            
+            loadClasses(session.user.id);
+        }
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Create Class';
+    }
+
+    // === STUDENT: CLASS MANAGEMENT FUNCTIONS ===
+
+    // Function to load main class content (Upload form, status, etc.)
+    async function loadStudentClassDetails(classId, className) {
+        const detailsContainer = document.getElementById('class-details-container');
+        
+        // Highlight the active link in the sidebar
+        document.querySelectorAll('.student-class-nav-link').forEach(link => {
+            link.classList.remove('bg-blue-100', 'text-blue-800', 'font-bold');
+            if (link.dataset.classId === classId) {
+                link.classList.add('bg-blue-100', 'text-blue-800', 'font-bold');
+            }
+        });
+
+        detailsContainer.innerHTML = `
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">${className} - Submission</h3>
+                <p class="text-gray-600 mb-6">Use the form below to upload your assignment files (PDF, DOCX).</p>
+                
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-base px-5 py-3 rounded-lg transition-colors flex items-center justify-center gap-3 w-full max-w-sm mx-auto shadow-md shadow-blue-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                        Choose File to Upload
+                        <input type="file" data-class-id="${classId}" accept=".pdf,.doc,.docx" class="hidden submission-upload-input" id="upload-input-${classId}">
+                    </label>
+                    <p class="text-center text-sm text-gray-600 mt-3">Only PDF and DOCX files are allowed.</p>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-gray-100">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-4">Your Submission Status (Assignments will be shown here)</h4>
+                    <p class="text-gray-500">Currently, assignments are class-wide. Future updates will list specific assignments here.</p>
+                </div>
+            </div>
+        `;
+
+        // Attach the submission listener dynamically to the newly created input
+        document.getElementById(`upload-input-${classId}`).addEventListener('change', handleSubmissionUpload);
+    }
+
+
+    async function loadStudentClasses(studentId) {
+        const classListDiv = document.getElementById('enrolled-classes-list');
+        classListDiv.innerHTML = '<p class="text-gray-400 text-sm py-2">Loading classes...</p>';
+
+        const { data: enrollments, error } = await supabase
+            .from('enrollments')
+            .select(`class_id, classes (id, name, description, class_code, teacher_id, users (full_name))`)
+            .eq('student_id', studentId);
+
+        if (error || !enrollments || enrollments.length === 0) {
+            classListDiv.innerHTML = '<p class="text-gray-500 text-sm py-2">You are not enrolled in any classes yet.</p>';
+             if (document.getElementById('show-join-class-form-btn')) {
+                document.getElementById('show-join-class-form-btn').click();
+            }
+            return;
+        }
+
+        // RENDER AS NAVIGATION LINKS
+        classListDiv.innerHTML = enrollments.map(enrollment => {
+            const cls = enrollment.classes;
+            if (!cls) return ''; 
+            
+            return `
+                <a href="#" onclick="loadStudentClassDetails('${cls.id}', '${cls.name}')" 
+                   class="student-class-nav-link block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-lg transition-colors duration-150 text-sm"
+                   data-class-id="${cls.id}">
+                    <span class="font-medium">${cls.name}</span>
+                    <span class="text-xs font-mono text-gray-400 ml-2">by ${cls.users?.full_name || 'Teacher'}</span>
+                </a>
+            `;
+        }).join('');
+        
+        // Automatically load the details for the first class
+        if (enrollments.length > 0) {
+            loadStudentClassDetails(enrollments[0].classes.id, enrollments[0].classes.name);
+        }
+    }
+
+  async function handleJoinClass(e) {
+        e.preventDefault();
+        // Input is trimmed and converted to UPPERCASE for consistency
+        const classCode = document.getElementById('class-code-input').value.trim().toUpperCase();
+        const submitBtn = document.getElementById('join-class-btn');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Joining...';
+
+        const { data: { session } } = await supabase.auth.getSession();
+        const studentId = session.user.id;
+
+        // 1. Find Class
+        // FIX: Using .ilike() is correct for case-insensitive matching.
+        // The RLS policy for 'classes' SELECT operation must be fixed in Supabase.
+        const { data: classData, error: classError } = await supabase
+            .from('classes')
+            .select('id')
+            .ilike('class_code', classCode) 
+            .single();
+
+        if (classError || !classData) {
+            // This is where the 406 RLS error prevents the query from running.
+            console.error("Supabase Query Error:", classError); 
+            Swal.fire('Error', 'Invalid Class Code', 'error');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Enroll Now';
+            return;
+        }
+
+        // 2. Enroll
+        const { error: enrollError } = await supabase.from('enrollments').insert([
+            { student_id: studentId, class_id: classData.id }
+        ]);
+
+        if (enrollError) {
+            if(enrollError.code === '23505') Swal.fire('Info', 'You are already in this class.', 'info');
+            else Swal.fire('Error', enrollError.message, 'error');
+        } else {
+            Swal.fire('Success!', 'Class Joined!', 'success');
+            const form = document.getElementById('join-class-form');
+            if (form) form.reset(); 
+            
+            loadStudentClasses(studentId);
+        }
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Enroll Now';
+    }
+
+  async function handleSubmissionUpload(event) {
+    const file = event.target.files[0];
+    const classId = event.target.getAttribute('data-class-id');
+    if (!file || !classId) return;
+
+    const { data: { session } } = await supabase.auth.getSession();
+    const studentId = session.user.id; // Store student ID
+    
+    // Generate a unique path for the new file
+    const filePath = `assignments/${studentId}/${classId}/${Date.now()}_${file.name}`;
+
+    Swal.fire({ title: 'Uploading...', text: 'Please wait', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+    // --- STEP 1: Check for Existing Submission to Delete Old File ---
+    const { data: existingSubmissions, error: fetchError } = await supabase
+        .from('submissions')
+        .select('file_path')
+        .eq('student_id', studentId)
+        .eq('class_id', classId)
+        .maybeSingle();
+
+    if (fetchError) {
+        Swal.fire('Error', `Failed to check existing submission: ${fetchError.message}`, 'error');
+        return;
+    }
+
+    // --- STEP 2: Upload New File ---
+    const { data: uploadData, error: uploadError } = await supabase.storage.from('assignments').upload(filePath, file);
+
+    if (uploadError) {
+        Swal.fire('Upload Failed', uploadError.message, 'error');
+        return;
+    }
+
+    // --- STEP 3: Upsert Database Record (Insert or Update) ---
+    // Upsert ensures if a record with this student_id and class_id exists, it's UPDATED.
+    // NOTE: This assumes a UNIQUE constraint exists on (student_id, class_id)
+    const { error: dbError } = await supabase.from('submissions').upsert([
+        { 
+            student_id: studentId, 
+            class_id: classId, 
+            file_path: uploadData.path, 
+            file_name: file.name,
+            // id: existingSubmissions?.id // If you need to use the primary key for upsert, ensure 'id' is selected above. 
+                                         // If (student_id, class_id) is the UNIQUE constraint, this is enough.
+        }
+    ], { 
+        // These are the columns to check for conflict (your unique constraint)
+        onConflict: 'student_id, class_id' 
+    });
+
+    if (dbError) {
+         // Try to delete the newly uploaded file if the DB update/insert fails
+        await supabase.storage.from('assignments').remove([uploadData.path]);
+        Swal.fire('Error', `Record failed. Please try again. ${dbError.message}`, 'error');
+    } else {
+        // --- STEP 4: Delete Old File from Storage (if update was successful) ---
+        if (existingSubmissions?.file_path) {
+            await supabase.storage.from('assignments').remove([existingSubmissions.file_path]);
+        }
+        Swal.fire('Success!', 'Assignment Submitted!', 'success');
+    }
+    event.target.value = null; // Reset input
+}
+
+
+   // === TEACHER: VIEW SUBMISSIONS (MODIFIED FOR SIDEBAR) ===
+
+    async function viewSubmissions(classId, className, targetElementId) {
+        const targetDiv = document.getElementById(targetElementId);
+        if (!targetDiv) return; // Exit if not rendering to a specific element
+
+        targetDiv.innerHTML = '<p class="text-center py-8 text-gray-500">Loading submissions...</p>';
+
+
+        const { data: submissions, error } = await supabase
+            .from('submissions')
+            .select(`
+                id, file_name, file_path, created_at,
+                users (full_name, email)
+            `)
+            .eq('class_id', classId)
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            targetDiv.innerHTML = `<p class="text-red-500 text-center py-8">Error loading submissions: ${error.message}</p>`;
+            return;
+        }
+
+        if (submissions.length === 0) {
+            targetDiv.innerHTML = '<p class="text-center py-8 text-gray-500 bg-gray-50 rounded-lg">No students have uploaded work for this class yet.</p>';
+            return;
+        }
+
+        // Generate HTML list for the popup
+        const listHtml = await Promise.all(submissions.map(async (sub) => {
+            let downloadUrl;
+            let downloadButton;
+            
+            // Use createSignedUrl for private bucket
+            const { data, error: signedUrlError } = await supabase.storage
+                .from('assignments')
+                .createSignedUrl(sub.file_path, 60); // Link is valid for 60 seconds
+
+            if (signedUrlError) {
+                console.error("Signed URL Error:", signedUrlError.message);
+                downloadButton = `<span class="text-red-500 text-sm">Download Failed</span>`;
+            } else {
+                downloadUrl = data.signedUrl;
+                downloadButton = `
+                    <a href="${downloadUrl}" target="_blank" 
+                       class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded text-sm hover:bg-indigo-200 transition-colors">
+                       Download
+                    </a>
+                `;
+            }
+            
+            return `
+                <div class="flex justify-between items-center p-3 border-b border-gray-200 text-left bg-white hover:bg-gray-50 transition-colors rounded-md shadow-sm">
+                    <div>
+                        <p class="font-bold text-gray-800">${sub.users.full_name}</p>
+                        <p class="text-xs text-gray-500">${sub.file_name}</p>
+                        <p class="text-xs text-gray-400">${new Date(sub.created_at).toLocaleString()}</p>
+                    </div>
+                    ${downloadButton}
+                </div>
+            `;
+        }));
+
+        // RENDER DIRECTLY INTO THE DASHBOARD CONTAINER (Teacher View)
+        targetDiv.innerHTML = `<div class="bg-gray-50 p-4 rounded-lg shadow-inner space-y-3">${listHtml.join('')}</div>`;
+    }
+
+    // === DASHBOARD CONTROLLER ===
+
+    async function loadDashboard(session) {
+        const userId = session.user.id;
+        
+        let { data: userProfile } = await supabase.from('users').select('*').eq('id', userId).single();
+        
+        const role = userProfile?.role || 'student';
+        const name = userProfile?.full_name || session.user.email.split('@')[0];
+        
+        const appHeader = document.getElementById('app-header');
+        const userInfoArea = document.getElementById('user-info-area');
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const authContainer = document.getElementById('auth-container');
+        
+        // 1. Configure Header
+        appHeader.classList.remove('hidden');
+        authContainer.classList.add('hidden');
+        dashboardContainer.classList.remove('hidden');
+        
+        userInfoArea.innerHTML = `
+            <span class="text-sm font-semibold text-gray-700">${name} (${role === 'teacher' ? 'Teacher' : 'Student'})</span>
+            <button id="logout-btn-header" class="bg-red-50 text-red-600 px-4 py-1.5 rounded-lg hover:bg-red-100 transition-colors text-sm font-semibold border border-red-200">Sign Out</button>
+        `;
+        
+        // Attach listener to the new header logout button
+        document.getElementById('logout-btn-header').addEventListener('click', () => supabase.auth.signOut());
+
+        // 2. Prepare Dashboard Content Structure
+        let content = '';
+
+        if (role === 'teacher') {
+            content = `
+                <div class="flex w-full min-h-[80vh] rounded-2xl overflow-hidden">
+                    <div class="w-72 bg-white flex-shrink-0 border-r border-gray-200 p-6">
+                        <div class="pb-6 mb-6 border-b border-gray-200">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xl">
+                                    ${name.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">${name}</h3>
+                                    <p class="text-sm text-gray-500">${role.toUpperCase()}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4 class="text-xs font-semibold uppercase text-gray-500 mb-3 tracking-wider">My Classes</h4>
+                        <div id="class-list" class="space-y-2">
+                            <p class="text-gray-400 text-sm">Loading...</p>
+                        </div>
+
+                        <button id="show-create-class-form-btn" 
+                            class="mt-6 w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-md shadow-indigo-200 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Create New Class
+                        </button>
+                    </div>
+                    
+                    <div id="teacher-main-content" class="flex-grow p-8 lg:p-12 bg-gray-50">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-6">Class Management</h2>
+                        <div id="class-details-container" class="mt-8">
+                            <p class="text-gray-600">Select a class from the left sidebar to view submissions.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            content = `
+                <div class="flex w-full min-h-[80vh] rounded-2xl overflow-hidden">
+                    <div class="w-72 bg-white flex-shrink-0 border-r border-gray-200 p-6">
+                        <div class="pb-6 mb-6 border-b border-gray-200">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xl">
+                                    ${name.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">${name}</h3>
+                                    <p class="text-sm text-gray-500">${role.toUpperCase()}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4 class="text-xs font-semibold uppercase text-gray-500 mb-3 tracking-wider">My Enrolled Classes</h4>
+                        <div id="enrolled-classes-list" class="space-y-2">
+                            <p class="text-gray-400 text-sm">Loading...</p>
+                        </div>
+
+                        <button id="show-join-class-form-btn" 
+                            class="mt-6 w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-md shadow-blue-200 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8m0 0L3 21"></path></svg>
+                            Join New Class
+                        </button>
+                    </div>
+                    
+                    <div id="student-main-content" class="flex-grow p-8 lg:p-12 bg-gray-50">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-6">My Assignments</h2>
+                        <div id="class-details-container" class="mt-8">
+                            <p class="text-gray-600">Select a class from the left sidebar to view assignments and upload work.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        dashboardContainer.innerHTML = content;
+
+        // ATTACH LISTENERS
+        if (role === 'teacher') {
+            // 1. Attach Create Class Form Button Handler
+            document.getElementById('show-create-class-form-btn').addEventListener('click', () => {
+                const detailsContainer = document.getElementById('class-details-container');
+                detailsContainer.innerHTML = `
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-indigo-200">
+                        <h3 class="text-2xl font-bold text-indigo-800 mb-4">Create New Class</h3>
+                        <p class="text-gray-600 mb-6">Define your class details below. A unique code will be generated automatically.</p>
+                        <form id="create-class-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Class Name</label>
+                                <input type="text" id="class-name" placeholder="e.g. Mathematics 101" required
+                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <textarea id="class-description" rows="3" placeholder="Short description..."
+                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                            </div>
+                            <button type="submit" id="create-class-btn" 
+                                class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition-colors shadow-md shadow-indigo-200">
+                                Create Class
+                            </button>
+                        </form>
+                    </div>
+                `;
+                document.getElementById('create-class-form').addEventListener('submit', handleCreateClass);
+            });
+            
+            // 2. Load classes (which auto-loads the first class details)
+            loadClasses(userId);
+        } else {
+            // 1. Attach Join Class Form Button Handler
+            document.getElementById('show-join-class-form-btn').addEventListener('click', () => {
+                const detailsContainer = document.getElementById('class-details-container');
+                detailsContainer.innerHTML = `
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-blue-200">
+                        <h3 class="text-2xl font-bold text-blue-800 mb-4">Join New Class</h3>
+                        <p class="text-gray-600 mb-6">Enter the unique code provided by your teacher to enroll in a class.</p>
+                        <form id="join-class-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Class Code</label>
+                                <input type="text" id="class-code-input" placeholder="e.g. X7Y8Z9" required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none uppercase tracking-widest text-center font-mono font-bold">
+                            </div>
+                            <button type="submit" id="join-class-btn" 
+                                class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors shadow-md shadow-blue-200">
+                                Enroll Now
+                            </button>
+                        </form>
+                    </div>
+                `;
+                document.getElementById('join-class-form').addEventListener('submit', handleJoinClass);
+            });
+            
+            // 2. Load enrolled classes (which auto-loads the first class details)
+            loadStudentClasses(userId);
+        }
+    }
+
+    function handleAuthStateChange(event, session) {
+        const authContainer = document.getElementById('auth-container');
+        const dashboardContainer = document.getElementById('dashboard-container');
+
+        if (session) {
+            authContainer.classList.add('hidden');
+            // Dashboard visibility is handled inside loadDashboard
+            loadDashboard(session);
+        } else {
+            dashboardContainer.classList.add('hidden');
+            document.getElementById('app-header').classList.add('hidden');
+            authContainer.classList.remove('hidden');
+            renderAuthForm();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        supabase.auth.onAuthStateChange(handleAuthStateChange);
+        const { data: { session } } = await supabase.auth.getSession();
+        handleAuthStateChange('INITIAL_SESSION', session);
+    });
+
+</script>
+</body>
+</html>
