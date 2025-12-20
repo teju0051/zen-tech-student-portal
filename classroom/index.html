@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,9 +46,7 @@
             </div>
     </main>
 
-    <footer class="text-center text-xs text-white/80 py-4 bg-black/20 mt-auto">
-        A Platform of <span class="font-semibold text-white">T-Service</span> || Server: India-1
-    </footer>
+
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -55,60 +54,95 @@
     // === SUPABASE INITIALIZATION ===
     const SUPABASE_URL = 'https://onzlaxxzhbehjxlvicid.supabase.co'; 
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uemxheHh6aGJlaGp4bHZpY2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNzM4NTEsImV4cCI6MjA3OTc0OTg1MX0.i1D7QAczNV_gofZB7JYnCDZlxu8ZbVEOx0LUee9qRNE'; 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    
+if (!window.supabase.client) {
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+
 
     // === AUTHENTICATION LOGIC ===
     let isSigningUp = false;
 
     const getAuthTemplate = () => `
-        <div class="rounded-2xl overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2 bg-white/90 backdrop-blur-md">
-            <div class="hidden md:flex flex-col justify-center items-center bg-indigo-900 text-white p-10 space-y-6">
-                <img src="https://zen-tech-student-portal.vercel.app/Student's%20Portal!.png" class="w-48 drop-shadow-lg" alt="Portal Icon" />
-                <h2 class="text-3xl font-bold tracking-wide">Welcome Back</h2>
-                <p class="text-lg text-indigo-200 text-center">Powering Smart Institutions with Beautiful Simplicity</p>
+      <div class="max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] grid grid-cols-1 md:grid-cols-2 bg-white/80 backdrop-blur-xl border border-white/20">
+    
+    <div class="hidden md:flex flex-col justify-center items-center bg-gradient-to-br from-indigo-700 via-indigo-900 to-black text-white p-12 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <div class="absolute -top-24 -left-24 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-400 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="relative z-10 flex flex-col items-center space-y-8">
+            <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/20 shadow-2xl">
+                <img src="https://zen-tech-student-portal.vercel.app/Student's%20Portal!.png" class="w-32 md:w-40 object-contain drop-shadow-2xl" alt="Portal Icon" />
             </div>
-
-            <div class="p-8 sm:p-12 text-gray-800">
-                <h3 class="text-3xl font-bold mb-6 text-center text-indigo-900">${isSigningUp ? 'Create Account' : 'Student Login'}</h3>
-                
-                <form id="login-form" class="space-y-5" novalidate>
-                    <div id="auth-message" class="text-sm text-red-600 font-medium text-center"></div>
-                    
-                    <div id="full-name-group" style="display: ${isSigningUp ? 'block' : 'none'};">
-                        <label class="block font-medium mb-1 text-gray-700">Full Name</label>
-                        <input type="text" id="full-name" name="full_name" placeholder="John Doe" 
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block font-medium mb-1 text-gray-700">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="you@example.com" 
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                    </div>
-                    
-                    <div>
-                        <label class="block font-medium mb-1 text-gray-700">Password</label>
-                        <input type="password" id="password" name="password" placeholder="••••••••" 
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                    </div>
-
-                    <button id="auth-submit-btn" type="submit"
-                        class="w-full py-3 rounded-lg font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2">
-                        <span id="loginText">${isSigningUp ? 'Sign Up' : 'Login'}</span>
-                        <svg id="spinner" class="hidden animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"></path>
-                        </svg>
-                    </button>
-                </form>
-
-                <p class="text-center text-sm text-gray-600 mt-6">
-                    <a href="#" id="toggle-auth" class="text-indigo-600 font-semibold hover:underline">
-                        ${isSigningUp ? 'Already have an account? Login' : 'Need an account? Sign Up'}
-                    </a>
+            <div class="text-center space-y-3">
+                <h2 class="text-4xl font-extrabold tracking-tight">ZenTech</h2>
+                <div class="h-1 w-12 bg-indigo-400 mx-auto rounded-full"></div>
+                <p class="text-indigo-100/80 font-light max-w-xs leading-relaxed">
+                    Empowering the next generation of scholars through seamless digital experiences.
                 </p>
             </div>
         </div>
+    </div>
+
+    <div class="p-10 md:p-14 flex flex-col justify-center">
+        <header class="mb-10 text-center md:text-left">
+            <h3 class="text-3xl font-black text-gray-900 tracking-tight">
+                ${isSigningUp ? 'Join our community' : 'Welcome back'}
+            </h3>
+            <p class="text-gray-500 mt-2 text-sm">Please enter your details to continue</p>
+        </header>
+        
+        <form id="login-form" class="space-y-6" novalidate>
+            <div id="auth-message" class="text-xs text-red-500 font-semibold bg-red-50 p-3 rounded-lg border border-red-100 hidden"></div>
+            
+            <div id="full-name-group" class="transition-all duration-300" style="display: ${isSigningUp ? 'block' : 'none'};">
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 ml-1">Full Name</label>
+                <div class="relative group">
+                    <input type="text" id="full-name" name="full_name" placeholder="John Doe" 
+                        class="w-full pl-4 pr-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none text-gray-700 placeholder:text-gray-400">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 ml-1">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="name@university.edu" 
+                    class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none text-gray-700">
+            </div>
+            
+            <div>
+                <div class="flex justify-between items-center mb-2 ml-1">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Password</label>
+                    ${!isSigningUp ? '<a href="#" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">Forgot?</a>' : ''}
+                </div>
+                <input type="password" id="password" name="password" placeholder="••••••••" 
+                    class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none text-gray-700">
+            </div>
+
+            <button id="auth-submit-btn" type="submit"
+                class="w-full py-4 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition-all shadow-[0_10px_20px_-5px_rgba(79,70,229,0.4)] flex items-center justify-center gap-3 group">
+                <span id="loginText" class="tracking-wide">${isSigningUp ? 'Create Account' : 'Sign In'}</span>
+                <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+            </button>
+        </form>
+
+        <p class="text-center text-sm text-gray-500 mt-8 font-medium">
+            ${isSigningUp ? 'Already part of our portal?' : 'New to ZenTech?'}
+            <a href="#" id="toggle-auth" class="text-indigo-600 font-bold hover:text-indigo-800 transition ml-1 underline underline-offset-4 decoration-indigo-200">
+                ${isSigningUp ? 'Log in' : 'Create an account'}
+            </a>
+        </p>
+    </div>
+</div>
     `;
 
     function renderAuthForm() {
