@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,8 +72,104 @@
 
       
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+  body {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* IE 10 and Edge */
+    user-select: none;          /* Standard */
+  }
+
+  input, textarea {
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+</style>
+<script>
+
+
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  document.addEventListener('copy', e => e.preventDefault());
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('paste', e => e.preventDefault());
+
+  document.addEventListener('keydown', function(e) {
+    // Block F12
+    if (e.key === "F12") {
+      e.preventDefault();
+      return false;
+    }
+
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+      e.preventDefault();
+      return false;
+    }
+
+    if (e.ctrlKey && (e.key === 'u' || e.key === 's')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  document.addEventListener('dragstart', e => e.preventDefault());
+</script>
+    
 </head>
 <body class="bg-slate-100">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+window.onload = function() {
+    Swal.fire({
+        width: '800px',
+        padding: '0',
+        background: '#ffffff',
+        showConfirmButton: true,
+        confirmButtonText: 'I AM READY',
+        confirmButtonColor: '#1e1b4b',
+        timer: 10000,
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        html: `
+            <div style="display: flex; min-height: 250px; font-family: sans-serif; align-items: stretch;">
+                
+                <div style="flex: 1; background: #f1f5f9; display: flex; align-items: center; justify-content: center; padding: 30px; border-right: 2px solid #e2e8f0;">
+                    <img src="https://teju0051.github.io/Assets/zentehc-remove-bg.png" alt="Zen-Tech" style="width: 150px;">
+                </div>
+
+                <div style="flex: 2; padding: 40px; text-align: left; display: flex; flex-direction: column; justify-content: center;">
+                    <h1 style="color: #1e1b4b; font-size: 28px; font-weight: 900; margin: 0;">ZEN-TECH AI</h1>
+                    <h2 style="color: #4338ca; font-size: 20px; font-weight: 700; margin-top: 5px;">EAGLE EYE AI IS ACTIVE</h2>
+                    
+                    <p style="color: #334155; font-size: 18px; line-height: 1.5; margin-top: 15px; font-weight: 500;">
+                        Our AI is monitoring your exam right now. <br>
+                        <strong>STAY ALERT STUDENTS!</strong> 
+                    </p>
+
+                    <p style="color: #ef4444; font-size: 14px; font-weight: bold; margin-top: 10px; text-transform: uppercase;">
+                        Follow all rules after you login!
+                    </p>
+
+                    <div style="font-size: 12px; color: #94a3b8; margin-top: 20px;">
+                        Closing in <span id="timer-count" style="font-weight: bold; color: #1e1b4b;">10</span> seconds...
+                    </div>
+                </div>
+            </div>
+        `,
+        didOpen: () => {
+            const b = Swal.getHtmlContainer().querySelector('#timer-count');
+            setInterval(() => {
+                if (b) { b.textContent = Math.ceil(Swal.getTimerLeft() / 1000); }
+            }, 100);
+        }
+    });
+};
+</script>
+    
 
     <div id="global-spinner" class="spinner-overlay hidden" aria-hidden="true">
         <div class="flex flex-col items-center justify-center">
@@ -258,6 +355,8 @@
         </div>
     </div>
 
+
+    
     <script>
         // --- C++ QUESTIONS (10 easy, 10 medium, 10 hard) ---
         const examQuestions = [ /* same array as original (omitted here for brevity in the canvas file) */
